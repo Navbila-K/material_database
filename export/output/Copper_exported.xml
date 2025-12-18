@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+=========================================================
+                MATERIAL DESCRIPTION FILE
+=========================================================
+This XML defines a single material along with:
+- metadata (id, name, author, date, version)
+- categories of physical models (thermal, mechanical, plasticity, reaction, EOS)
+- data stored as entries with units separated into attributes
+- fully explicit structure, future-proof and backward compatible
+=========================================================
+-->
+<Material>
+  <Metadata>
+    <Id>COPPER-001</Id>
+    <Name>Copper</Name>
+    <Author/>
+    <Date/>
+    <Version meaning="schema_version">0.0.0-0FA756E6</Version>
+  </Metadata>
+  <Category>
+    <Property>
+      <Phase>
+        <State>solid</State>
+      </Phase>
+      <Thermal>
+        <Cp unit="J/kg/K">
+          <Entry ref="121">384</Entry>
+          <Entry ref="124">0.385</Entry>
+        </Cp>
+        <Cv unit="J/kg/K">
+          <Entry/>
+        </Cv>
+      </Thermal>
+      <Mechanical>
+        <Density unit="kg/m^3">
+          <Entry ref="107">8940</Entry>
+          <Entry ref="109">8930</Entry>
+          <Entry ref="109">8000</Entry>
+          <Entry ref="121">8960</Entry>
+        </Density>
+        <Viscosity unit="Pa*s">
+          <Entry/>
+        </Viscosity>
+      </Mechanical>
+    </Property>
+    <Model>
+      <ElasticModel>
+        <ThermoMechanical>
+          <AmbientTemperature>
+            <Entry unit="K">293</Entry>
+          </AmbientTemperature>
+          <Density>
+            <Entry unit="kg/m3">8960</Entry>
+          </Density>
+          <GruneisenCoefficient>
+            <Entry unit="1">1.87</Entry>
+          </GruneisenCoefficient>
+          <IsothermalBulkModulus>
+            <Entry unit="Pa">140E9</Entry>
+          </IsothermalBulkModulus>
+          <MeltingTemperature>
+            <Entry unit="K">1355</Entry>
+          </MeltingTemperature>
+          <SoundSpeed>
+            <Entry unit="m/s">3570</Entry>
+          </SoundSpeed>
+          <SpecificHeatConstants>
+            <c0 unit="J/kg/K"/>
+            <c1 unit="J/kg/K"/>
+            <c2 unit="J/kg/K"/>
+            <c3 unit="J/kg/K"/>
+          </SpecificHeatConstants>
+          <SpecificHeatIsobaric>
+            <Entry unit="J/kg/K">0.385</Entry>
+          </SpecificHeatIsobaric>
+          <SpecificHeatIsochoric>
+            <Entry unit="J/kg/K"/>
+          </SpecificHeatIsochoric>
+          <ThermalConductivity>
+            <Entry unit="W/m/K">400</Entry>
+          </ThermalConductivity>
+          <ThermalExpansion>
+            <Entry unit="1/K">0.000022</Entry>
+          </ThermalExpansion>
+        </ThermoMechanical>
+      </ElasticModel>
+      <ElastoPlastic>
+        <ShearModulus>
+          <Entry/>
+        </ShearModulus>
+        <YieldStrength>
+          <Entry/>
+        </YieldStrength>
+        <JohnsonCookModelConstants>
+          <A unit="Pa" ref="108">100E6</A>
+          <A_prime unit="Pa"/>
+          <B unit="Pa" ref="108">263E6</B>
+          <C unit="1" ref="108">0.029</C>
+          <C_prime unit="1"/>
+          <M unit="1" ref="108">0.98</M>
+          <MeltingTemperature unit="K"/>
+          <n unit="1" ref="108">0.23</n>
+          <ReferencePressure unit="Pa"/>
+          <ReferenceTemperature unit="K"/>
+          <StrainRate unit="1/s"/>
+        </JohnsonCookModelConstants>
+      </ElastoPlastic>
+      <ReactionModel>
+        <Kind/>
+        <LnZ>
+          <Entry index="1"/>
+          <Entry index="2"/>
+          <Entry index="3"/>
+          <Entry index="4"/>
+        </LnZ>
+        <ActivationEnergy>
+          <Entry index="1"/>
+          <Entry index="2"/>
+          <Entry index="3"/>
+          <Entry index="4"/>
+        </ActivationEnergy>
+        <HeatRelease>
+          <Entry index="1"/>
+          <Entry index="2"/>
+          <Entry index="3"/>
+          <Entry index="4"/>
+        </HeatRelease>
+        <ReactionModelParameter>
+          <Ea unit="kcal/mol"/>
+          <Ea_new unit="kcal/mol"/>
+          <Ea_old unit="kcal/mol"/>
+          <lnZ unit="1/s"/>
+          <lnZ_new unit="1/s"/>
+          <lnZ_old unit="1/s"/>
+          <Q_R unit="J/g"/>
+          <Q_R_new unit="J/g"/>
+          <Steps unit="1"/>
+        </ReactionModelParameter>
+      </ReactionModel>
+      <EOSModel>
+        <Row index="1">
+          <K0 unit="GPa"/>
+          <K0Prime/>
+          <Kind/>
+        </Row>
+        <Row index="2">
+          <Kind/>
+          <KT0 unit="Pa"/>
+          <N unit="1"/>
+        </Row>
+        <Row index="3">
+          <Cs unit="m/s"/>
+          <Cv unit="J/kg/K"/>
+          <Gamma unit="1"/>
+          <Kind/>
+          <Rho unit="kg/m3"/>
+          <s unit="1"/>
+        </Row>
+        <Row index="4">
+          <A unit="GPa"/>
+          <B unit="GPa"/>
+          <C unit="GPa"/>
+          <D unit="GPa"/>
+          <GruneisenCoefficient unit="1"/>
+          <Kind/>
+          <Rho0 unit="kg/m3"/>
+          <SpecificHeatCv unit="J/kg/K"/>
+        </Row>
+        <Row index="5">
+          <a unit="1"/>
+          <b unit="1"/>
+          <Cv unit="J/kg/K"/>
+          <Kind/>
+          <n unit="1"/>
+          <Pc unit="GPa"/>
+          <Vc unit="cm3/g"/>
+        </Row>
+        <Row index="6">
+          <Kind/>
+          <unreacted>
+            <A unit="GPa"/>
+            <B unit="GPa"/>
+            <C unit="MJ/kg"/>
+            <Cv unit="Mbar/K"/>
+            <E0 unit="Mbar"/>
+            <R1 unit="1"/>
+            <R2 unit="1"/>
+            <w unit="1"/>
+          </unreacted>
+          <reacted>
+            <A unit="GPa"/>
+            <B unit="GPa"/>
+            <C unit="MJ/kg"/>
+            <Cv unit="Mbar/K"/>
+            <E0 unit="Mbar"/>
+            <R1 unit="1"/>
+            <R2 unit="1"/>
+            <w unit="1"/>
+          </reacted>
+        </Row>
+      </EOSModel>
+    </Model>
+  </Category>
+</Material>

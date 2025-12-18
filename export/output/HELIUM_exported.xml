@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+=========================================================
+                MATERIAL DESCRIPTION FILE
+=========================================================
+This XML defines a single material along with:
+- metadata (id, name, author, date, version)
+- categories of physical models (thermal, mechanical, plasticity, reaction, EOS)
+- data stored as entries with units separated into attributes
+- fully explicit structure, future-proof and backward compatible
+=========================================================
+-->
+<Material>
+  <Metadata>
+    <Id>HELIUM-001</Id>
+    <Name>HELIUM</Name>
+    <Author/>
+    <Date/>
+    <Version meaning="schema_version">0.0.0-D6B1428D</Version>
+  </Metadata>
+  <Category>
+    <Property>
+      <Phase>
+        <State>solid</State>
+      </Phase>
+      <Thermal>
+        <Cp unit="J/kg/K">
+          <Entry ref="121">5193</Entry>
+        </Cp>
+        <Cv unit="J/kg/K">
+          <Entry/>
+        </Cv>
+      </Thermal>
+      <Mechanical>
+        <Density unit="kg/m^3">
+          <Entry ref="121">178.5</Entry>
+        </Density>
+        <Viscosity unit="Pa*s">
+          <Entry ref="0">0.0000</Entry>
+        </Viscosity>
+      </Mechanical>
+    </Property>
+    <Model>
+      <ElasticModel>
+        <ThermoMechanical>
+          <AmbientTemperature unit="K">
+            <Entry/>
+            <Entry/>
+          </AmbientTemperature>
+          <Density unit="kg/m3">
+            <Entry ref="121">178.5</Entry>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+          </Density>
+          <GruneisenCoefficient unit="1">
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+          </GruneisenCoefficient>
+          <IsothermalBulkModulus unit="Pa">
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+          </IsothermalBulkModulus>
+          <MeltingTemperature unit="K">
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+          </MeltingTemperature>
+          <SoundSpeed unit="m/s">
+            <Entry ref="121">970</Entry>
+            <Entry/>
+          </SoundSpeed>
+          <SpecificHeatConstants>
+            <c0 unit="J/kg/K"/>
+            <c1 unit="J/kg/K"/>
+            <c2 unit="J/kg/K"/>
+            <c3 unit="J/kg/K"/>
+          </SpecificHeatConstants>
+          <SpecificHeatIsobaric unit="J/kg/K">
+            <Entry ref="121">5193</Entry>
+            <Entry/>
+          </SpecificHeatIsobaric>
+          <SpecificHeatIsochoric unit="J/kg/K">
+            <Entry/>
+            <Entry/>
+            <Entry/>
+          </SpecificHeatIsochoric>
+          <ThermalConductivity unit="W/m/K">
+            <Entry ref="121">0.1513</Entry>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+          </ThermalConductivity>
+          <ThermalExpansion unit="1/K">
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+            <Entry/>
+          </ThermalExpansion>
+        </ThermoMechanical>
+      </ElasticModel>
+      <ElastoPlastic>
+        <ShearModulus>
+          <Entry unit="Pa"/>
+          <Entry unit="Pa"/>
+          <Entry unit="Pa"/>
+          <Entry unit="Pa"/>
+          <Entry unit="Pa"/>
+          <Entry unit="Pa"/>
+          <Entry unit="Pa"/>
+        </ShearModulus>
+        <YieldStrength>
+          <Entry unit="Pa"/>
+          <Entry unit="Pa"/>
+          <Entry unit="Pa"/>
+          <Entry unit="Pa"/>
+        </YieldStrength>
+        <JohnsonCookModelConstants>
+          <A unit="Pa"/>
+          <A_prime unit="Pa"/>
+          <B unit="Pa"/>
+          <C unit="1"/>
+          <C_prime unit="1"/>
+          <M unit="1"/>
+          <MeltingTemperature unit="K"/>
+          <n unit="1"/>
+          <ReferencePressure unit="Pa"/>
+          <ReferenceTemperature unit="K"/>
+          <StrainRate unit="1"/>
+        </JohnsonCookModelConstants>
+      </ElastoPlastic>
+      <ReactionModel>
+        <Kind/>
+        <LnZ>
+          <Entry index="1"/>
+          <Entry index="2"/>
+          <Entry index="3"/>
+          <Entry index="4"/>
+        </LnZ>
+        <ActivationEnergy>
+          <Entry index="1"/>
+          <Entry index="2"/>
+          <Entry index="3"/>
+          <Entry index="4"/>
+        </ActivationEnergy>
+        <HeatRelease>
+          <Entry index="1"/>
+          <Entry index="2"/>
+          <Entry index="3"/>
+          <Entry index="4"/>
+        </HeatRelease>
+        <ReactionModelParameter>
+          <Ea unit="kcal/mol"/>
+          <Ea_new unit="kcal/mol"/>
+          <Ea_old unit="kcal/mol"/>
+          <lnZ unit="1/s"/>
+          <lnz_new unit="1/s"/>
+          <lnZ_old unit="1/s"/>
+          <Q_R unit="J/g"/>
+          <Q_R_new unit="J/g"/>
+          <Steps unit="1"/>
+        </ReactionModelParameter>
+      </ReactionModel>
+      <EOSModel>
+        <Row index="1">
+          <K0 unit="Pa"/>
+          <K0Prime/>
+          <Kind/>
+        </Row>
+        <Row index="2">
+          <Kind/>
+          <KT0 unit="Pa"/>
+          <N unit="1"/>
+        </Row>
+        <Row index="3">
+          <Cs unit="m/s"/>
+          <Cv unit="J/kg/K"/>
+          <Gamma unit="1"/>
+          <Kind/>
+          <Rho unit="kg/m3"/>
+          <s unit="1"/>
+        </Row>
+        <Row index="4">
+          <A unit="GPa"/>
+          <B unit="GPa"/>
+          <C unit="GPa"/>
+          <D unit="GPa"/>
+          <GruneisenCoefficient unit="1"/>
+          <Kind/>
+          <Rho0 unit="kg/m3"/>
+          <SpecificHeatCv unit="J/kg/K"/>
+        </Row>
+        <Row index="5">
+          <a unit="1"/>
+          <b unit="1"/>
+          <Cv unit="J/kg/K"/>
+          <Kind/>
+          <n unit="1"/>
+          <Pc unit="Pa"/>
+          <Vc unit="cm3/g"/>
+        </Row>
+        <Row index="6">
+          <Kind/>
+          <unreacted>
+            <A unit="Pa"/>
+            <B unit="Pa"/>
+            <C unit="MJ/kg"/>
+            <Cv unit="MJ/kg/K"/>
+            <E0 unit="MJ/kg"/>
+            <R1 unit="1"/>
+            <R2 unit="1"/>
+            <w unit="1"/>
+          </unreacted>
+          <reacted>
+            <A unit="Pa"/>
+            <B unit="Pa"/>
+            <C unit="MJ/kg"/>
+            <Cv unit="MJ/kg/K"/>
+            <E0 unit="MJ/kg"/>
+            <R1 unit="1"/>
+            <R2 unit="1"/>
+            <w unit="1"/>
+          </reacted>
+        </Row>
+      </EOSModel>
+    </Model>
+  </Category>
+</Material>

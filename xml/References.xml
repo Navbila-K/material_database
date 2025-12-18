@@ -1,0 +1,1242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<References>
+  <reference id="1">
+    <type>article</type>
+    <author>Najjar, F. M.</author>
+    <title>Grain-Scale Simulations of Hot-Spot Initiation for Shocked TATB</title>
+    <journal>Shock Compression of Condensed Matter</journal>
+    <year>2009</year>
+    <volume>1195</volume>
+    <pages>49--</pages>
+  </reference>
+
+  <reference id="2">
+    <type>article</type>
+    <author>Mathew, N.</author>
+    <title>Predicted melt curve and liquid-state transport properties of TATB from molecular dynamics simulations</title>
+    <journal>Molecular Simulation</journal>
+    <year>2018</year>
+    <volume>44</volume>
+    <pages>613--622</pages>
+  </reference>
+
+  <reference id="3">
+    <type>article</type>
+    <author>Wescott, B. L.</author>
+    <title>Equation of state and reaction rate for condensed-phase explosives</title>
+    <journal>Journal of Applied Physics</journal>
+    <year>2005</year>
+    <volume>98</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="4">
+    <type>article</type>
+    <author>Stevens, L. L.</author>
+    <title>Hydrostatic compression curve for triamino-trinitrobenzene determined to 13.0 GPa with powder X-ray diffraction</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>2008</year>
+    <volume>33</volume>
+    <pages>286--295</pages>
+  </reference>
+
+  <reference id="5">
+    <type>article</type>
+    <author>Tarver, C. M.; Chidester, S. K.; Nichols, A. L.</author>
+    <title>Critical conditions for impact-and shock-induced hot spots in solid explosives</title>
+    <journal>The Journal of Physical Chemistry</journal>
+    <year>1996</year>
+    <volume>100</volume>
+    <pages>5794--5799</pages>
+  </reference>
+
+  <reference id="6">
+    <type>conference</type>
+    <author>Weinheimer, R.</author>
+    <title>Properties of selected high explosives</title>
+    <journal>18th International Pyrotechnics Seminar</journal>
+    <year>1992</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="7">
+    <type>report</type>
+    <author>Dobratz, B. M.</author>
+    <title>Properties of chemical explosives and explosive simulants</title>
+    <journal>Lawrence Livermore Laboratory</journal>
+    <year>1972</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="8">
+    <type>report</type>
+    <author>Coleburn, N.</author>
+    <title>Chapman-Jouguet pressures of several pure and mixed explosives</title>
+    <journal>Naval Ordnance Lab, White Oak, MD</journal>
+    <year>1964</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="9">
+    <type>chapter</type>
+    <author>Akhmadeev, N. K.</author>
+    <title>Shock Compression</title>
+    <journal>High-Pressure Shock Compression of Solids IV</journal>
+    <year>2012</year>
+    <volume>--</volume>
+    <pages>83--</pages>
+  </reference>
+
+  <reference id="10">
+    <type>article</type>
+    <author>Menikoff, R.; Sewell, T. D.</author>
+    <title>Constituent properties of HMX needed for mesoscale simulations</title>
+    <journal>Combustion Theory and Modelling</journal>
+    <year>2002</year>
+    <volume>6</volume>
+    <pages>103--</pages>
+  </reference>
+
+  <reference id="11">
+    <type>conference</type>
+    <author>Sewell, T. D.; Menikoff, R.</author>
+    <title>Complete Equation of State for β-HMX and Implications for Initiation</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2004</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="12">
+    <type>article</type>
+    <author>van der Heijden, A. E.; Bouma, R. H.</author>
+    <title>Crystallization and Characterization of RDX, HMX, and CL-20</title>
+    <journal>Crystal Growth and Design</journal>
+    <year>2004</year>
+    <volume>4</volume>
+    <pages>999--1007</pages>
+  </reference>
+
+  <reference id="13">
+    <type>article</type>
+    <author>Ordzhonikidze, O.</author>
+    <title>Comparative study of HMX and CL-20: thermal analysis, combustion and interaction with aluminium</title>
+    <journal>Journal of Thermal Analysis and Calorimetry</journal>
+    <year>2011</year>
+    <volume>105</volume>
+    <pages>529--534</pages>
+  </reference>
+
+  <reference id="14">
+    <type>article</type>
+    <author>Xue, X.</author>
+    <title>Early decay mechanism of shocked ε-CL-20: a molecular dynamics simulation study</title>
+    <journal>Journal of Physical Chemistry C</journal>
+    <year>2016</year>
+    <volume>120</volume>
+    <pages>21169--21177</pages>
+  </reference>
+
+  <reference id="15">
+    <type>conference</type>
+    <author>Brundage, A. L.</author>
+    <title>EOS Development and Numerical Modeling of CL-20 Compaction</title>
+    <journal>Shock Compression of Condensed Matter</journal>
+    <year>2009</year>
+    <volume>--</volume>
+    <pages>1365--1368</pages>
+  </reference>
+
+  <reference id="16">
+    <type>article</type>
+    <author>Viswanath, J. V.</author>
+    <title>Studies and Theoretical Optimization of CL-20: RDX Cocrystal</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>2019</year>
+    <volume>44</volume>
+    <pages>1570--1582</pages>
+  </reference>
+
+  <reference id="17">
+    <type>article</type>
+    <author>Sinditskii, V. P.</author>
+    <title>Evaluation of decomposition kinetics of energetic materials in the combustion wave</title>
+    <journal>Thermochimica Acta</journal>
+    <year>2009</year>
+    <volume>496</volume>
+    <pages>1--12</pages>
+  </reference>
+
+  <reference id="18">
+    <type>conference</type>
+    <author>White, B. W.; Tarver, C. M.</author>
+    <title>Ignition and Growth Modeling of Detonation Reaction Zone Experiments on Single Crystals of PETN and HMX</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2017</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="19">
+    <type>article</type>
+    <author>Rimoli, J. J.</author>
+    <title>Shock-induced subgrain microstructures as possible homogeneous sources of hot spots and initiation sites in energetic polycrystals</title>
+    <journal>Physical Review B</journal>
+    <year>2010</year>
+    <volume>81</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="20">
+    <type>article</type>
+    <author>Tarver, C. M.</author>
+    <title>Detonation waves in pentaerythritol tetranitrate</title>
+    <journal>Journal of Applied Physics</journal>
+    <year>1997</year>
+    <volume>81</volume>
+    <pages>7193--7202</pages>
+  </reference>
+
+  <reference id="21">
+    <type>article</type>
+    <author>Olinger, B.</author>
+    <title>The isothermal linear and volume compression of pentaerythritol tetranitrate (PETN) to 10 GPa (100 kbar) and the calculated shock compression</title>
+    <journal>The Journal of Chemical Physics</journal>
+    <year>1975</year>
+    <volume>62</volume>
+    <pages>4480--4483</pages>
+  </reference>
+
+  <reference id="22">
+    <type>article</type>
+    <author>Grebenkin, K.; Zherebtsov, A.</author>
+    <title>Numerical modeling of TATB shock-wave heating</title>
+    <journal>Combustion, Explosion and Shock Waves</journal>
+    <year>2000</year>
+    <volume>36</volume>
+    <pages>246--251</pages>
+  </reference>
+
+  <reference id="23">
+    <type>article</type>
+    <author>Wu, Y.-Q.</author>
+    <title>Experiments and modeling of HMX granular explosives subjected to drop-weight impact</title>
+    <journal>RSC Advances</journal>
+    <year>2012</year>
+    <volume>2</volume>
+    <pages>4152--4163</pages>
+  </reference>
+
+  <reference id="24">
+    <type>article</type>
+    <author>Sun, D.</author>
+    <title>Experimental and numerical study of melting of particle-laden materials in a cylinder</title>
+    <journal>International Journal of Heat and Mass Transfer</journal>
+    <year>2009</year>
+    <volume>52</volume>
+    <pages>2966--2978</pages>
+  </reference>
+
+  <reference id="25">
+    <type>article</type>
+    <author>Xu, X.</author>
+    <title>Molecular dynamic simulations on the structures and properties of ɛ-CL-20 (0 0 1)/F2314 PBX</title>
+    <journal>Journal of Hazardous Materials</journal>
+    <year>2010</year>
+    <volume>175</volume>
+    <pages>423--428</pages>
+  </reference>
+
+  <reference id="26">
+    <type>article</type>
+    <author>Nguyen, Y. T.</author>
+    <title>Head-To-Head Comparison of Molecular and Continuum Simulations of Shock-Induced Collapse of an Elongated Pore in an Energetic Molecular Crystal</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>2022</year>
+    <volume>--</volume>
+    <pages>e202200016</pages>
+  </reference>
+
+  <reference id="27">
+    <type>article</type>
+    <author>Brown, J. A.; Zikry, M.</author>
+    <title>Effect of microstructure on the coupled electromagnetic-thermo-mechanical response of cyclotrimethylenetrinitramine-estane energetic aggregates to infrared laser radiation</title>
+    <journal>Journal of Applied Physics</journal>
+    <year>2015</year>
+    <volume>118</volume>
+    <pages>124902</pages>
+  </reference>
+
+  <reference id="28">
+    <type>report</type>
+    <author>Menikoff, R.</author>
+    <title>SURFplus model calibration for PBX 9502</title>
+    <journal>Los Alamos National Laboratory</journal>
+    <year>2017</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="29">
+    <type>report</type>
+    <author>Urtiew, P. A.</author>
+    <title>Shock initiation experiments and modeling of composition B and C-4</title>
+    <journal>Lawrence Livermore National Laboratory</journal>
+    <year>2006</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="30">
+    <type>article</type>
+    <author>Grys, S.; Trzciński, W. A.</author>
+    <title>Calculation of combustion, explosion and detonation characteristics of energetic materials</title>
+    <journal>Central European Journal of Energetic Materials</journal>
+    <year>2010</year>
+    <volume>7</volume>
+    <pages>97--113</pages>
+  </reference>
+
+  <reference id="31">
+    <type>conference</type>
+    <author>Cooper, M. A.</author>
+    <title>Static and Dynamic Compaction of CL-20 Powders</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2009</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="32">
+    <type>article</type>
+    <author>Gump, J.</author>
+    <title>High-pressure and temperature investigations of energetic materials</title>
+    <journal>Journal of Physics: Conference Series</journal>
+    <year>2014</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="33">
+    <type>conference</type>
+    <author>Samuels, P.</author>
+    <title>Detonation performance analyses for recent energetic molecules</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2018</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="34">
+    <type>article</type>
+    <author>Simpson, R.</author>
+    <title>CL-20 Performance Exceeds that of HMX and its Sensitivity is Moderate</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>1997</year>
+    <volume>22</volume>
+    <pages>249--255</pages>
+  </reference>
+
+  <reference id="35">
+    <type>article</type>
+    <author>Guo, D.</author>
+    <title>Prediction of the Chapman-Jouguet chemical equilibrium state in a detonation wave from first principles based reactive molecular dynamics</title>
+    <journal>Physical Chemistry Chemical Physics</journal>
+    <year>2016</year>
+    <volume>18</volume>
+    <pages>2015--2022</pages>
+  </reference>
+
+  <reference id="36">
+    <type>article</type>
+    <author>Handley, C.</author>
+    <title>Understanding the shock and detonation response of high explosives at the continuum and meso scales</title>
+    <journal>Applied Physics Reviews</journal>
+    <year>2018</year>
+    <volume>5</volume>
+    <pages>011303</pages>
+  </reference>
+
+  <reference id="37">
+    <type>misc</type>
+    <author>Mader, C. L.</author>
+    <title>s Imllmos</title>
+    <journal>--</journal>
+    <year>1979</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="38">
+    <type>article</type>
+    <author>Fedorov, A.</author>
+    <title>Determination of parameters of detonation waves in PETN and HMX single crystals</title>
+    <journal>Combustion, Explosion, and Shock Waves</journal>
+    <year>2011</year>
+    <volume>47</volume>
+    <pages>601--605</pages>
+  </reference>
+
+  <reference id="39">
+    <type>conference</type>
+    <author>White, B. W.; Tarver, C. M.</author>
+    <title>Ignition and growth modeling of detonation reaction zone experiments on single crystals of PETN and HMX</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2017</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="40">
+    <type>article</type>
+    <author>Ma, Q.</author>
+    <title>Theoretical investigations on 4, 4′, 5, 5′-tetranitro-2, 2′-1H, 1′ H-2, 2′-biimidazole derivatives as potential nitrogen-rich high energy materials</title>
+    <journal>Journal of Physical Organic Chemistry</journal>
+    <year>2015</year>
+    <volume>28</volume>
+    <pages>31--39</pages>
+  </reference>
+
+  <reference id="41">
+    <type>report</type>
+    <author>Coleburn, N.</author>
+    <title>Chapman-Jouguet pressures of several pure and mixed explosives</title>
+    <journal>Naval Ordnance Lab White Oak MD</journal>
+    <year>1964</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="42">
+    <type>article</type>
+    <author>Tarver, C. M.; Chidester, S. K.; Nichols, A. L.</author>
+    <title>Critical conditions for impact- and shock-induced hot spots in solid explosives</title>
+    <journal>Journal of Physical Chemistry</journal>
+    <year>1996</year>
+    <volume>100</volume>
+    <pages>5794--5799</pages>
+  </reference>
+
+  <reference id="43">
+    <type>article</type>
+    <author>Banerjee, B.; Adams, D. O.</author>
+    <title>Micromechanics-based determination of effective elastic properties of polymer bonded explosives</title>
+    <journal>Physica B: Condensed Matter</journal>
+    <year>2003</year>
+    <volume>338</volume>
+    <pages>8--15</pages>
+  </reference>
+
+  <reference id="44">
+    <type>article</type>
+    <author>Halleck, P.; Wackerle, J.</author>
+    <title>Dynamic elastic-plastic properties of single-crystal pentaerythritol tetranitrate</title>
+    <journal>Journal of Applied Physics</journal>
+    <year>1976</year>
+    <volume>47</volume>
+    <pages>976--982</pages>
+  </reference>
+
+  <reference id="45">
+    <type>article</type>
+    <author>Palmer, S.; Field, J.</author>
+    <title>The deformation and fracture of β-HMX</title>
+    <journal>Proceedings of the Royal Society of London A</journal>
+    <year>1982</year>
+    <volume>383</volume>
+    <pages>399--407</pages>
+  </reference>
+
+  <reference id="46">
+    <type>article</type>
+    <author>Barton, N. R.</author>
+    <title>Defect evolution and pore collapse in crystalline energetic materials</title>
+    <journal>Modelling and Simulation in Materials Science and Engineering</journal>
+    <year>2009</year>
+    <volume>17</volume>
+    <pages>035003</pages>
+  </reference>
+
+  <reference id="47">
+    <type>article</type>
+    <author>Andersen, W.</author>
+    <title>Role of the friction coefficient in the frictional heating ignition of explosives</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>1981</year>
+    <volume>6</volume>
+    <pages>17--23</pages>
+  </reference>
+
+  <reference id="48">
+    <type>article</type>
+    <author>Lanzerotti, Y.; Sharma, J.</author>
+    <title>AFM Studies of Fracture Surfaces of Composition B Energetic Materials</title>
+    <journal>MRS Online Proceedings Library</journal>
+    <year>2001</year>
+    <volume>705</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="49">
+    <type>article</type>
+    <author>Malhotra, P.</author>
+    <title>Dynamic shearing resistance of an energetic material simulant: Sucrose</title>
+    <journal>Journal of the Mechanics and Physics of Solids</journal>
+    <year>2022</year>
+    <volume>159</volume>
+    <pages>104624</pages>
+  </reference>
+
+  <reference id="50">
+    <type>article</type>
+    <author>Saleki-Gerhardt, A.; Zografi, G.</author>
+    <title>Non-isothermal and isothermal crystallization of sucrose from the amorphous state</title>
+    <journal>Pharmaceutical Research</journal>
+    <year>1994</year>
+    <volume>11</volume>
+    <pages>1166--1173</pages>
+  </reference>
+
+  <reference id="51">
+    <type>article</type>
+    <author>Anderson Jr, G.</author>
+    <title>The heat capacity of sucrose from 25 to 90</title>
+    <journal>Journal of the American Chemical Society</journal>
+    <year>1950</year>
+    <volume>72</volume>
+    <pages>3798--3799</pages>
+  </reference>
+
+  <reference id="52">
+    <type>article</type>
+    <author>Schoebel, T.</author>
+    <title>Reaction at limited water concentration 1. Sucrose hydrolysis</title>
+    <journal>Journal of Food Science</journal>
+    <year>1969</year>
+    <volume>34</volume>
+    <pages>324--329</pages>
+  </reference>
+
+  <reference id="53">
+    <type>article</type>
+    <author>Trott, W. M.</author>
+    <title>Investigation of the mesoscopic scale response of low-density pressings of granular sugar under impact</title>
+    <journal>Journal of Applied Physics</journal>
+    <year>2007</year>
+    <volume>101</volume>
+    <pages>024917</pages>
+  </reference>
+
+  <reference id="54">
+    <type>article</type>
+    <author>Li, J. S.</author>
+    <title>Study on thermal characteristics of TNT based melt-cast explosives</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>2019</year>
+    <volume>44</volume>
+    <pages>1270--1281</pages>
+  </reference>
+
+  <reference id="55">
+    <type>article</type>
+    <author>Bowden, P.</author>
+    <title>The high-pressure phase stability of 2, 4, 6-trinitrotoluene (TNT)</title>
+    <journal>Journal of Physics: Conference Series</journal>
+    <year>2014</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="56">
+    <type>report</type>
+    <author>McGuire, R.; Tarver, C.</author>
+    <title>Chemical-decomposition models for the thermal explosion of confined HMX, TATB, RDX, and TNT explosives</title>
+    <journal>Lawrence Livermore National Laboratory</journal>
+    <year>1981</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="57">
+    <type>article</type>
+    <author>Myint, P. C.</author>
+    <title>Application of the Peng-Robinson equation of state to energetic materials RDX and TNT: pure components, liquid mixtures, and solid mixtures</title>
+    <journal>Industrial and Engineering Chemistry Research</journal>
+    <year>2016</year>
+    <volume>55</volume>
+    <pages>2252--2266</pages>
+  </reference>
+
+  <reference id="58">
+    <type>report</type>
+    <author>Aronica, L.</author>
+    <title>Sound velocity and elastic moduli measurements on several TNT-base explosive compositions</title>
+    <journal>Naval Ordnance Lab White Oak MD</journal>
+    <year>1961</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="59">
+    <type>report</type>
+    <author>Pinto, J.</author>
+    <title>Dynamic and Quasi Static Mechanical Properties of Comp B and TNT</title>
+    <journal>Army Armament Research Development and Engineering Center</journal>
+    <year>1985</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="60">
+    <type>article</type>
+    <author>Sadique, M.</author>
+    <title>Rock tunnel performance under blast loading through finite element analysis</title>
+    <journal>Geotechnical and Geological Engineering</journal>
+    <year>2022</year>
+    <volume>40</volume>
+    <pages>35--56</pages>
+  </reference>
+
+  <reference id="61">
+    <type>article</type>
+    <author>Clutter, J.; Belk, D.</author>
+    <title>Simulation of detonation wave interaction using an ignition and growth model</title>
+    <journal>Shock Waves</journal>
+    <year>2002</year>
+    <volume>12</volume>
+    <pages>251--263</pages>
+  </reference>
+
+  <reference id="62">
+    <type>article</type>
+    <author>Michael, L.; Nikiforakis, N.</author>
+    <title>The evolution of the temperature field during cavity collapse in liquid nitromethane. Part I: inert case</title>
+    <journal>Shock Waves</journal>
+    <year>2019</year>
+    <volume>29</volume>
+    <pages>153--172</pages>
+  </reference>
+
+  <reference id="63">
+    <type>article</type>
+    <author>Mi, X.</author>
+    <title>Meso-resolved simulations of shock-to-detonation transition in nitromethane with air-filled cavities</title>
+    <journal>Journal of Applied Physics</journal>
+    <year>2019</year>
+    <volume>125</volume>
+    <pages>245901</pages>
+  </reference>
+
+  <reference id="64">
+    <type>article</type>
+    <author>Winey, J.</author>
+    <title>Equation of state and temperature measurements for shocked nitromethane</title>
+    <journal>The Journal of Chemical Physics</journal>
+    <year>2000</year>
+    <volume>113</volume>
+    <pages>7492--7501</pages>
+  </reference>
+
+  <reference id="65">
+    <type>article</type>
+    <author>Sabourin, J. L.</author>
+    <title>Exploring the effects of nanostructured particles on liquid nitromethane combustion</title>
+    <journal>Journal of Propulsion and Power</journal>
+    <year>2010</year>
+    <volume>26</volume>
+    <pages>1006--1015</pages>
+  </reference>
+
+  <reference id="66">
+    <type>article</type>
+    <author>Kelzenberg, S.</author>
+    <title>Modelling nitromethane combustion</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>1999</year>
+    <volume>24</volume>
+    <pages>189--194</pages>
+  </reference>
+
+  <reference id="67">
+    <type>article</type>
+    <author>Cerdeiriña, C.</author>
+    <title>Heat capacity and thermal expansion anomalies in the nitromethane-1-butanol mixture near its upper critical point</title>
+    <journal>Physical Review E</journal>
+    <year>2002</year>
+    <volume>66</volume>
+    <pages>031507</pages>
+  </reference>
+
+  <reference id="68">
+    <type>article</type>
+    <author>Chang, J.</author>
+    <title>A first-principles study of the structural, electronic and elastic properties of solid nitromethane under pressure</title>
+    <journal>Science China Physics, Mechanics and Astronomy</journal>
+    <year>2013</year>
+    <volume>56</volume>
+    <pages>1874--1881</pages>
+  </reference>
+
+  <reference id="69">
+    <type>article</type>
+    <author>Agrawal, P. M.</author>
+    <title>Molecular dynamics study of the melting of nitromethane</title>
+    <journal>The Journal of Chemical Physics</journal>
+    <year>2003</year>
+    <volume>119</volume>
+    <pages>9617--9627</pages>
+  </reference>
+
+  <reference id="70">
+    <type>conference</type>
+    <author>Cook, M.; Haskins, P.</author>
+    <title>Projectile impact initiation of a homogeneous explosive</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>1996</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="71">
+    <type>article</type>
+    <author>Wood, M. A.</author>
+    <title>Multiscale modeling of shock wave localization in porous energetic material</title>
+    <journal>Physical Review B</journal>
+    <year>2018</year>
+    <volume>97</volume>
+    <pages>014109</pages>
+  </reference>
+
+  <reference id="72">
+    <type>article</type>
+    <author>Chen, L.</author>
+    <title>Thermal decomposition mechanism of 2, 2′, 4, 4′, 6, 6′-hexanitrostilbene by ReaxFF reactive molecular dynamics simulations</title>
+    <journal>The Journal of Physical Chemistry C</journal>
+    <year>2018</year>
+    <volume>122</volume>
+    <pages>19309--19318</pages>
+  </reference>
+
+  <reference id="73">
+    <type>article</type>
+    <author>Shu, X.</author>
+    <title>Thermal expansion and theoretical density of 2, 2′, 4, 4′, 6, 6′-hexanitrostilbene</title>
+    <journal>Journal of Materials Science</journal>
+    <year>2011</year>
+    <volume>46</volume>
+    <pages>2536--2540</pages>
+  </reference>
+
+  <reference id="74">
+    <type>report</type>
+    <author>Faubion, B.</author>
+    <title>Thermal conductivity of HNS</title>
+    <journal>Mason and Hanger-Silas Mason Co., Inc.</journal>
+    <year>1976</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="75">
+    <type>conference</type>
+    <author>Billingsley, J. P.</author>
+    <title>HMX and HNS shock sensitivity correlation with specific heat and reactive temperature magnitudes</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2000</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="76">
+    <type>article</type>
+    <author>Kittell, D. E.; Yarrington, C. D.</author>
+    <title>A physically-based Mie-Grüneisen equation of state to determine hot spot temperature distributions</title>
+    <journal>Combustion Theory and Modelling</journal>
+    <year>2016</year>
+    <volume>20</volume>
+    <pages>941--957</pages>
+  </reference>
+
+  <reference id="77">
+    <type>conference</type>
+    <author>Gump, J. C.</author>
+    <title>Equations of state of hexanitrostilbene (HNS)</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2012</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="78">
+    <type>article</type>
+    <author>Tarver, C. M.; Chidester, S. K.</author>
+    <title>Ignition and growth modeling of short pulse shock initiation experiments on fine particle Hexanitrostilbene (HNS)</title>
+    <journal>Journal of Physics: Conference Series</journal>
+    <year>2014</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="79">
+    <type>article</type>
+    <author>Shi, J.</author>
+    <title>Experimental and numerical investigation of jet performance based on Johnson-Cook model of liner material</title>
+    <journal>International Journal of Impact Engineering</journal>
+    <year>2022</year>
+    <volume>170</volume>
+    <pages>104343</pages>
+  </reference>
+
+  <reference id="80">
+    <type>report</type>
+    <author>Bennett, C. M.; Sewell, T. D.</author>
+    <title>Monte Carlo calculations of the anisotropic engineering moduli for crystalline RDX (0 GPa ≤ p ≤ 4 GPa)</title>
+    <journal>Los Alamos National Laboratory</journal>
+    <year>1998</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="81">
+    <type>article</type>
+    <author>Fan, H.</author>
+    <title>A theoretical study of elastic anisotropy and thermal conductivity for TATB under pressure</title>
+    <journal>Computational Materials Science</journal>
+    <year>2017</year>
+    <volume>131</volume>
+    <pages>321--332</pages>
+  </reference>
+
+  <reference id="82">
+    <type>article</type>
+    <author>Cady, H. H.</author>
+    <title>Coefficient of thermal expansion of pentaerythritol tetranitrate and hexahydro-1, 3, 5-trinitro-s-triazine (RDX)</title>
+    <journal>Journal of Chemical and Engineering Data</journal>
+    <year>1972</year>
+    <volume>17</volume>
+    <pages>369--371</pages>
+  </reference>
+
+  <reference id="83">
+    <type>article</type>
+    <author>Tarver, C. M.</author>
+    <title>Thermal decomposition of pentaerythritol tetranitrate</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>2003</year>
+    <volume>28</volume>
+    <pages>189--193</pages>
+  </reference>
+
+  <reference id="84">
+    <type>article</type>
+    <author>Rieckmann, T.</author>
+    <title>Thermal decomposition of hexanitrostilbene at low temperatures</title>
+    <journal>Journal of Analytical and Applied Pyrolysis</journal>
+    <year>2001</year>
+    <volume>58</volume>
+    <pages>569--587</pages>
+  </reference>
+
+  <reference id="85">
+    <type>article</type>
+    <author>Gilbert, J.</author>
+    <title>Computational analysis of hot-spot formation by quasi-steady deformation waves in porous explosive</title>
+    <journal>Journal of Applied Physics</journal>
+    <year>2013</year>
+    <volume>113</volume>
+    <pages>194901</pages>
+  </reference>
+
+  <reference id="86">
+    <type>article</type>
+    <author>Mohan, V. K.; Field, J.</author>
+    <title>Impact initiation of hexanitrostilbene</title>
+    <journal>Combustion and Flame</journal>
+    <year>1984</year>
+    <volume>56</volume>
+    <pages>269--277</pages>
+  </reference>
+
+  <reference id="87">
+    <type>article</type>
+    <author>Long, Y.; Chen, J.</author>
+    <title>Theoretical study of the thermodynamic properties, phase transition wave, and phase transition velocity for octahydro-1, 3, 5, 7-tetranitro-1, 3, 5, 7-tetrazocine</title>
+    <journal>Journal of Applied Physics</journal>
+    <year>2015</year>
+    <volume>118</volume>
+    <pages>115901</pages>
+  </reference>
+
+  <reference id="88">
+    <type>article</type>
+    <author>Peng, Q.</author>
+    <title>Predicting elastic properties of β-HMX from first-principles calculations</title>
+    <journal>The Journal of Physical Chemistry B</journal>
+    <year>2015</year>
+    <volume>119</volume>
+    <pages>5896--5903</pages>
+  </reference>
+
+  <reference id="89">
+    <type>report</type>
+    <author>Zaug, J. M.</author>
+    <title>Elastic constants of β-HMX and tantalum, equations of state of supercritical fluids and fluid mixtures and thermal transport determinations</title>
+    <journal>Lawrence Livermore National Laboratory</journal>
+    <year>1998</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="90">
+    <type>article</type>
+    <author>Stevens, L. L.; Eckhardt, C. J.</author>
+    <title>The elastic constants and related properties of β-HMX determined by Brillouin scattering</title>
+    <journal>The Journal of Chemical Physics</journal>
+    <year>2005</year>
+    <volume>122</volume>
+    <pages>174701</pages>
+  </reference>
+
+  <reference id="91">
+    <type>conference</type>
+    <author>Sewell, T. D.; Bedrov, D.; Menikoff, R.</author>
+    <title>Shock Compression of Condensed Matter</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2002</year>
+    <volume>620</volume>
+    <pages>399--</pages>
+  </reference>
+
+  <reference id="92">
+    <type>article</type>
+    <author>Sewell, T. D.</author>
+    <title>A molecular dynamics simulation study of elastic properties of HMX</title>
+    <journal>The Journal of Chemical Physics</journal>
+    <year>2003</year>
+    <volume>119</volume>
+    <pages>7417--7426</pages>
+  </reference>
+
+  <reference id="93">
+    <type>article</type>
+    <author>Cui, H.-L.</author>
+    <title>First-principles study of high-pressure behavior of solid β-HMX</title>
+    <journal>The Journal of Physical Chemistry A</journal>
+    <year>2010</year>
+    <volume>114</volume>
+    <pages>1082--1092</pages>
+  </reference>
+
+  <reference id="94">
+    <type>article</type>
+    <author>Han, G.</author>
+    <title>Theoretical investigation into the influence of molar ratio on binding energy, mechanical property and detonation performance of HMX/MDNI cocrystal explosive</title>
+    <journal>Computational and Theoretical Chemistry</journal>
+    <year>2017</year>
+    <volume>1109</volume>
+    <pages>27--35</pages>
+  </reference>
+
+  <reference id="95">
+    <type>article</type>
+    <author>Xiao, J.</author>
+    <title>Simulation investigations in the binding energy and mechanical properties of HMX-based polymer-bonded explosives</title>
+    <journal>Chinese Science Bulletin</journal>
+    <year>2005</year>
+    <volume>50</volume>
+    <pages>21--26</pages>
+  </reference>
+
+  <reference id="96">
+    <type>article</type>
+    <author>Long, Y.</author>
+    <title>A direct method to calculate thermal conductivity and its application in solid HMX</title>
+    <journal>Journal of Physics: Condensed Matter</journal>
+    <year>2010</year>
+    <volume>22</volume>
+    <pages>185404</pages>
+  </reference>
+
+  <reference id="97">
+    <type>article</type>
+    <author>Gump, J.</author>
+    <title>High-pressure and temperature investigations of energetic materials</title>
+    <journal>Journal of Physics: Conference Series</journal>
+    <year>2014</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="98">
+    <type>report</type>
+    <author>Saw, C. K.</author>
+    <title>Kinetics of HMX and phase transitions: effects of grain size at elevated temperature</title>
+    <journal>Lawrence Livermore National Laboratory</journal>
+    <year>2002</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="99">
+    <type>article</type>
+    <author>Stevens, L. L.</author>
+    <title>The high-pressure phase behavior and compressibility of 2, 4, 6-trinitrotoluene</title>
+    <journal>Applied Physics Letters</journal>
+    <year>2008</year>
+    <volume>93</volume>
+    <pages>081912</pages>
+  </reference>
+
+  <reference id="100">
+    <type>article</type>
+    <author>Borne, L.</author>
+    <title>Quantitative characterization of internal defects in RDX crystals</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>1999</year>
+    <volume>24</volume>
+    <pages>255--259</pages>
+  </reference>
+
+  <reference id="101">
+    <type>article</type>
+    <author>Hoffman, D. M.</author>
+    <title>Density distributions in TATB prepared by various methods</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>2010</year>
+    <volume>35</volume>
+    <pages>15--23</pages>
+  </reference>
+
+  <reference id="102">
+    <type>article</type>
+    <author>Hoffman, D. M.</author>
+    <title>Voids and Density Distributions in CL-20 Prepared Under Various Conditions</title>
+    <journal>Propellants, Explosives, Pyrotechnics</journal>
+    <year>2003</year>
+    <volume>28</volume>
+    <pages>194--200</pages>
+  </reference>
+
+  <reference id="103">
+    <type>article</type>
+    <author>Vrcelj, R. M.</author>
+    <title>Polymorphism in 2,4,6-Trinitrotoluene</title>
+    <journal>Crystal Growth and Design</journal>
+    <year>2003</year>
+    <volume>3</volume>
+    <pages>1027--1032</pages>
+  </reference>
+
+  <reference id="104">
+    <type>report</type>
+    <author>Tran, T.</author>
+    <title>Thermal decomposition of trinitrotoluene (TNT) with a new one-dimensional time to explosion (ODTX) apparatus</title>
+    <journal>Lawrence Livermore National Laboratory</journal>
+    <year>2001</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="105">
+    <type>conference</type>
+    <author>Peterson, J. H.</author>
+    <title>Global equation of state for copper</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2012</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="106">
+    <type>article</type>
+    <author>Unknown</author>
+    <title>Article from ScienceDirect (Reference unavailable)</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="107">
+    <type>article</type>
+    <author>Grązka, M.; Janiszewski, J.</author>
+    <title>Identification of Johnson-Cook equation constants using finite element method</title>
+    <journal>Engineering Transactions</journal>
+    <year>2012</year>
+    <volume>60</volume>
+    <pages>215--223</pages>
+  </reference>
+
+  <reference id="108">
+    <type>conference</type>
+    <author>Hayes, D.</author>
+    <title>High pressure elastic properties, solid-liquid phase boundary and liquid equation of state from release wave measurements in shock-loaded copper</title>
+    <journal>AIP Conference Proceedings</journal>
+    <year>2000</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="109">
+    <type>article</type>
+    <author>Tekce, H. S.</author>
+    <title>Effect of particle shape on thermal conductivity of copper reinforced polymer composites</title>
+    <journal>Journal of Reinforced Plastics and Composites</journal>
+    <year>2007</year>
+    <volume>26</volume>
+    <pages>113--121</pages>
+  </reference>
+
+  <reference id="110">
+    <type>article</type>
+    <author>White, G.; Collins, J.</author>
+    <title>Thermal expansion of copper, silver, and gold at low temperatures</title>
+    <journal>Journal of Low Temperature Physics</journal>
+    <year>1972</year>
+    <volume>7</volume>
+    <pages>43--75</pages>
+  </reference>
+
+  <reference id="111">
+    <type>article</type>
+    <author>Burakovsky, L.</author>
+    <title>Analytic model of the shear modulus at all temperatures and densities</title>
+    <journal>Physical Review B</journal>
+    <year>2003</year>
+    <volume>67</volume>
+    <pages>094107</pages>
+  </reference>
+
+  <reference id="112">
+    <type>article</type>
+    <author>Ko, N.-Y.</author>
+    <title>Behavior of copper under high pressure: Experimental and theoretical analyses</title>
+    <journal>Current Applied Physics</journal>
+    <year>2021</year>
+    <volume>31</volume>
+    <pages>93--98</pages>
+  </reference>
+
+  <reference id="113">
+    <type>article</type>
+    <author>Rekhi, S.</author>
+    <title>Experimental and theoretical investigations on the compressibility of nanocrystalline nickel</title>
+    <journal>Journal of Materials Science</journal>
+    <year>2001</year>
+    <volume>36</volume>
+    <pages>4719--4721</pages>
+  </reference>
+
+  <reference id="114">
+    <type>article</type>
+    <author>Zhang, D.-N.</author>
+    <title>A modified Johnson-Cook model of dynamic tensile behaviors for 7075-T6 aluminum alloy</title>
+    <journal>Journal of Alloys and Compounds</journal>
+    <year>2015</year>
+    <volume>619</volume>
+    <pages>186--194</pages>
+  </reference>
+
+  <reference id="115">
+    <type>article</type>
+    <author>Couque, H.</author>
+    <title>A modified Johnson-Cook model for strain rates ranging from 10^{-3} to 10^{5} s^{-1}</title>
+    <journal>Journal de Physique IV</journal>
+    <year>2006</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="116">
+    <type>article</type>
+    <author>Unknown</author>
+    <title>Article from NCBI (Reference unavailable)</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="117">
+    <type>article</type>
+    <author>Unknown</author>
+    <title>Article from AIP (Reference unavailable)</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="118">
+    <type>misc</type>
+    <author>HyperPhysics</author>
+    <title>Thermal Expansion Table</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="119">
+    <type>misc</type>
+    <author>KnowledgeDoor</author>
+    <title>Isothermal Bulk Modulus Table</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="120">
+    <type>misc</type>
+    <author>PeriodicTable.com</author>
+    <title>Bulk Modulus of Aluminum</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="121">
+    <type>misc</type>
+    <author>Kyocera SGS</author>
+    <title>Titanium Properties</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="122">
+    <type>misc</type>
+    <author>AZoM</author>
+    <title>Properties of Titanium</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="123">
+    <type>misc</type>
+    <author>eFunda</author>
+    <title>Copper Alloy Properties</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+
+  <reference id="124">
+    <type>misc</type>
+    <author>Engineering Toolbox</author>
+    <title>Properties of Aluminum Pipe</title>
+    <journal>--</journal>
+    <year>--</year>
+    <volume>--</volume>
+    <pages>--</pages>
+  </reference>
+</References>

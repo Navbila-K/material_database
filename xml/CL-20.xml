@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+=========================================================
+                MATERIAL DESCRIPTION FILE
+=========================================================
+This XML defines a single material along with:
+- metadata (id, name, author, date, version)
+- categories of physical models (thermal, mechanical, plasticity, reaction, EOS)
+- data stored as entries with units separated into attributes
+- fully explicit structure, future-proof and backward compatible
+=========================================================
+-->
+<Material>
+  <!-- The metadata identifies the material and makes files traceable. -->
+  <Metadata>
+    <Id>CL20-001</Id>
+    <Name>CL-20</Name>
+    <Author></Author>
+    <Date></Date>
+    <Version meaning="schema_version">0.0.0-02F96E42</Version>
+  </Metadata>
+
+  <Category>
+    <Property>
+
+      <!-- Phase information (enumeration: gas, liquid, solid, plasma) -->
+      <Phase>
+        <State>solid</State>
+      </Phase>
+
+      <!-- Thermal properties -->
+      <Thermal>
+        <!-- specific heat at constant pressure (J/kg·K) -->
+        <Cp unit="J/kg/K">
+          <Entry ref="17">1000</Entry>
+        </Cp>
+
+        <!-- specific heat at constant volume (J/kg·K) -->
+        <Cv unit="J/kg/K">
+          <Entry ref="15">1030</Entry>
+        </Cv>
+      </Thermal>
+
+      <!-- Mechanical properties -->
+      <Mechanical>
+        <!-- density in kg/m^3 -->
+        <Density unit="kg/m^3">
+          <Entry ref="12">2055</Entry>
+          <Entry ref="103">2042</Entry>
+        </Density>
+
+        <!-- viscosity in Pa·s (not provided) -->
+        <Viscosity unit="Pa*s">
+          <Entry ref=""></Entry>
+        </Viscosity>
+      </Mechanical>
+
+    </Property>
+
+    <Model>
+      <ElasticModel>
+        <ThermoMechanical>
+          <!-- Density values used in thermo-mechanical calculations -->
+          <Density>
+            <Entry unit="kg/m3" ref="12">2055</Entry>
+            <Entry unit="kg/m3" ref="103">2042</Entry>
+          </Density>
+
+          <!-- Reference ambient temperature (usually room temperature) -->
+          <AmbientTemperature>
+            <Entry unit="K" ref="5">298</Entry>
+          </AmbientTemperature>
+
+          <!-- Melting point of the material -->
+          <MeltingTemperature>
+            <Entry unit="K" ref="13">517</Entry>
+          </MeltingTemperature>
+
+          <!-- Speed of sound in the material -->
+          <SoundSpeed>
+            <Entry unit="m/s" ref="14">2940</Entry>
+          </SoundSpeed>
+
+          <!-- Grüneisen coefficient for EOS/thermal coupling -->
+          <GruneisenCoefficient>
+            <Entry unit="1" ref="15">1</Entry>
+          </GruneisenCoefficient>
+
+          <!-- Bulk modulus under isothermal conditions -->
+          <IsothermalBulkModulus>
+            <Entry unit="Pa" ref="15">15E9</Entry>
+          </IsothermalBulkModulus>
+
+          <!-- Cv values used specifically for EOS computations -->
+          <SpecificHeatIsochoric>
+            <Entry unit="J/kg/K" ref="15">1030</Entry>
+          </SpecificHeatIsochoric>
+
+          <!-- Polynomial constants for temperature-dependent Cp/Cv formulas -->
+          <SpecificHeatConstants>
+            <c0 unit="J/kg/K"></c0>
+            <c1 unit="J/kg/K"></c1>
+            <c2 unit="J/kg/K"></c2>
+            <c3 unit="J/kg/K"></c3>
+          </SpecificHeatConstants>
+
+          <!-- Cp values for isobaric processes -->
+          <SpecificHeatIsobaric>
+            <Entry unit="J/kg/K" ref="17">1000</Entry>
+          </SpecificHeatIsobaric>
+
+          <!-- Thermal conductivity values -->
+          <ThermalConductivity>
+            <Entry unit="W/m/K" ref="17">6.7</Entry>
+          </ThermalConductivity>
+
+          <!-- values of thermal expansion -->
+          <ThermalExpansion>
+            <Entry unit="1/K" ref="15">0.00014</Entry>
+            <Entry unit="1/K" ref="98">0.000104</Entry>
+          </ThermalExpansion>
+        </ThermoMechanical>
+      </ElasticModel>
+
+      <ElastoPlastic>
+        <!-- Shear modulus (rigidity) -->
+        <ShearModulus>
+          <Entry unit="Pa" ref="25">7.4E9</Entry>
+        </ShearModulus>
+
+        <!-- Initial yield strength for plastic flow -->
+        <YieldStrength>
+          <Entry unit="Pa" ref="5">200</Entry>
+        </YieldStrength>
+
+        <!-- Johnson–Cook plasticity model (no data given) -->
+        <JohnsonCookModelConstants>
+          <StrainRate unit="1"></StrainRate>
+          <ReferenceTemperature unit="K"></ReferenceTemperature>
+          <A unit="Pa"></A>
+          <B unit="Pa"></B>
+          <n unit="1"></n>
+          <C unit="1"></C>
+          <M unit="1"></M>
+          <MeltingTemperature unit="K"></MeltingTemperature>
+          <ReferencePressure unit="Pa"></ReferencePressure>
+          <A_prime unit="Pa"></A_prime>
+          <C_prime unit="1"></C_prime>
+        </JohnsonCookModelConstants>
+      </ElastoPlastic>
+
+      <!-- Reaction model present but intentionally left empty (no SDT data available) -->
+      <ReactionModel>
+        <!-- Indicates reaction mechanism type (none available for SDT) -->
+        <Kind></Kind>
+
+        <LnZ>
+          <Entry index="1" unit="1/s"></Entry>
+          <Entry index="2" unit="1/s"></Entry>
+          <Entry index="3" unit="1/s"></Entry>
+          <Entry index="4" unit="1/s"></Entry>
+        </LnZ>
+
+        <!-- Activation energies for each step -->
+        <ActivationEnergy>
+          <Entry index="1" unit="kcal/mol"></Entry>
+          <Entry index="2" unit="kcal/mol"></Entry>
+          <Entry index="3" unit="kcal/mol"></Entry>
+          <Entry index="4" unit="kcal/mol"></Entry>
+        </ActivationEnergy>
+
+        <!-- Heat released or absorbed during each stage -->
+        <HeatRelease>
+          <Entry index="1" unit="cal/g"></Entry>
+          <Entry index="2" unit="cal/g"></Entry>
+          <Entry index="3" unit="cal/g"></Entry>
+          <Entry index="4" unit="cal/g"></Entry>
+        </HeatRelease>
+
+        <!-- Single-step parameters for simplified kinetics (not provided) -->
+        <ReactionModelParameter>
+          <Steps unit="1"></Steps>
+          <Ea unit="kcal/mol"></Ea>
+          <lnZ unit="1/s"></lnZ>
+          <Q_R unit="J/g"></Q_R>
+
+          <!-- Alternative calibrated values -->
+          <Ea_new unit="kcal/mol"></Ea_new>
+          <lnZ_new unit="1/s"></lnZ_new>
+          <Q_R_new unit="J/g"></Q_R_new>
+          
+          <!-- Original parameters kept for comparison -->
+          <Ea_old unit="kcal/mol"></Ea_old>
+          <lnZ_old unit="1/s"></lnZ_old>
+        </ReactionModelParameter>
+      </ReactionModel>
+
+      <EOSModel>
+        <!-- Row 1: Murnaghan EOS -->
+        <Row index="1">
+          <Kind ref="31">Murnaghan</Kind>
+          <K0 unit="GPa" ref="32">13.6</K0>
+          <K0Prime ref="32">11.7</K0Prime>
+        </Row>
+
+        <!-- Row 2: Birch–Murnaghan EOS -->
+        <Row index="2">
+          <Kind ref="15">BM</Kind>
+          <KT0 unit="GPa" ref="15">15</KT0>
+          <N unit="1" ref="15">8.07</N>
+        </Row>
+
+        <!-- Row 3: Mie–Grüneisen (shock form) -->
+        <Row index="3">
+          <Kind ref="15">MG</Kind>
+          <Rho unit="kg/m3" ref="15">2044</Rho>
+          <s unit="1" ref="15">2.19</s>
+          <Cs unit="m/s" ref="15">2770</Cs>
+          <Gamma unit="1" ref="15">1</Gamma>
+          <Cv unit="J/kg/K" ref="15">1030</Cv>
+        </Row>
+
+        <!-- Row 4: Generic Grüneisen-type EOS (no parameters provided) -->
+        <Row index="4">
+          <Kind></Kind>
+          <GruneisenCoefficient unit="1"></GruneisenCoefficient>
+          <A unit="GPa"></A>
+          <B unit="GPa"></B>
+          <C unit="GPa"></C>
+          <D unit="GPa"></D>
+          <Rho0 unit="kg/m3"></Rho0>
+          <SpecificHeatCv unit="J/kg/K"></SpecificHeatCv>
+        </Row>
+
+        <!-- Row 5: Generic alternative EOS (placeholders only) -->
+        <Row index="5">
+          <Kind></Kind>
+          <a unit="1"></a>
+          <n unit="1"></n>
+          <Vc unit="cm3/g"></Vc>
+          <Pc unit="GPa"></Pc>
+          <b unit="1"></b>
+          <Cv unit="J/kg/K"></Cv>
+        </Row>
+
+        <!-- Row 6: JWL EOS -->
+        <Row index="6">
+          <Kind ref="5">JWL</Kind>
+
+          <unreacted>
+            <A unit="GPa" ref="5">4444</A>
+            <B unit="GPa" ref="5">-0.0513014</B>
+            <C unit="MJ/kg"></C>
+            <R1 unit="1" ref="5">13.5</R1>
+            <R2 unit="1" ref="5">1.35</R2>
+            <w unit="1" ref="5">0.8695</w>
+            <Cv unit="Mbar/K" ref="5">0.000027814</Cv>
+            <E0 unit="Mbar"></E0>
+          </unreacted>
+
+          <reacted>
+            <A unit="GPa" ref="5">16.379</A>
+            <B unit="GPa" ref="5">1.8629</B>
+            <C unit="MJ/kg"></C>
+            <R1 unit="1" ref="5">6.5</R1>
+            <R2 unit="1" ref="5">2.7</R2>
+            <w unit="1" ref="5">0.55</w>
+            <Cv unit="Mbar/K" ref="5">0.00001</Cv>
+            <E0 unit="Mbar" ref="5">0.115</E0>
+          </reacted>
+        </Row>
+      </EOSModel>
+    </Model>
+  </Category>
+</Material>
