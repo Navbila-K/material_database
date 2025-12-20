@@ -17,6 +17,12 @@ Usage:
     python main.py set-override <material> <path> <value>    # Set value override
     python main.py list-overrides <material>                 # List all overrides
     python main.py clear-overrides <material> [path]         # Clear overrides
+    
+    # References commands
+    python main.py import-references                         # Import References.xml into database
+    python main.py query-reference <id>                      # Query specific reference by ID
+    python main.py list-references                           # List all references
+    python main.py material-references <material>            # Show refs used by material
 """
 import sys
 import os
@@ -577,6 +583,143 @@ class MaterialDatabaseCLI:
         cursor.close()
         return result[0] if result else None
     
+    # ====================================================================
+    # REFERENCES COMMANDS
+    # ====================================================================
+    
+    def import_references(self):
+        """Import all references from References.xml."""
+        from parser.references_parser import parse_references_xml
+        from db.insert import insert_references
+        
+        xml_file = os.path.join(XML_DIR, 'References.xml')
+        
+        if not os.path.exists(xml_file):
+            print(f"✗ References.xml not found at: {xml_file}")
+            return
+        
+        print(f"\nImporting references from: {xml_file}")
+        print("-" * 50)
+        
+        try:
+            # Parse References.xml
+            print("  Parsing References.xml...")
+            references = parse_references_xml(xml_file)
+            print(f"  ✓ Parsed {len(references)} references")
+            
+            # Insert into database
+            print("  Inserting into database...")
+            count = insert_references(self.db, references)
+            
+            print(f"\n✓ Successfully imported {count} references!")
+            
+        except Exception as e:
+            print(f"\n✗ Import failed: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def query_reference(self, reference_id: str):
+        """
+        Query and display a specific reference.
+        
+        Args:
+            reference_id: Reference ID to query
+        """
+        from db.query import ReferenceQuerier
+        
+        try:
+            ref_id = int(reference_id)
+        except ValueError:
+            print(f"✗ Invalid reference ID: {reference_id}")
+            return
+        
+        querier = ReferenceQuerier(self.db)
+        ref = querier.get_reference_by_id(ref_id)
+        
+        if not ref:
+            print(f"✗ Reference not found: {ref_id}")
+            return
+        
+        print(f"\n{'='*70}")
+        print(f"REFERENCE #{ref['reference_id']}")
+        print(f"{'='*70}")
+        print(f"Type:    {ref['ref_type']}")
+        print(f"Author:  {ref['author']}")
+        print(f"Title:   {ref['title']}")
+        print(f"Journal: {ref['journal']}")
+        print(f"Year:    {ref['year']}")
+        print(f"Volume:  {ref['volume']}")
+        print(f"Pages:   {ref['pages']}")
+        print(f"{'='*70}\n")
+        
+        # Also show which materials use this reference
+        materials = querier.get_materials_using_reference(ref_id)
+        if materials:
+            print(f"Used by {len(materials)} material(s):")
+            for mat in materials:
+                print(f"  • {mat}")
+        else:
+            print("Not currently used by any materials")
+    
+    def list_references(self):
+        """List all references in the database."""
+        from db.query import ReferenceQuerier
+        
+        querier = ReferenceQuerier(self.db)
+        references = querier.list_all_references()
+        
+        if not references:
+            print("No references found in database. Run 'python main.py import-references' first.")
+            return
+        
+        print(f"\n{'='*100}")
+        print(f"ALL REFERENCES ({len(references)} total)")
+        print(f"{'='*100}")
+        print(f"{'ID':<5} {'Type':<12} {'Author':<30} {'Year':<6} {'Title':<40}")
+        print(f"{'-'*5} {'-'*12} {'-'*30} {'-'*6} {'-'*40}")
+        
+        for ref in references:
+            author = (ref['author'] or '')[:30]
+            title = (ref['title'] or '')[:40]
+            ref_type = (ref['ref_type'] or '')[:12]
+            year = (ref['year'] or '')[:6]
+            
+            print(f"{ref['reference_id']:<5} {ref_type:<12} {author:<30} {year:<6} {title:<40}")
+        
+        print(f"{'='*100}\n")
+    
+    def material_references(self, material_name: str):
+        """
+        Show all references used by a specific material.
+        
+        Args:
+            material_name: Name of material
+        """
+        from db.query import ReferenceQuerier
+        
+        querier = ReferenceQuerier(self.db)
+        ref_ids = querier.get_references_for_material(material_name)
+        
+        if not ref_ids:
+            print(f"✗ No references found for material: {material_name}")
+            print("  (Material may not exist or has no cited references)")
+            return
+        
+        print(f"\n{'='*100}")
+        print(f"REFERENCES FOR: {material_name}")
+        print(f"{'='*100}")
+        print(f"Found {len(ref_ids)} reference(s):")
+        print()
+        
+        for ref_id in ref_ids:
+            ref = querier.get_reference_by_id(ref_id)
+            if ref:
+                print(f"  [{ref_id}] {ref['ref_type']}: {ref['author']} ({ref['year']})")
+                print(f"       {ref['title']}")
+                print()
+        
+        print(f"{'='*100}\n")
+    
     def close(self):
         """Close database connection."""
         self.db.close()
@@ -600,6 +743,10 @@ Examples:
   python main.py set-override Aluminum properties.Thermal.Density 2700
   python main.py list-overrides Aluminum
   python main.py clear-overrides Aluminum
+  python main.py import-references
+  python main.py list-references
+  python main.py query-reference 112
+  python main.py material-references Aluminum
         """
     )
     
@@ -607,7 +754,9 @@ Examples:
                        choices=['init', 'reset', 'import', 'import-all', 
                                'list', 'query', 'export', 'export-all',
                                'set-preference', 'set-override', 
-                               'list-overrides', 'clear-overrides'],
+                               'list-overrides', 'clear-overrides',
+                               'import-references', 'query-reference',
+                               'list-references', 'material-references'],
                        help='Command to execute')
     parser.add_argument('arguments', nargs='*', 
                        help='Additional arguments (material name, property path, value, etc.)')
@@ -680,6 +829,25 @@ Examples:
             material = args.arguments[0]
             path = args.arguments[1] if len(args.arguments) > 1 else None
             cli.clear_overrides(material, path)
+        
+        # References commands
+        elif args.command == 'import-references':
+            cli.import_references()
+        
+        elif args.command == 'query-reference':
+            if not args.arguments or len(args.arguments) < 1:
+                print("✗ Please specify reference ID")
+                sys.exit(1)
+            cli.query_reference(args.arguments[0])
+        
+        elif args.command == 'list-references':
+            cli.list_references()
+        
+        elif args.command == 'material-references':
+            if not args.arguments or len(args.arguments) < 1:
+                print("✗ Please specify material name")
+                sys.exit(1)
+            cli.material_references(args.arguments[0])
     
     finally:
         cli.close()

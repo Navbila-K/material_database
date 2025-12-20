@@ -124,6 +124,23 @@ class MaterialQuerier:
         
         return materials
     
+    def get_material_id(self, name: str) -> Optional[int]:
+        """
+        Get material ID by name.
+        
+        Args:
+            name: Material name
+        
+        Returns:
+            Material ID or None if not found
+        """
+        cursor = self.conn.cursor()
+        sql = "SELECT material_id FROM materials WHERE name = %s"
+        cursor.execute(sql, (name,))
+        result = cursor.fetchone()
+        cursor.close()
+        return result[0] if result else None
+    
     def _get_metadata(self, material_id: int) -> Dict[str, Any]:
         """Retrieve material metadata."""
         cursor = self.conn.cursor()
@@ -503,3 +520,191 @@ if __name__ == "__main__":
         print(f"Model types: {list(material_data['models'].keys())}")
     
     db.close()
+
+
+class ReferenceQuerier:
+    """Handles querying of reference data from database."""
+    
+    def __init__(self, db_manager: DatabaseManager):
+        """
+        Initialize querier with database manager.
+        
+        Args:
+            db_manager: DatabaseManager instance
+        """
+        self.db = db_manager
+        self.conn = db_manager.connect()
+    
+    def get_reference_by_id(self, reference_id: int) -> Optional[Dict[str, Any]]:
+        """
+        Get a specific reference by ID.
+        
+        Args:
+            reference_id: Reference ID (e.g., 112)
+        
+        Returns:
+            Reference dictionary or None if not found
+        """
+        cursor = self.conn.cursor()
+        
+        sql = """
+            SELECT reference_id, ref_type, author, title, journal, year, volume, pages
+            FROM "references"
+            WHERE reference_id = %s
+        """
+        
+        cursor.execute(sql, (reference_id,))
+        row = cursor.fetchone()
+        cursor.close()
+        
+        if not row:
+            return None
+        
+        return {
+            'reference_id': row[0],
+            'ref_type': row[1],
+            'author': row[2],
+            'title': row[3],
+            'journal': row[4],
+            'year': row[5],
+            'volume': row[6],
+            'pages': row[7]
+        }
+    
+    def list_all_references(self) -> List[Dict[str, Any]]:
+        """
+        Get list of all references.
+        
+        Returns:
+            List of reference dictionaries
+        """
+        cursor = self.conn.cursor()
+        
+        sql = """
+            SELECT reference_id, ref_type, author, title, journal, year, volume, pages
+            FROM "references"
+            ORDER BY reference_id
+        """
+        
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        cursor.close()
+        
+        references = []
+        for row in rows:
+            references.append({
+                'reference_id': row[0],
+                'ref_type': row[1],
+                'author': row[2],
+                'title': row[3],
+                'journal': row[4],
+                'year': row[5],
+                'volume': row[6],
+                'pages': row[7]
+            })
+        
+        return references
+    
+    def get_references_for_material(self, material_name: str) -> List[int]:
+        """
+        Get list of reference IDs used by a specific material.
+        
+        Args:
+            material_name: Name of the material
+        
+        Returns:
+            List of unique reference IDs used by this material
+        """
+        cursor = self.conn.cursor()
+        
+        # Get material ID
+        cursor.execute("SELECT material_id FROM materials WHERE name = %s", (material_name,))
+        result = cursor.fetchone()
+        
+        if not result:
+            cursor.close()
+            return []
+        
+        material_id = result[0]
+        
+        # Get all ref values from property entries
+        sql_props = """
+            SELECT DISTINCT pe.ref_id::integer
+            FROM property_entries pe
+            JOIN properties p ON pe.property_id = p.property_id
+            JOIN property_categories pc ON p.category_id = pc.category_id
+            WHERE pc.material_id = %s 
+            AND pe.ref_id IS NOT NULL 
+            AND pe.ref_id != '' 
+            AND pe.ref_id ~ '^[0-9]+$'
+            ORDER BY pe.ref_id::integer
+        """
+        
+        cursor.execute(sql_props, (material_id,))
+        prop_refs = [row[0] for row in cursor.fetchall()]
+        
+        # Get all ref values from model parameters
+        sql_models = """
+            SELECT DISTINCT mp.ref_id::integer
+            FROM model_parameters mp
+            JOIN sub_models sm ON mp.sub_model_id = sm.sub_model_id
+            JOIN models m ON sm.model_id = m.model_id
+            WHERE m.material_id = %s
+            AND mp.ref_id IS NOT NULL
+            AND mp.ref_id != ''
+            AND mp.ref_id ~ '^[0-9]+$'
+            ORDER BY mp.ref_id::integer
+        """
+        
+        cursor.execute(sql_models, (material_id,))
+        model_refs = [row[0] for row in cursor.fetchall()]
+        
+        cursor.close()
+        
+        # Combine and deduplicate
+        all_refs = sorted(set(prop_refs + model_refs))
+        return all_refs
+    
+    def get_materials_using_reference(self, reference_id: int) -> List[str]:
+        """
+        Get list of materials that use a specific reference.
+        
+        Args:
+            reference_id: Reference ID
+        
+        Returns:
+            List of material names
+        """
+        cursor = self.conn.cursor()
+        
+        # Find materials with this ref in property entries
+        sql_props = """
+            SELECT DISTINCT m.name
+            FROM materials m
+            JOIN property_categories pc ON m.material_id = pc.material_id
+            JOIN properties p ON pc.category_id = p.category_id
+            JOIN property_entries pe ON p.property_id = pe.property_id
+            WHERE pe.ref_id = %s
+        """
+        
+        cursor.execute(sql_props, (str(reference_id),))
+        materials_from_props = [row[0] for row in cursor.fetchall()]
+        
+        # Find materials with this ref in model parameters
+        sql_models = """
+            SELECT DISTINCT m.name
+            FROM materials m
+            JOIN models mo ON m.material_id = mo.material_id
+            JOIN sub_models sm ON mo.model_id = sm.model_id
+            JOIN model_parameters mp ON sm.sub_model_id = mp.sub_model_id
+            WHERE mp.ref_id = %s
+        """
+        
+        cursor.execute(sql_models, (str(reference_id),))
+        materials_from_models = [row[0] for row in cursor.fetchall()]
+        
+        cursor.close()
+        
+        # Combine and deduplicate
+        all_materials = sorted(set(materials_from_props + materials_from_models))
+        return all_materials

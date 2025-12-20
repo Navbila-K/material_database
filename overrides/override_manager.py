@@ -174,6 +174,17 @@ class OverrideManager:
                     if prop_name in material_data['properties'][category]:
                         prop_data = material_data['properties'][category][prop_name]
                         
+                        # Handle Phase.State which is stored as a simple string
+                        if isinstance(prop_data, str):
+                            # Replace string directly with override value
+                            material_data['properties'][category][prop_name] = override_data['value']
+                            continue
+                        
+                        # Handle normal property structure with entries
+                        if not isinstance(prop_data, dict):
+                            print(f"WARNING: Unexpected prop_data type for {property_path}: {type(prop_data)}")
+                            continue
+                        
                         # Create override entry
                         override_entry = {
                             'value': override_data['value'],

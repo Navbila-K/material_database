@@ -411,3 +411,64 @@ if __name__ == "__main__":
         print(f"✗ Test file not found: {test_file}")
     
     db.close()
+
+
+def insert_references(db_manager: DatabaseManager, references: List[Dict[str, Any]]) -> int:
+    """
+    Insert references from References.xml into database.
+    
+    CRITICAL: Inserts ALL reference data - no fields omitted!
+    
+    Args:
+        db_manager: DatabaseManager instance
+        references: List of reference dictionaries from references_parser
+    
+    Returns:
+        Number of references inserted
+    """
+    conn = db_manager.connect()
+    cursor = conn.cursor()
+    
+    inserted_count = 0
+    
+    try:
+        for ref in references:
+            # Insert reference (with UPSERT to handle re-imports)
+            cursor.execute("""
+                INSERT INTO "references" (
+                    reference_id, ref_type, author, title, 
+                    journal, year, volume, pages
+                )
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (reference_id) DO UPDATE SET
+                    ref_type = EXCLUDED.ref_type,
+                    author = EXCLUDED.author,
+                    title = EXCLUDED.title,
+                    journal = EXCLUDED.journal,
+                    year = EXCLUDED.year,
+                    volume = EXCLUDED.volume,
+                    pages = EXCLUDED.pages
+            """, (
+                ref['reference_id'],
+                ref['ref_type'],
+                ref['author'],
+                ref['title'],
+                ref['journal'],
+                ref['year'],
+                ref['volume'],
+                ref['pages']
+            ))
+            
+            inserted_count += 1
+        
+        conn.commit()
+        print(f"✓ Inserted/updated {inserted_count} references")
+        
+    except Exception as e:
+        conn.rollback()
+        print(f"✗ Error inserting references: {e}")
+        raise
+    finally:
+        cursor.close()
+    
+    return inserted_count

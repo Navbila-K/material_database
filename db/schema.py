@@ -8,20 +8,25 @@ Schema is designed to be material-agnostic and preserve all XML hierarchy.
 SCHEMA_SQL = """
 -- ============================================================
 -- REFERENCES TABLE
--- Stores bibliographic references used across all materials
+-- Stores bibliographic references from References.xml
+-- These are cited by materials via ref="ID" attributes
 -- ============================================================
-CREATE TABLE IF NOT EXISTS material_references (
-    ref_id VARCHAR(50) PRIMARY KEY,
-    ref_type VARCHAR(50),
-    author TEXT,
-    title TEXT,
-    journal TEXT,
-    year INTEGER,
-    volume VARCHAR(50),
-    pages VARCHAR(50),
-    doi VARCHAR(255),
-    notes TEXT
+CREATE TABLE IF NOT EXISTS "references" (
+    reference_id INTEGER PRIMARY KEY,     -- The ID from XML (1-124)
+    ref_type VARCHAR(50),                 -- article, book, report, conference, chapter, misc
+    author TEXT,                          -- Author name(s)
+    title TEXT,                           -- Publication title
+    journal TEXT,                         -- Journal/publisher/conference name
+    year VARCHAR(10),                     -- Publication year (stored as string due to "--" values)
+    volume VARCHAR(50),                   -- Volume number (can be "--")
+    pages VARCHAR(50),                    -- Page range (can be "--" or "49--" format)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT valid_ref_type CHECK (ref_type IN ('article', 'book', 'report', 'conference', 'chapter', 'misc'))
 );
+
+CREATE INDEX IF NOT EXISTS idx_references_id ON "references"(reference_id);
+CREATE INDEX IF NOT EXISTS idx_references_type ON "references"(ref_type);
+CREATE INDEX IF NOT EXISTS idx_references_year ON "references"(year);
 
 -- ============================================================
 -- MATERIALS TABLE
@@ -137,7 +142,7 @@ DROP TABLE IF EXISTS property_entries CASCADE;
 DROP TABLE IF EXISTS properties CASCADE;
 DROP TABLE IF EXISTS property_categories CASCADE;
 DROP TABLE IF EXISTS materials CASCADE;
-DROP TABLE IF EXISTS material_references CASCADE;
+DROP TABLE IF EXISTS "references" CASCADE;
 """
 
 
