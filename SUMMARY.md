@@ -1,4 +1,4 @@
-# 📚 Materials Database - Complete Documentation Summary
+# Materials Database - Complete Documentation Summary
 
 > **Comprehensive guide to the Materials Database project - All documentation in one place**
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 1. [Project Overview](#project-overview)
 2. [Quick Start Guide](#quick-start-guide)
@@ -27,7 +27,7 @@
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 ### What is Materials Database?
 
@@ -61,7 +61,7 @@ A comprehensive **offline** materials database management system that stores, qu
 
 ---
 
-## 🚀 Quick Start Guide
+## Quick Start Guide
 
 ### For Beginners (GUI Mode)
 
@@ -82,8 +82,8 @@ python run_gui.py
 #    - Click "Generate Plot"
 
 # 4. Switch themes
-#    - Click "☀️ Light Mode" button (top-right corner)
-#    - Click "🌙 Dark Mode" to switch back
+#    - Click "Light Mode" button (top-right corner)
+#    - Click "Dark Mode" to switch back
 ```
 
 ### For Experts (Command-Line Mode)
@@ -110,7 +110,7 @@ python main.py --clear-overrides Copper
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ### Data Flow
 
@@ -147,7 +147,7 @@ PostgreSQL Database (stores all data)
 
 ---
 
-## ✨ Features & Capabilities
+## Features & Capabilities
 
 ### Material Browser
 - ✅ View all 17 materials in a list
@@ -190,7 +190,7 @@ PostgreSQL Database (stores all data)
 
 ---
 
-## 💾 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 
@@ -239,7 +239,7 @@ psycopg2-binary>=2.9.9
 
 ---
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### GUI Mode
 
@@ -366,7 +366,7 @@ python main.py --export-all
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Core Tables
 
@@ -437,7 +437,7 @@ references (1) ──→ (Many) property_entries (via ref_id)
 
 ---
 
-## 🖥️ GUI Components
+## GUI Components
 
 ### Main Window (`gui/main_window.py`)
 
@@ -498,7 +498,7 @@ references (1) ──→ (Many) property_entries (via ref_id)
 
 ---
 
-## 🔧 Override System
+## Override System
 
 ### How It Works
 
@@ -574,7 +574,7 @@ python main.py --clear-overrides Copper
 
 ---
 
-## 📊 Visualization & Charts
+## Visualization & Charts
 
 ### Chart Types & Use Cases
 
@@ -639,7 +639,7 @@ fig.savefig('chart.png', dpi=300, bbox_inches='tight')
 
 ---
 
-## 📚 References System
+## References System
 
 ### Reference Data Structure
 
@@ -695,7 +695,7 @@ ORDER BY citations DESC;
 
 ---
 
-## ✅ Testing & Verification
+## Testing & Verification
 
 ### Automated Tests
 
@@ -789,7 +789,7 @@ python main.py --export Aluminum
 
 ---
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -874,7 +874,7 @@ Active View shows original value
 
 ---
 
-## 📝 Command Reference
+## Command Reference
 
 ### Main Commands
 
@@ -958,7 +958,7 @@ python run_gui.py --light-mode
 
 ---
 
-## 📖 Additional Resources
+## Additional Resources
 
 ### Documentation Files (Local Only)
 
@@ -999,24 +999,24 @@ The following detailed documentation files are available in your local repositor
 
 ---
 
-## 👥 Contributors & Credits
+## Contributors & Credits
 
 **Repository Owner**: Navbila-K (https://github.com/Navbila-K)  
 **Collaborator**: Sridhar1233sri (https://github.com/Sridhar1233sri)
 
 **Built with**:
 - Python, PostgreSQL, PyQt6, Matplotlib
-- Coffee ☕☕☕ and determination!
+
 
 ---
 
-## 📄 License & Usage
+## License & Usage
 
 This project is for educational and research purposes. Please cite the repository if using in academic work.
 
 ---
 
-## 🎯 Summary Statistics
+## Summary Statistics
 
 - **Total Files**: 56+ Python modules and scripts
 - **Lines of Code**: 13,000+ lines
@@ -1029,7 +1029,7 @@ This project is for educational and research purposes. Please cite the repositor
 
 ---
 
-## 🚀 Next Steps
+##  Next Steps
 
 ### For New Users
 1. Read the [Quick Start Guide](#quick-start-guide)
