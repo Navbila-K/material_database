@@ -22,7 +22,7 @@ from PyQt6.QtWidgets import (
     QAbstractItemView
 )
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont
+from PyQt6.QtGui import QFont, QIcon, QPixmap, QPainter, QColor
 
 
 class VisualizationTab(QWidget):
@@ -364,6 +364,8 @@ class VisualizationTab(QWidget):
                         background-color: #0078d4;
                     }
                 """)
+                # Restore original icons for dark mode
+                self._restore_toolbar_icons()
             else:
                 # Light mode: dark icons on light background
                 self.toolbar.setStyleSheet("""
@@ -375,20 +377,24 @@ class VisualizationTab(QWidget):
                         padding: 5px;
                     }
                     QToolButton {
-                        background-color: transparent;
+                        background-color: #f5f5f5;
                         color: #000000;
-                        border: none;
+                        border: 1px solid #d0d0d0;
                         padding: 5px;
                         border-radius: 3px;
                     }
                     QToolButton:hover {
                         background-color: #e0e0e0;
+                        border: 1px solid #0078d4;
                     }
                     QToolButton:pressed {
                         background-color: #0078d4;
                         color: #ffffff;
+                        border: 1px solid #0078d4;
                     }
                 """)
+                # Invert toolbar icons for light mode
+                self._invert_toolbar_icons()
             print(f"[VizTab] Toolbar theme updated to {'dark' if is_dark_mode else 'light'} mode")
         
         # Also update matplotlib plot background colors
@@ -418,6 +424,66 @@ class VisualizationTab(QWidget):
             
             self.canvas.draw()
             print(f"[VizTab] Plot colors updated to {'dark' if is_dark_mode else 'light'} mode")
+    
+    def _invert_toolbar_icons(self):
+        """Invert toolbar icon colors for light mode visibility."""
+        if not self.toolbar:
+            return
+        
+        # Store original icons if not already stored
+        if not hasattr(self, '_original_icons'):
+            self._original_icons = {}
+        
+        # Iterate through all actions in the toolbar
+        for action in self.toolbar.actions():
+            if action.icon() and not action.icon().isNull():
+                # Store original icon if not already stored
+                action_name = action.text() or action.objectName()
+                if action_name not in self._original_icons:
+                    self._original_icons[action_name] = action.icon()
+                
+                # Get the icon and invert its colors
+                original_icon = self._original_icons[action_name]
+                inverted_icon = self._create_inverted_icon(original_icon)
+                action.setIcon(inverted_icon)
+        
+        print("[VizTab] Toolbar icons inverted for light mode")
+    
+    def _restore_toolbar_icons(self):
+        """Restore original toolbar icons for dark mode."""
+        if not self.toolbar or not hasattr(self, '_original_icons'):
+            return
+        
+        # Restore original icons
+        for action in self.toolbar.actions():
+            action_name = action.text() or action.objectName()
+            if action_name in self._original_icons:
+                action.setIcon(self._original_icons[action_name])
+        
+        print("[VizTab] Toolbar icons restored for dark mode")
+    
+    def _create_inverted_icon(self, icon):
+        """Create an inverted version of an icon."""
+        # Get the pixmap from the icon
+        pixmap = icon.pixmap(24, 24)  # Standard toolbar icon size
+        
+        # Create a new image to draw the inverted version
+        inverted_pixmap = QPixmap(pixmap.size())
+        inverted_pixmap.fill(Qt.GlobalColor.transparent)
+        
+        # Create painter
+        painter = QPainter(inverted_pixmap)
+        
+        # Draw the original pixmap
+        painter.drawPixmap(0, 0, pixmap)
+        
+        # Apply composition mode to invert colors
+        painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Difference)
+        painter.fillRect(inverted_pixmap.rect(), QColor(255, 255, 255))
+        
+        painter.end()
+        
+        return QIcon(inverted_pixmap)
         
     def auto_select_common_properties(self):
         """Auto-select common properties for quick visualization."""

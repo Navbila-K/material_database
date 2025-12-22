@@ -238,7 +238,23 @@ QComboBox QAbstractItemView {
     background-color: #3c3c3c;
     color: #ffffff;
     selection-background-color: #0078d4;
+    selection-color: #ffffff;
     border: 1px solid #555555;
+}
+
+QComboBox QAbstractItemView::item {
+    padding: 5px;
+    color: #ffffff;
+}
+
+QComboBox QAbstractItemView::item:selected {
+    background-color: #0078d4;
+    color: #ffffff;
+}
+
+QComboBox QAbstractItemView::item:hover {
+    background-color: #555555;
+    color: #ffffff;
 }
 
 /* Spin Box */
