@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+=========================================================
+                MATERIAL DESCRIPTION FILE
+=========================================================
+Composition B explosive - 60% RDX, 40% TNT binder
+Generated from LASL Explosive Property Data
+=========================================================
+-->
+<Material>
+  <Metadata>
+    <Id>COMP_B</Id>
+    <Name>COMP-B</Name>
+    <Author></Author>
+    <Date></Date>
+    <Version meaning="schema_version">0.0.0-F8A66057</Version>
+  </Metadata>
+
+  <Category>
+    <Property>
+
+      <!-- Phase information -->
+      <Phase>
+        <State>solid</State>
+      </Phase>
+
+      <!-- Thermal properties -->
+      <Thermal>
+        <!-- Thermal conductivity -->
+        <ThermalConductivity unit="W/m/K">
+          <Entry ref="1">0.23</Entry>
+        </ThermalConductivity>
+
+        <!-- Specific heat -->
+        <Cp unit="J/kg/K">
+          <Entry ref="1">1050</Entry>
+        </Cp>
+      </Thermal>
+
+      <!-- Mechanical properties -->
+      <Mechanical>
+        <!-- Density -->
+        <Density unit="kg/m^3">
+          <Entry ref="1">1717</Entry>
+        </Density>
+      </Mechanical>
+
+    </Property>
+
+    <!-- ======================= MODEL SECTION ======================= -->
+    <Model>
+      <ElasticModel>
+        <ThermoMechanical>
+          <!-- Density -->
+          <Density>
+            <Entry unit="kg/m3" ref="1">1717</Entry>
+          </Density>
+
+          <!-- Melting temperature (79°C = 352K) -->
+          <MeltingTemperature>
+            <Entry unit="K" ref="1">352</Entry>
+          </MeltingTemperature>
+        </ThermoMechanical>
+      </ElasticModel>
+
+      <EOSModel>
+        <JWL>
+          <!-- JWL EOS Parameters for Composition B -->
+          <A>
+            <Entry unit="GPa" ref="1">524.2</Entry>
+          </A>
+
+          <B>
+            <Entry unit="GPa" ref="1">7.678</Entry>
+          </B>
+
+          <R1>
+            <Entry unit="1" ref="1">4.2</Entry>
+          </R1>
+
+          <R2>
+            <Entry unit="1" ref="1">1.1</Entry>
+          </R2>
+
+          <omega>
+            <Entry unit="1" ref="1">0.34</Entry>
+          </omega>
+        </JWL>
+
+        <Detonation>
+          <!-- Detonation velocity -->
+          <DetonationVelocity>
+            <Entry unit="m/s" ref="1">7980</Entry>
+          </DetonationVelocity>
+
+          <!-- Detonation pressure -->
+          <DetonationPressure>
+            <Entry unit="GPa" ref="1">29.5</Entry>
+          </DetonationPressure>
+
+          <!-- Chapman-Jouguet temperature -->
+          <CJTemperature>
+            <Entry unit="K" ref="1">3500</Entry>
+          </CJTemperature>
+        </Detonation>
+      </EOSModel>
+    </Model>
+  </Category>
+</Material>

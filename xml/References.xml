@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <References>
   <reference id="1">
     <type>article</type>
@@ -9,7 +9,6 @@
     <volume>1195</volume>
     <pages>49--</pages>
   </reference>
-
   <reference id="2">
     <type>article</type>
     <author>Mathew, N.</author>
@@ -19,7 +18,6 @@
     <volume>44</volume>
     <pages>613--622</pages>
   </reference>
-
   <reference id="3">
     <type>article</type>
     <author>Wescott, B. L.</author>
@@ -29,7 +27,6 @@
     <volume>98</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="4">
     <type>article</type>
     <author>Stevens, L. L.</author>
@@ -39,7 +36,6 @@
     <volume>33</volume>
     <pages>286--295</pages>
   </reference>
-
   <reference id="5">
     <type>article</type>
     <author>Tarver, C. M.; Chidester, S. K.; Nichols, A. L.</author>
@@ -49,7 +45,6 @@
     <volume>100</volume>
     <pages>5794--5799</pages>
   </reference>
-
   <reference id="6">
     <type>conference</type>
     <author>Weinheimer, R.</author>
@@ -59,7 +54,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="7">
     <type>report</type>
     <author>Dobratz, B. M.</author>
@@ -69,7 +63,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="8">
     <type>report</type>
     <author>Coleburn, N.</author>
@@ -79,7 +72,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="9">
     <type>chapter</type>
     <author>Akhmadeev, N. K.</author>
@@ -89,7 +81,6 @@
     <volume>--</volume>
     <pages>83--</pages>
   </reference>
-
   <reference id="10">
     <type>article</type>
     <author>Menikoff, R.; Sewell, T. D.</author>
@@ -99,7 +90,6 @@
     <volume>6</volume>
     <pages>103--</pages>
   </reference>
-
   <reference id="11">
     <type>conference</type>
     <author>Sewell, T. D.; Menikoff, R.</author>
@@ -109,7 +99,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="12">
     <type>article</type>
     <author>van der Heijden, A. E.; Bouma, R. H.</author>
@@ -119,7 +108,6 @@
     <volume>4</volume>
     <pages>999--1007</pages>
   </reference>
-
   <reference id="13">
     <type>article</type>
     <author>Ordzhonikidze, O.</author>
@@ -129,7 +117,6 @@
     <volume>105</volume>
     <pages>529--534</pages>
   </reference>
-
   <reference id="14">
     <type>article</type>
     <author>Xue, X.</author>
@@ -139,7 +126,6 @@
     <volume>120</volume>
     <pages>21169--21177</pages>
   </reference>
-
   <reference id="15">
     <type>conference</type>
     <author>Brundage, A. L.</author>
@@ -149,7 +135,6 @@
     <volume>--</volume>
     <pages>1365--1368</pages>
   </reference>
-
   <reference id="16">
     <type>article</type>
     <author>Viswanath, J. V.</author>
@@ -159,7 +144,6 @@
     <volume>44</volume>
     <pages>1570--1582</pages>
   </reference>
-
   <reference id="17">
     <type>article</type>
     <author>Sinditskii, V. P.</author>
@@ -169,7 +153,6 @@
     <volume>496</volume>
     <pages>1--12</pages>
   </reference>
-
   <reference id="18">
     <type>conference</type>
     <author>White, B. W.; Tarver, C. M.</author>
@@ -179,7 +162,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="19">
     <type>article</type>
     <author>Rimoli, J. J.</author>
@@ -189,7 +171,6 @@
     <volume>81</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="20">
     <type>article</type>
     <author>Tarver, C. M.</author>
@@ -199,7 +180,6 @@
     <volume>81</volume>
     <pages>7193--7202</pages>
   </reference>
-
   <reference id="21">
     <type>article</type>
     <author>Olinger, B.</author>
@@ -209,7 +189,6 @@
     <volume>62</volume>
     <pages>4480--4483</pages>
   </reference>
-
   <reference id="22">
     <type>article</type>
     <author>Grebenkin, K.; Zherebtsov, A.</author>
@@ -219,7 +198,6 @@
     <volume>36</volume>
     <pages>246--251</pages>
   </reference>
-
   <reference id="23">
     <type>article</type>
     <author>Wu, Y.-Q.</author>
@@ -229,7 +207,6 @@
     <volume>2</volume>
     <pages>4152--4163</pages>
   </reference>
-
   <reference id="24">
     <type>article</type>
     <author>Sun, D.</author>
@@ -239,7 +216,6 @@
     <volume>52</volume>
     <pages>2966--2978</pages>
   </reference>
-
   <reference id="25">
     <type>article</type>
     <author>Xu, X.</author>
@@ -249,7 +225,6 @@
     <volume>175</volume>
     <pages>423--428</pages>
   </reference>
-
   <reference id="26">
     <type>article</type>
     <author>Nguyen, Y. T.</author>
@@ -259,7 +234,6 @@
     <volume>--</volume>
     <pages>e202200016</pages>
   </reference>
-
   <reference id="27">
     <type>article</type>
     <author>Brown, J. A.; Zikry, M.</author>
@@ -269,7 +243,6 @@
     <volume>118</volume>
     <pages>124902</pages>
   </reference>
-
   <reference id="28">
     <type>report</type>
     <author>Menikoff, R.</author>
@@ -279,7 +252,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="29">
     <type>report</type>
     <author>Urtiew, P. A.</author>
@@ -289,7 +261,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="30">
     <type>article</type>
     <author>Grys, S.; Trzciński, W. A.</author>
@@ -299,7 +270,6 @@
     <volume>7</volume>
     <pages>97--113</pages>
   </reference>
-
   <reference id="31">
     <type>conference</type>
     <author>Cooper, M. A.</author>
@@ -309,7 +279,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="32">
     <type>article</type>
     <author>Gump, J.</author>
@@ -319,7 +288,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="33">
     <type>conference</type>
     <author>Samuels, P.</author>
@@ -329,7 +297,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="34">
     <type>article</type>
     <author>Simpson, R.</author>
@@ -339,7 +306,6 @@
     <volume>22</volume>
     <pages>249--255</pages>
   </reference>
-
   <reference id="35">
     <type>article</type>
     <author>Guo, D.</author>
@@ -349,7 +315,6 @@
     <volume>18</volume>
     <pages>2015--2022</pages>
   </reference>
-
   <reference id="36">
     <type>article</type>
     <author>Handley, C.</author>
@@ -359,7 +324,6 @@
     <volume>5</volume>
     <pages>011303</pages>
   </reference>
-
   <reference id="37">
     <type>misc</type>
     <author>Mader, C. L.</author>
@@ -369,7 +333,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="38">
     <type>article</type>
     <author>Fedorov, A.</author>
@@ -379,7 +342,6 @@
     <volume>47</volume>
     <pages>601--605</pages>
   </reference>
-
   <reference id="39">
     <type>conference</type>
     <author>White, B. W.; Tarver, C. M.</author>
@@ -389,7 +351,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="40">
     <type>article</type>
     <author>Ma, Q.</author>
@@ -399,7 +360,6 @@
     <volume>28</volume>
     <pages>31--39</pages>
   </reference>
-
   <reference id="41">
     <type>report</type>
     <author>Coleburn, N.</author>
@@ -409,7 +369,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="42">
     <type>article</type>
     <author>Tarver, C. M.; Chidester, S. K.; Nichols, A. L.</author>
@@ -419,7 +378,6 @@
     <volume>100</volume>
     <pages>5794--5799</pages>
   </reference>
-
   <reference id="43">
     <type>article</type>
     <author>Banerjee, B.; Adams, D. O.</author>
@@ -429,7 +387,6 @@
     <volume>338</volume>
     <pages>8--15</pages>
   </reference>
-
   <reference id="44">
     <type>article</type>
     <author>Halleck, P.; Wackerle, J.</author>
@@ -439,7 +396,6 @@
     <volume>47</volume>
     <pages>976--982</pages>
   </reference>
-
   <reference id="45">
     <type>article</type>
     <author>Palmer, S.; Field, J.</author>
@@ -449,7 +405,6 @@
     <volume>383</volume>
     <pages>399--407</pages>
   </reference>
-
   <reference id="46">
     <type>article</type>
     <author>Barton, N. R.</author>
@@ -459,7 +414,6 @@
     <volume>17</volume>
     <pages>035003</pages>
   </reference>
-
   <reference id="47">
     <type>article</type>
     <author>Andersen, W.</author>
@@ -469,7 +423,6 @@
     <volume>6</volume>
     <pages>17--23</pages>
   </reference>
-
   <reference id="48">
     <type>article</type>
     <author>Lanzerotti, Y.; Sharma, J.</author>
@@ -479,7 +432,6 @@
     <volume>705</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="49">
     <type>article</type>
     <author>Malhotra, P.</author>
@@ -489,7 +441,6 @@
     <volume>159</volume>
     <pages>104624</pages>
   </reference>
-
   <reference id="50">
     <type>article</type>
     <author>Saleki-Gerhardt, A.; Zografi, G.</author>
@@ -499,7 +450,6 @@
     <volume>11</volume>
     <pages>1166--1173</pages>
   </reference>
-
   <reference id="51">
     <type>article</type>
     <author>Anderson Jr, G.</author>
@@ -509,7 +459,6 @@
     <volume>72</volume>
     <pages>3798--3799</pages>
   </reference>
-
   <reference id="52">
     <type>article</type>
     <author>Schoebel, T.</author>
@@ -519,7 +468,6 @@
     <volume>34</volume>
     <pages>324--329</pages>
   </reference>
-
   <reference id="53">
     <type>article</type>
     <author>Trott, W. M.</author>
@@ -529,7 +477,6 @@
     <volume>101</volume>
     <pages>024917</pages>
   </reference>
-
   <reference id="54">
     <type>article</type>
     <author>Li, J. S.</author>
@@ -539,7 +486,6 @@
     <volume>44</volume>
     <pages>1270--1281</pages>
   </reference>
-
   <reference id="55">
     <type>article</type>
     <author>Bowden, P.</author>
@@ -549,7 +495,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="56">
     <type>report</type>
     <author>McGuire, R.; Tarver, C.</author>
@@ -559,7 +504,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="57">
     <type>article</type>
     <author>Myint, P. C.</author>
@@ -569,7 +513,6 @@
     <volume>55</volume>
     <pages>2252--2266</pages>
   </reference>
-
   <reference id="58">
     <type>report</type>
     <author>Aronica, L.</author>
@@ -579,7 +522,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="59">
     <type>report</type>
     <author>Pinto, J.</author>
@@ -589,7 +531,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="60">
     <type>article</type>
     <author>Sadique, M.</author>
@@ -599,7 +540,6 @@
     <volume>40</volume>
     <pages>35--56</pages>
   </reference>
-
   <reference id="61">
     <type>article</type>
     <author>Clutter, J.; Belk, D.</author>
@@ -609,7 +549,6 @@
     <volume>12</volume>
     <pages>251--263</pages>
   </reference>
-
   <reference id="62">
     <type>article</type>
     <author>Michael, L.; Nikiforakis, N.</author>
@@ -619,7 +558,6 @@
     <volume>29</volume>
     <pages>153--172</pages>
   </reference>
-
   <reference id="63">
     <type>article</type>
     <author>Mi, X.</author>
@@ -629,7 +567,6 @@
     <volume>125</volume>
     <pages>245901</pages>
   </reference>
-
   <reference id="64">
     <type>article</type>
     <author>Winey, J.</author>
@@ -639,7 +576,6 @@
     <volume>113</volume>
     <pages>7492--7501</pages>
   </reference>
-
   <reference id="65">
     <type>article</type>
     <author>Sabourin, J. L.</author>
@@ -649,7 +585,6 @@
     <volume>26</volume>
     <pages>1006--1015</pages>
   </reference>
-
   <reference id="66">
     <type>article</type>
     <author>Kelzenberg, S.</author>
@@ -659,7 +594,6 @@
     <volume>24</volume>
     <pages>189--194</pages>
   </reference>
-
   <reference id="67">
     <type>article</type>
     <author>Cerdeiriña, C.</author>
@@ -669,7 +603,6 @@
     <volume>66</volume>
     <pages>031507</pages>
   </reference>
-
   <reference id="68">
     <type>article</type>
     <author>Chang, J.</author>
@@ -679,7 +612,6 @@
     <volume>56</volume>
     <pages>1874--1881</pages>
   </reference>
-
   <reference id="69">
     <type>article</type>
     <author>Agrawal, P. M.</author>
@@ -689,7 +621,6 @@
     <volume>119</volume>
     <pages>9617--9627</pages>
   </reference>
-
   <reference id="70">
     <type>conference</type>
     <author>Cook, M.; Haskins, P.</author>
@@ -699,7 +630,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="71">
     <type>article</type>
     <author>Wood, M. A.</author>
@@ -709,7 +639,6 @@
     <volume>97</volume>
     <pages>014109</pages>
   </reference>
-
   <reference id="72">
     <type>article</type>
     <author>Chen, L.</author>
@@ -719,7 +648,6 @@
     <volume>122</volume>
     <pages>19309--19318</pages>
   </reference>
-
   <reference id="73">
     <type>article</type>
     <author>Shu, X.</author>
@@ -729,7 +657,6 @@
     <volume>46</volume>
     <pages>2536--2540</pages>
   </reference>
-
   <reference id="74">
     <type>report</type>
     <author>Faubion, B.</author>
@@ -739,7 +666,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="75">
     <type>conference</type>
     <author>Billingsley, J. P.</author>
@@ -749,7 +675,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="76">
     <type>article</type>
     <author>Kittell, D. E.; Yarrington, C. D.</author>
@@ -759,7 +684,6 @@
     <volume>20</volume>
     <pages>941--957</pages>
   </reference>
-
   <reference id="77">
     <type>conference</type>
     <author>Gump, J. C.</author>
@@ -769,7 +693,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="78">
     <type>article</type>
     <author>Tarver, C. M.; Chidester, S. K.</author>
@@ -779,7 +702,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="79">
     <type>article</type>
     <author>Shi, J.</author>
@@ -789,7 +711,6 @@
     <volume>170</volume>
     <pages>104343</pages>
   </reference>
-
   <reference id="80">
     <type>report</type>
     <author>Bennett, C. M.; Sewell, T. D.</author>
@@ -799,7 +720,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="81">
     <type>article</type>
     <author>Fan, H.</author>
@@ -809,7 +729,6 @@
     <volume>131</volume>
     <pages>321--332</pages>
   </reference>
-
   <reference id="82">
     <type>article</type>
     <author>Cady, H. H.</author>
@@ -819,7 +738,6 @@
     <volume>17</volume>
     <pages>369--371</pages>
   </reference>
-
   <reference id="83">
     <type>article</type>
     <author>Tarver, C. M.</author>
@@ -829,7 +747,6 @@
     <volume>28</volume>
     <pages>189--193</pages>
   </reference>
-
   <reference id="84">
     <type>article</type>
     <author>Rieckmann, T.</author>
@@ -839,7 +756,6 @@
     <volume>58</volume>
     <pages>569--587</pages>
   </reference>
-
   <reference id="85">
     <type>article</type>
     <author>Gilbert, J.</author>
@@ -849,7 +765,6 @@
     <volume>113</volume>
     <pages>194901</pages>
   </reference>
-
   <reference id="86">
     <type>article</type>
     <author>Mohan, V. K.; Field, J.</author>
@@ -859,7 +774,6 @@
     <volume>56</volume>
     <pages>269--277</pages>
   </reference>
-
   <reference id="87">
     <type>article</type>
     <author>Long, Y.; Chen, J.</author>
@@ -869,7 +783,6 @@
     <volume>118</volume>
     <pages>115901</pages>
   </reference>
-
   <reference id="88">
     <type>article</type>
     <author>Peng, Q.</author>
@@ -879,7 +792,6 @@
     <volume>119</volume>
     <pages>5896--5903</pages>
   </reference>
-
   <reference id="89">
     <type>report</type>
     <author>Zaug, J. M.</author>
@@ -889,7 +801,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="90">
     <type>article</type>
     <author>Stevens, L. L.; Eckhardt, C. J.</author>
@@ -899,7 +810,6 @@
     <volume>122</volume>
     <pages>174701</pages>
   </reference>
-
   <reference id="91">
     <type>conference</type>
     <author>Sewell, T. D.; Bedrov, D.; Menikoff, R.</author>
@@ -909,7 +819,6 @@
     <volume>620</volume>
     <pages>399--</pages>
   </reference>
-
   <reference id="92">
     <type>article</type>
     <author>Sewell, T. D.</author>
@@ -919,7 +828,6 @@
     <volume>119</volume>
     <pages>7417--7426</pages>
   </reference>
-
   <reference id="93">
     <type>article</type>
     <author>Cui, H.-L.</author>
@@ -929,7 +837,6 @@
     <volume>114</volume>
     <pages>1082--1092</pages>
   </reference>
-
   <reference id="94">
     <type>article</type>
     <author>Han, G.</author>
@@ -939,7 +846,6 @@
     <volume>1109</volume>
     <pages>27--35</pages>
   </reference>
-
   <reference id="95">
     <type>article</type>
     <author>Xiao, J.</author>
@@ -949,7 +855,6 @@
     <volume>50</volume>
     <pages>21--26</pages>
   </reference>
-
   <reference id="96">
     <type>article</type>
     <author>Long, Y.</author>
@@ -959,7 +864,6 @@
     <volume>22</volume>
     <pages>185404</pages>
   </reference>
-
   <reference id="97">
     <type>article</type>
     <author>Gump, J.</author>
@@ -969,7 +873,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="98">
     <type>report</type>
     <author>Saw, C. K.</author>
@@ -979,7 +882,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="99">
     <type>article</type>
     <author>Stevens, L. L.</author>
@@ -989,7 +891,6 @@
     <volume>93</volume>
     <pages>081912</pages>
   </reference>
-
   <reference id="100">
     <type>article</type>
     <author>Borne, L.</author>
@@ -999,7 +900,6 @@
     <volume>24</volume>
     <pages>255--259</pages>
   </reference>
-
   <reference id="101">
     <type>article</type>
     <author>Hoffman, D. M.</author>
@@ -1009,7 +909,6 @@
     <volume>35</volume>
     <pages>15--23</pages>
   </reference>
-
   <reference id="102">
     <type>article</type>
     <author>Hoffman, D. M.</author>
@@ -1019,7 +918,6 @@
     <volume>28</volume>
     <pages>194--200</pages>
   </reference>
-
   <reference id="103">
     <type>article</type>
     <author>Vrcelj, R. M.</author>
@@ -1029,7 +927,6 @@
     <volume>3</volume>
     <pages>1027--1032</pages>
   </reference>
-
   <reference id="104">
     <type>report</type>
     <author>Tran, T.</author>
@@ -1039,7 +936,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="105">
     <type>conference</type>
     <author>Peterson, J. H.</author>
@@ -1049,7 +945,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="106">
     <type>article</type>
     <author>Unknown</author>
@@ -1059,7 +954,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="107">
     <type>article</type>
     <author>Grązka, M.; Janiszewski, J.</author>
@@ -1069,7 +963,6 @@
     <volume>60</volume>
     <pages>215--223</pages>
   </reference>
-
   <reference id="108">
     <type>conference</type>
     <author>Hayes, D.</author>
@@ -1079,7 +972,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="109">
     <type>article</type>
     <author>Tekce, H. S.</author>
@@ -1089,7 +981,6 @@
     <volume>26</volume>
     <pages>113--121</pages>
   </reference>
-
   <reference id="110">
     <type>article</type>
     <author>White, G.; Collins, J.</author>
@@ -1099,7 +990,6 @@
     <volume>7</volume>
     <pages>43--75</pages>
   </reference>
-
   <reference id="111">
     <type>article</type>
     <author>Burakovsky, L.</author>
@@ -1109,7 +999,6 @@
     <volume>67</volume>
     <pages>094107</pages>
   </reference>
-
   <reference id="112">
     <type>article</type>
     <author>Ko, N.-Y.</author>
@@ -1119,7 +1008,6 @@
     <volume>31</volume>
     <pages>93--98</pages>
   </reference>
-
   <reference id="113">
     <type>article</type>
     <author>Rekhi, S.</author>
@@ -1129,7 +1017,6 @@
     <volume>36</volume>
     <pages>4719--4721</pages>
   </reference>
-
   <reference id="114">
     <type>article</type>
     <author>Zhang, D.-N.</author>
@@ -1139,7 +1026,6 @@
     <volume>619</volume>
     <pages>186--194</pages>
   </reference>
-
   <reference id="115">
     <type>article</type>
     <author>Couque, H.</author>
@@ -1149,7 +1035,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="116">
     <type>article</type>
     <author>Unknown</author>
@@ -1159,7 +1044,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="117">
     <type>article</type>
     <author>Unknown</author>
@@ -1169,7 +1053,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="118">
     <type>misc</type>
     <author>HyperPhysics</author>
@@ -1179,7 +1062,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="119">
     <type>misc</type>
     <author>KnowledgeDoor</author>
@@ -1189,7 +1071,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="120">
     <type>misc</type>
     <author>PeriodicTable.com</author>
@@ -1199,7 +1080,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="121">
     <type>misc</type>
     <author>Kyocera SGS</author>
@@ -1209,7 +1089,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="122">
     <type>misc</type>
     <author>AZoM</author>
@@ -1219,7 +1098,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="123">
     <type>misc</type>
     <author>eFunda</author>
@@ -1229,7 +1107,6 @@
     <volume>--</volume>
     <pages>--</pages>
   </reference>
-
   <reference id="124">
     <type>misc</type>
     <author>Engineering Toolbox</author>
@@ -1238,5 +1115,56 @@
     <year>--</year>
     <volume>--</volume>
     <pages>--</pages>
+  </reference>
+  <reference id="1005">
+    <type>article</type>
+    <author>N. L. Coleburn, T. P. Liddiard</author>
+    <title>Shock Hugoniot Properties</title>
+    <journal>Journal of Chemical Physics</journal>
+    <year>1966</year>
+    <volume>44</volume>
+    <pages>1929-1936</pages>
+  </reference>
+  <reference id="1006">
+    <type>article</type>
+    <author>Manuel J. Urizar, Suzanne W. Peterson, Louis C. Smith</author>
+    <title>Gap Test and Shock Initiation Studies</title>
+    <journal>Los Alamos Scientific Laboratory report LA-7193-MS</journal>
+    <year>1978</year>
+    <volume>40</volume>
+    <pages>120-123</pages>
+  </reference>
+  <reference id="1008">
+    <type>article</type>
+    <author>Rollett, A. D.</author>
+    <title>Overview of Modeling and Simulation of Recrystallization</title>
+    <journal>&gt;Progress in Materials Science</journal>
+    <year>2004</year>
+    <volume>49</volume>
+    <doi>10.1016/j.pmatsci.2003.12.002</doi>
+    <url>https://doi.org/10.1016/j.pmatsci.2003.12.002</url>
+    <notes>This is new ref</notes>
+  </reference>
+  <reference id="1009">
+    <type>article</type>
+    <author>Gourdin, W. H.</author>
+    <title>onstitutive Models for Dynamic Deformation of Metals</title>
+    <journal>Journal of Applied Physics</journal>
+    <year>1989</year>
+    <volume>65</volume>
+    <doi>10.1063/1.343080</doi>
+    <url>https://doi.org/10.1063/1.343080</url>
+    <notes>This is also new reference</notes>
+  </reference>
+  <reference id="1010">
+    <type>article</type>
+    <author>Johnson, G. R.</author>
+    <title>A Constitutive Model and Data for Metals Subjected to Large Strains, High Strain Rates and High Temperatures</title>
+    <journal>Proceedings of the 7th International Symposium on Ballistics</journal>
+    <year>1983</year>
+    <volume>40</volume>
+    <doi>10.1016/S0079-6425(98)00007-0</doi>
+    <url>https://doi.org/10.1016/S0079-6425(98)00007-0</url>
+    <notes>This is also a new created reference</notes>
   </reference>
 </References>

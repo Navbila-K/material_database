@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+=========================================================
+              MATERIAL DESCRIPTION FILE - PBX-9404
+=========================================================
+EXPLOSIVE MATERIAL: PBX-9404-03
+
+This XML defines the material using 10 standardized categories:
+1. Structure and Formulation
+2. Physical Properties
+3. Chemical Properties
+4. Thermal Properties
+5. Mechanical Properties
+6. Detonation Properties
+7. Sensitivity
+8. Electrical Properties
+9. Toxicity
+10. Additional Properties
+
+Data source: PBX-9404-03 Technical Datasheet
+Schema version: 2.0.0 (10-Category Structure)
+=========================================================
+-->
+
+<Material>
+  <!-- ============================================ -->
+  <!-- METADATA                                     -->
+  <!-- ============================================ -->
+  <Metadata>
+    <Id>PBX-9404-03</Id>
+    <Name>PBX-9404</Name>
+    <Designation>PBX-9404-03</Designation>
+    <Type>Explosive</Type>
+    <Author>Materials Database Team</Author>
+    <Date>2025-12-29</Date>
+    <Version meaning="schema_version">2.0.0</Version>
+    <AtomicComposition>C1.40 H2.75 N2.57 O2.69 Cl0.03 F0.01</AtomicComposition>
+    <MolecularWeight unit="g/mol">100</MolecularWeight>
+  </Metadata>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 1: STRUCTURE AND FORMULATION        -->
+  <!-- ============================================ -->
+  <Category name="Structure_and_Formulation">
+    <Description>Chemical composition and formulation details</Description>
+    
+    <Components>
+      <Component name="HMX" percentage="94" unit="wt%">
+        <Note>High Melting eXplosive - primary explosive component</Note>
+      </Component>
+      <Component name="NC" percentage="3" unit="wt%">
+        <Note>Nitrocellulose - binder</Note>
+      </Component>
+      <Component name="Tris-β-chloroethylphosphate" percentage="3" unit="wt%">
+        <Note>Plasticizer</Note>
+      </Component>
+    </Components>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 2: PHYSICAL PROPERTIES              -->
+  <!-- ============================================ -->
+  <Category name="Physical_Properties">
+    <Description>Physical state, appearance, and density information</Description>
+    
+    <Subcategory name="State_and_Appearance">
+      <Property name="PhysicalState" value="solid"/>
+      <Property name="Color" value="white or cream"/>
+    </Subcategory>
+    
+    <Subcategory name="Density">
+      <Property name="TMD" value="1.865" unit="g/cm³" ref="">
+        <Note>Theoretical Maximum Density</Note>
+      </Property>
+      <Property name="NominalDensity" min="1.831" max="1.844" unit="g/cm³" ref="">
+        <Note>Nominal density range</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Phase_Transitions">
+      <Property name="MeltingPoint" value="523" unit="K" ref="">
+        <AlternateValue value="250" unit="°C" note="decomposition, >250°C"/>
+        <Note>Decomposes rather than melts</Note>
+      </Property>
+      <Property name="BoilingPoint" value="" unit="K">
+        <Note>Not applicable - decomposes before boiling</Note>
+      </Property>
+      <Property name="VaporPressure" value="" unit="mmHg">
+        <Note>Not measured</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Crystal_Data">
+      <Property name="CrystalStructure" value="">
+        <Note>Not provided</Note>
+      </Property>
+    </Subcategory>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 3: CHEMICAL PROPERTIES              -->
+  <!-- ============================================ -->
+  <Category name="Chemical_Properties">
+    <Description>Thermochemical and reactivity properties</Description>
+    
+    <Subcategory name="Heat_of_Detonation">
+      <Property name="H2O_liquid_calculated" value="1.56" unit="kcal/g" ref="">
+        <AlternateValue value="6.53" unit="kJ/g"/>
+      </Property>
+      <Property name="H2O_liquid_experimental" value="1.38" unit="kcal/g" ref="">
+        <AlternateValue value="5.77" unit="kJ/g"/>
+      </Property>
+      <Property name="H2O_gas_calculated" value="1.42" unit="kcal/g" ref="">
+        <AlternateValue value="5.94" unit="kJ/g"/>
+      </Property>
+      <Property name="H2O_gas_experimental" value="1.28" unit="kcal/g" ref="">
+        <AlternateValue value="5.36" unit="kJ/g"/>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Enthalpy_of_Formation">
+      <Property name="DeltaHf" value="0.08" unit="kcal/mol" ref="">
+        <AlternateValue value="0.331" unit="kJ/mol"/>
+        <Note>Positive value indicates endothermic formation</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Solubility">
+      <Property name="Solubility_in_water" value="insoluble">
+        <Note>Insoluble in water and common solvents</Note>
+      </Property>
+      <Property name="Solubility_in_organics" value="insoluble">
+        <Note>Insoluble in most organic solvents</Note>
+      </Property>
+    </Subcategory>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 4: THERMAL PROPERTIES               -->
+  <!-- ============================================ -->
+  <Category name="Thermal_Properties">
+    <Description>Thermal conductivity, heat capacity, and thermal stability</Description>
+    
+    <Subcategory name="Thermal_Conductivity">
+      <Property name="k" value="10.1e-4" unit="cal/sec-cm-°C" ref="">
+        <AlternateValue value="0.25" unit="BTU/hr-ft-°F"/>
+        <AlternateValue value="0.432" unit="W/m-K"/>
+        <Note>Thermal conductivity at ambient temperature</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Coefficient_of_Thermal_Expansion">
+      <Property name="CTE_alpha_low" value="28.1e-6" unit="in/in-°F" ref="">
+        <AlternateValue value="50.6e-6" unit="m/m-K"/>
+        <Temperature range="-65 to -30°F" note="(-54 to -34°C)"/>
+        <Note>Linear thermal expansion at low temperatures</Note>
+      </Property>
+      <Property name="CTE_alpha_high" value="32.2e-6" unit="in/in-°F" ref="">
+        <AlternateValue value="58.0e-6" unit="m/m-K"/>
+        <Temperature range="-10 to 165°F" note="(-23 to 74°C)"/>
+        <Note>Linear thermal expansion at higher temperatures</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Heat_Capacity">
+      <Property name="Cp_estimated" value="0.27" unit="cal/g-°C" ref="">
+        <AlternateValue value="1.13" unit="kJ/kg-K"/>
+        <Note>Specific heat capacity (estimated)</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Thermal_Stability">
+      <Property name="Tg_glass_transition" value="239" unit="K" ref="">
+        <AlternateValue value="-29" unit="°F"/>
+        <AlternateValue value="-34" unit="°C"/>
+        <Note>Glass transition temperature of binder system</Note>
+      </Property>
+      
+      <Property name="GasEvolution_120C_0.25g_22hr" min="0.36" max="0.40" unit="cm³" ref="">
+        <TestConditions temperature="120" unit="°C" sample_mass="0.25" mass_unit="g" duration="22" duration_unit="hr"/>
+        <Note>Gas evolution test for thermal stability</Note>
+      </Property>
+      
+      <Property name="GasEvolution_120C_1g_48hr" min="3.2" max="4.9" unit="cm³" ref="">
+        <TestConditions temperature="120" unit="°C" sample_mass="1" mass_unit="g" duration="48" duration_unit="hr"/>
+        <Note>Extended gas evolution test</Note>
+      </Property>
+    </Subcategory>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 5: MECHANICAL PROPERTIES            -->
+  <!-- ============================================ -->
+  <Category name="Mechanical_Properties">
+    <Description>Mechanical strength, creep, and stress-strain behavior</Description>
+    
+    <Subcategory name="Initial_Modulus">
+      <Property name="InitialModulus" value="" unit="GPa" ref="">
+        <Note>See graph data - temperature dependent</Note>
+        <GraphReference>Initial modulus vs temperature curve</GraphReference>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Creep_Behavior">
+      <Property name="Creep_274K" value="" unit="10^-10 1/h" ref="">
+        <TestConditions temperature="274" unit="K"/>
+        <Note>See graph: Creep compliance vs time</Note>
+        <GraphReference>Creep compliance curve at 274K</GraphReference>
+      </Property>
+      
+      <Property name="Creep_325K" value="" unit="10^-10 1/h" ref="">
+        <TestConditions temperature="325" unit="K"/>
+        <Note>See graph: Creep compliance vs time</Note>
+        <GraphReference>Creep compliance curve at 325K</GraphReference>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Failure_Envelope">
+      <Property name="FailureEnvelope" value="" unit="MPa" ref="">
+        <Note>See graph: Stress vs strain to failure</Note>
+        <GraphReference>Failure envelope curve - strain vs stress</GraphReference>
+      </Property>
+    </Subcategory>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 6: DETONATION PROPERTIES            -->
+  <!-- ============================================ -->
+  <Category name="Detonation_Properties">
+    <Description>Detonation velocity, pressure, energy, and performance metrics</Description>
+    
+    <Subcategory name="Detonation_Velocity">
+      <Property name="DetonationVelocity" value="8.80" unit="km/s" ref="">
+        <AlternateValue value="8.80" unit="mm/μsec"/>
+        <Density value="1.84" unit="g/cm³"/>
+        <Note>Detonation velocity at density 1.84 g/cm³</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Detonation_Pressure">
+      <Property name="DetonationPressure" value="" unit="GPa" ref="">
+        <AlternateValue value="" unit="kbar"/>
+        <Density value="1.840" unit="g/cm³"/>
+        <Note>P_CJ value - see reference (10^-1 GPa scale)</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Performance_Metrics">
+      <Property name="Performance_Measured" value="375" unit="" ref="">
+        <Note>Measured performance metric</Note>
+      </Property>
+      <Property name="Performance_Calculated" value="354" unit="" ref="">
+        <Note>Calculated performance metric</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Gurney_Energy">
+      <Property name="E_cyl_6mm" value="1.295" unit="MJ/kg" ref="">
+        <AlternateValue value="1.295" unit="(mm/μsec)²/2"/>
+        <Density value="1.843" unit="g/cm³"/>
+        <TestConditions cylinder_wall="6" wall_unit="mm"/>
+        <Note>Gurney energy from 6mm cylinder test</Note>
+      </Property>
+      
+      <Property name="E_cyl_19mm" value="1.620" unit="MJ/kg" ref="">
+        <AlternateValue value="1.620" unit="(mm/μsec)²/2"/>
+        <TestConditions cylinder_wall="19" wall_unit="mm"/>
+        <Note>Gurney energy from 19mm cylinder test</Note>
+      </Property>
+    </Subcategory>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 7: SENSITIVITY                      -->
+  <!-- ============================================ -->
+  <Category name="Sensitivity">
+    <Description>Impact, friction, shock, and initiation sensitivity</Description>
+    
+    <Subcategory name="Impact_Sensitivity">
+      <Property name="H50_12_tool" value="34" unit="cm" ref="">
+        <AlternateValue value="0.34" unit="m"/>
+        <TestMethod>12 tool drop test</TestMethod>
+        <Note>50% probability height for impact initiation</Note>
+      </Property>
+      
+      <Property name="H50_12B_tool" value="35" unit="cm" ref="">
+        <AlternateValue value="0.35" unit="m"/>
+        <TestMethod>12B tool drop test</TestMethod>
+        <Note>50% probability height for impact initiation</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Susan_Test">
+      <Property name="ThresholdVelocity" value="105" unit="ft/sec" ref="">
+        <AlternateValue value="32" unit="m/s"/>
+        <Note>Threshold velocity: has very high probability of buildup to violent reaction</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Skid_Test">
+      <Property name="SkidTest_low" value="" ref="">
+        <TestConditions impact_angle="14" angle_unit="deg" drop_height="1.25" height_unit="ft"/>
+        <AlternateConditions impact_angle="0.24" angle_unit="rad" drop_height="0.38" height_unit="m"/>
+        <Event>0</Event>
+        <Note>No reaction at low energy</Note>
+      </Property>
+      
+      <Property name="SkidTest_high" value="" ref="">
+        <TestConditions impact_angle="45" angle_unit="deg" drop_height="3.5" height_unit="ft"/>
+        <AlternateConditions impact_angle="0.79" angle_unit="rad" drop_height="1.07" height_unit="m"/>
+        <Event>6</Event>
+        <Note>6 reactions at high energy</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Gap_Test">
+      <Property name="GapTest_small_scale" min="85" max="103" unit="mils" ref="">
+        <AlternateValue min="2.2" max="2.7" unit="mm"/>
+        <Density value="1.850" unit="g/cm³"/>
+        <Note>Small-scale gap test sensitivity</Note>
+      </Property>
+      
+      <Property name="GapTest_large_scale" value="2.268" unit="mils" ref="">
+        <AlternateValue value="57.6" unit="mm"/>
+        <Density value="1.841" unit="g/cm³"/>
+        <Note>Large-scale gap test sensitivity</Note>
+      </Property>
+    </Subcategory>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 8: ELECTRICAL PROPERTIES            -->
+  <!-- ============================================ -->
+  <Category name="Electrical_Properties">
+    <Description>Electrical conductivity and dielectric properties</Description>
+    
+    <Subcategory name="Dielectric_Properties">
+      <Property name="DielectricConstant" value="3.52" unit="" ref="">
+        <Symbol>ε</Symbol>
+        <Density value="1.84" unit="g/cm³"/>
+        <Note>Relative permittivity (dielectric constant)</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Electrical_Conductivity">
+      <Property name="Conductivity" value="">
+        <Note>Not measured - explosive materials typically insulating</Note>
+      </Property>
+    </Subcategory>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 9: TOXICITY                         -->
+  <!-- ============================================ -->
+  <Category name="Toxicity">
+    <Description>Toxicological and safety information</Description>
+    
+    <Subcategory name="Acute_Toxicity">
+      <Property name="ToxicityData" value="">
+        <Note>No specific toxicity data available in datasheet</Note>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Handling_Precautions">
+      <Property name="SafetyNotes" value="">
+        <Note>Handle as energetic material - standard explosive safety protocols apply</Note>
+        <Note>Avoid impact, friction, heat, and electrostatic discharge</Note>
+      </Property>
+    </Subcategory>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- CATEGORY 10: ADDITIONAL PROPERTIES           -->
+  <!-- ============================================ -->
+  <Category name="Additional_Properties">
+    <Description>Other properties and miscellaneous data</Description>
+    
+    <Subcategory name="DTA_Pyrolysis">
+      <Property name="DTA_Curve" value="" ref="">
+        <Note>See graph: DTA and pyrolysis curves</Note>
+        <GraphReference>Differential Thermal Analysis curve</GraphReference>
+      </Property>
+      
+      <Property name="Pyrolysis_Curve" value="" ref="">
+        <Note>See graph: Temperature vs. sigma plot</Note>
+        <GraphReference>Pyrolysis decomposition curve</GraphReference>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="Explosion_Test">
+      <Property name="ExplosionTest_PBX9404" value="" ref="">
+        <Note>See graph: Temperature vs. sigma (Explosion test curve)</Note>
+        <GraphReference>Explosion test results</GraphReference>
+      </Property>
+    </Subcategory>
+    
+    <Subcategory name="R_Value">
+      <Property name="R_value" value="">
+        <Note>Not provided in datasheet</Note>
+      </Property>
+    </Subcategory>
+  </Category>
+
+  <!-- ============================================ -->
+  <!-- REFERENCES                                   -->
+  <!-- ============================================ -->
+  <References>
+    <Reference id="pbx9404_datasheet">
+      <Author>Various</Author>
+      <Title>PBX-9404-03 Technical Datasheet</Title>
+      <Year>Unknown</Year>
+      <Type>Technical Report</Type>
+      <Note>Primary source for all properties listed</Note>
+    </Reference>
+  </References>
+
+</Material>

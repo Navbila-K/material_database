@@ -250,7 +250,12 @@ class MaterialQuerier:
         return entries
     
     def _get_models(self, material_id: int) -> Dict[str, Any]:
-        """Retrieve all model data."""
+        """
+        Retrieve all model data.
+        
+        Now supports ANY model type, not just hardcoded ones.
+        Models added via Add Material dialog will appear correctly.
+        """
         cursor = self.conn.cursor()
         
         sql = """
@@ -265,6 +270,7 @@ class MaterialQuerier:
         models = {}
         
         for model_id, model_type in models_data:
+            # Handle known complex model types with specific parsers
             if model_type == 'ElasticModel':
                 models[model_type] = self._get_elastic_model(cursor, model_id)
             elif model_type == 'ElastoPlastic':
@@ -273,28 +279,33 @@ class MaterialQuerier:
                 models[model_type] = self._get_reaction_model(cursor, model_id)
             elif model_type == 'EOSModel':
                 models[model_type] = self._get_eos_model(cursor, model_id)
+            else:
+                # For ANY other model type (user-defined, added via Add Material dialog)
+                # Use generic model parser
+                models[model_type] = self._get_generic_model(cursor, model_id)
         
         cursor.close()
         return models
     
     def _get_elastic_model(self, cursor, model_id: int) -> Dict[str, Any]:
-        """Get ElasticModel data."""
-        # Get ThermoMechanical sub-model
+        """Get ElasticModel data - retrieves ALL sub_models for this model."""
         sql = """
-            SELECT sub_model_id
+            SELECT sub_model_id, sub_model_type
             FROM sub_models
-            WHERE model_id = %s AND sub_model_type = 'ThermoMechanical'
+            WHERE model_id = %s
         """
         
         cursor.execute(sql, (model_id,))
-        result = cursor.fetchone()
+        sub_models = cursor.fetchall()
         
-        if result:
-            sub_model_id = result[0]
-            thermo_data = self._get_sub_model_parameters(cursor, sub_model_id)
-            return {'ThermoMechanical': thermo_data}
+        elastic_data = {}
         
-        return {}
+        for sub_model_id, sub_model_type in sub_models:
+            # Get parameters for this sub_model
+            params = self._get_sub_model_parameters(cursor, sub_model_id)
+            elastic_data[sub_model_type] = params
+        
+        return elastic_data
     
     def _get_sub_model_parameters(self, cursor, sub_model_id: int) -> Dict[str, Any]:
         """Get parameters for a sub-model."""
@@ -428,8 +439,81 @@ class MaterialQuerier:
         
         return model_data
     
+    def _get_generic_model(self, cursor, model_id: int) -> Dict[str, Any]:
+        """
+        Get model data for ANY model type (generic parser).
+        
+        This handles models added via the Add Material dialog that don't
+        match the hardcoded model types (ElasticModel, EOSModel, etc.).
+        
+        Retrieves all sub_models and their parameters in a flat structure.
+        """
+        model_data = {}
+        
+        # Get all sub_models for this model
+        sql = """
+            SELECT sub_model_id, sub_model_type, row_index, parent_sub_model_id, parent_name
+            FROM sub_models
+            WHERE model_id = %s
+            ORDER BY sub_model_id
+        """
+        
+        cursor.execute(sql, (model_id,))
+        sub_models = cursor.fetchall()
+        
+        if not sub_models:
+            # No sub_models, return empty dict
+            return model_data
+        
+        # Process each sub_model
+        for sub_model_id, sub_model_type, row_index, parent_sub_model_id, parent_name in sub_models:
+            # Get parameters for this sub_model
+            params = self._get_sub_model_parameters(cursor, sub_model_id)
+            
+            # Flatten single-value lists
+            flat_params = {}
+            for param_name, param_values in params.items():
+                if isinstance(param_values, list) and len(param_values) == 1:
+                    flat_params[param_name] = param_values[0]
+                else:
+                    flat_params[param_name] = param_values
+            
+            # Add to model_data
+            # If there's only one sub_model, merge its parameters directly into model_data
+            if len(sub_models) == 1:
+                model_data.update(flat_params)
+            else:
+                # Multiple sub_models - organize by sub_model_type
+                if sub_model_type not in model_data:
+                    model_data[sub_model_type] = {}
+                model_data[sub_model_type].update(flat_params)
+        
+        return model_data
+    
     def _get_eos_model(self, cursor, model_id: int) -> Dict[str, Any]:
-        """Get EOSModel data with Row structures."""
+        """
+        Get EOSModel data - retrieves ALL sub_models for this model.
+        Supports both XML-imported Row structures AND GUI-added generic sub_models.
+        """
+        # First, try to get generic sub_models (from Add Material dialog)
+        sql_generic = """
+            SELECT sub_model_id, sub_model_type
+            FROM sub_models
+            WHERE model_id = %s AND sub_model_type != 'Row'
+        """
+        
+        cursor.execute(sql_generic, (model_id,))
+        sub_models = cursor.fetchall()
+        
+        # If we have generic sub_models, return them (GUI-added models)
+        if sub_models:
+            eos_data = {}
+            for sub_model_id, sub_model_type in sub_models:
+                params = self._get_sub_model_parameters(cursor, sub_model_id)
+                eos_data[sub_model_type] = params
+            return eos_data
+        
+        # Otherwise, fall back to old Row-based structure (XML-imported)
         sql = """
             SELECT sub_model_id, row_index, parent_sub_model_id, parent_name
             FROM sub_models
@@ -439,6 +523,10 @@ class MaterialQuerier:
         
         cursor.execute(sql, (model_id,))
         rows_data = cursor.fetchall()
+        
+        # If no rows found, return empty dict
+        if not rows_data:
+            return {}
         
         # Group by row_index
         rows_dict = {}

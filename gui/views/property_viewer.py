@@ -270,8 +270,13 @@ class PropertyViewer(QWidget):
                             row += 1
         
         # Load models - handle ALL model types
+        print(f"DEBUG [property_viewer]: Loading models, total types = {len(models)}")
+        print(f"DEBUG [property_viewer]: Model types: {list(models.keys())}")
         for model_type, model_data in models.items():
+            print(f"DEBUG [property_viewer]: Processing model_type = '{model_type}'")
+            print(f"DEBUG [property_viewer]: model_data type = {type(model_data)}, data = {model_data}")
             if not isinstance(model_data, dict):
+                print(f"DEBUG [property_viewer]: Skipping {model_type} - not a dict")
                 continue
             
             # Special handling for EOSModel with 'rows' structure
@@ -341,13 +346,17 @@ class PropertyViewer(QWidget):
                 continue  # Skip normal processing for EOSModel
             
             # Process each sub-model or parameter
+            print(f"DEBUG [property_viewer]: Processing params for {model_type}, total params = {len(model_data)}")
             for param_name, param_value in model_data.items():
+                print(f"DEBUG [property_viewer]:   param_name = '{param_name}', type = {type(param_value)}")
                 if isinstance(param_value, list):
                     # List of entries (like ThermoMechanical parameters)
+                    print(f"DEBUG [property_viewer]:     It's a list with {len(param_value)} entries")
                     for entry in param_value:
                         if isinstance(entry, dict):
                             table.insertRow(row)
                             table.setItem(row, 0, QTableWidgetItem(f"models.{model_type}.{param_name}"))
+                            print(f"DEBUG [property_viewer]:     Inserted row {row}: models.{model_type}.{param_name} = {entry.get('value')}")
                             
                             value = entry.get('value')
                             if value is None or value == '':
@@ -359,7 +368,12 @@ class PropertyViewer(QWidget):
                             table.setItem(row, 2, QTableWidgetItem(entry.get('unit', '')))
                             
                             ref = entry.get('ref', '')
-                            table.setItem(row, 3, QTableWidgetItem(str(ref) if ref else ""))
+                            ref_item = QTableWidgetItem(str(ref) if ref else "")
+                            table.setItem(row, 3, ref_item)
+                            
+                            # Add tooltip to reference cell
+                            if ref:
+                                self._set_reference_tooltip(ref_item, ref)
                             
                             if highlight_overrides and ref == "USER_OVERRIDE":
                                 self._highlight_row(table, row)
@@ -367,11 +381,14 @@ class PropertyViewer(QWidget):
                             row += 1
                 
                 elif isinstance(param_value, dict):
+                    print(f"DEBUG [property_viewer]:     It's a dict with keys: {list(param_value.keys())}")
                     # Could be nested dict (SpecificHeatConstants) or sub-model
                     if 'value' in param_value:
+                        print(f"DEBUG [property_viewer]:     Direct value dict")
                         # Direct value dict
                         table.insertRow(row)
                         table.setItem(row, 0, QTableWidgetItem(f"models.{model_type}.{param_name}"))
+                        print(f"DEBUG [property_viewer]:     Inserted row {row}: models.{model_type}.{param_name} = {param_value.get('value')}")
                         
                         value = param_value.get('value')
                         if value is None or value == '':
@@ -383,7 +400,12 @@ class PropertyViewer(QWidget):
                         table.setItem(row, 2, QTableWidgetItem(param_value.get('unit', '')))
                         
                         ref = param_value.get('ref', '')
-                        table.setItem(row, 3, QTableWidgetItem(str(ref) if ref else ""))
+                        ref_item = QTableWidgetItem(str(ref) if ref else "")
+                        table.setItem(row, 3, ref_item)
+                        
+                        # Add tooltip to reference cell
+                        if ref:
+                            self._set_reference_tooltip(ref_item, ref)
                         
                         if highlight_overrides and ref == "USER_OVERRIDE":
                             self._highlight_row(table, row)
@@ -407,7 +429,12 @@ class PropertyViewer(QWidget):
                                 table.setItem(row, 2, QTableWidgetItem(sub_value.get('unit', '')))
                                 
                                 ref = sub_value.get('ref', '')
-                                table.setItem(row, 3, QTableWidgetItem(str(ref) if ref else ""))
+                                ref_item = QTableWidgetItem(str(ref) if ref else "")
+                                table.setItem(row, 3, ref_item)
+                                
+                                # Add tooltip to reference cell
+                                if ref:
+                                    self._set_reference_tooltip(ref_item, ref)
                                 
                                 if highlight_overrides and ref == "USER_OVERRIDE":
                                     self._highlight_row(table, row)
@@ -430,7 +457,12 @@ class PropertyViewer(QWidget):
                                         table.setItem(row, 2, QTableWidgetItem(sub_entry.get('unit', '')))
                                         
                                         ref = sub_entry.get('ref', '')
-                                        table.setItem(row, 3, QTableWidgetItem(str(ref) if ref else ""))
+                                        ref_item = QTableWidgetItem(str(ref) if ref else "")
+                                        table.setItem(row, 3, ref_item)
+                                        
+                                        # Add tooltip to reference cell
+                                        if ref:
+                                            self._set_reference_tooltip(ref_item, ref)
                                         
                                         if highlight_overrides and ref == "USER_OVERRIDE":
                                             self._highlight_row(table, row)

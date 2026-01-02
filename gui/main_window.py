@@ -231,6 +231,15 @@ class MainWindow(QMainWindow):
         validate_refs_action.triggered.connect(self.on_validate_references)
         tools_menu.addAction(validate_refs_action)
         
+        # Data Menu (for adding new data)
+        data_menu = menubar.addMenu("&Data")
+        
+        add_material_action = QAction("Add &Material...", self)
+        add_material_action.setShortcut("Ctrl+M")
+        add_material_action.setStatusTip("Add a new material to the database")
+        add_material_action.triggered.connect(self.on_add_material)
+        data_menu.addAction(add_material_action)
+        
         # Help Menu
         help_menu = menubar.addMenu("&Help")
         
@@ -267,6 +276,14 @@ class MainWindow(QMainWindow):
         browse_refs_action.setStatusTip("Browse all references")
         browse_refs_action.triggered.connect(self.on_browse_references)
         toolbar.addAction(browse_refs_action)
+        
+        toolbar.addSeparator()
+        
+        # ===== DATA ADDITION BUTTONS (NEW) =====
+        add_material_action = QAction("➕ Add Material", self)
+        add_material_action.setStatusTip("Add a new material to the database")
+        add_material_action.triggered.connect(self.on_add_material)
+        toolbar.addAction(add_material_action)
         
         # Add spacer to push theme toggle to the right
         spacer = QWidget()
@@ -894,6 +911,135 @@ class MainWindow(QMainWindow):
                 "Validation Error",
                 f"Failed to validate references:\n{str(e)}"
             )
+    
+    # ========== Data Addition Handlers (NEW) ==========
+    
+    def on_add_material(self):
+        """Open dialog to add a new material or add to existing material."""
+        try:
+            from gui.views.dialogs import AddMaterialDialog
+            
+            # Check if a material is currently selected
+            material_id = None
+            if hasattr(self, 'current_material') and self.current_material:
+                # Try to get material_id from current selection
+                if isinstance(self.current_material, dict):
+                    material_id = self.current_material.get('metadata', {}).get('id')
+                elif isinstance(self.current_material, str):
+                    # current_material is material name, get ID from database
+                    material_id = self._get_material_id_by_name(self.current_material)
+            
+            dialog = AddMaterialDialog(self.db, self, material_id=material_id)
+            dialog.material_added.connect(self.on_material_added)
+            dialog.property_added.connect(self.on_property_added)
+            dialog.model_added.connect(self.on_model_added)
+            dialog.exec()
+            
+        except Exception as e:
+            print(f"DEBUG ERROR in on_add_material: {e}")
+            import traceback
+            traceback.print_exc()
+            QMessageBox.critical(
+                self,
+                "Error",
+                f"Failed to open add material dialog:\n{str(e)}"
+            )
+    
+    def _get_material_id_by_name(self, material_name):
+        """Helper to get material_id from name."""
+        try:
+            conn = self.db.connect()
+            if conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT material_id FROM materials WHERE name = %s", (material_name,))
+                row = cursor.fetchone()
+                if row:
+                    return row[0]
+        except Exception as e:
+            print(f"Error getting material ID: {e}")
+        return None
+    
+    def on_material_added(self, material_id: int):
+        """Handle material addition - refresh views."""
+        try:
+            print(f"DEBUG: Material added - ID: {material_id}")
+            
+            # Refresh material list
+            self.load_materials()
+            
+            # Refresh visualization if it exists
+            if hasattr(self, 'visualization_tab'):
+                self.visualization_tab.load_available_materials()
+            
+            # Select the new material
+            # TODO: Implement material selection by ID
+            
+            self.statusBar().showMessage(f"✓ Material added successfully (ID: {material_id})", 5000)
+        except Exception as e:
+            print(f"ERROR in on_material_added: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def on_property_added(self, material_name: str):
+        """Handle property addition - refresh current material view."""
+        try:
+            print(f"DEBUG: Property added to material: {material_name}")
+            
+            # Reload current material if it's the one that was modified
+            if self.current_material:
+                # current_material is a string (material name)
+                if isinstance(self.current_material, str) and self.current_material == material_name:
+                    # Refresh property viewer
+                    self.on_material_selected(material_name)
+                elif isinstance(self.current_material, dict) and self.current_material.get('metadata', {}).get('name') == material_name:
+                    # Refresh property viewer
+                    self.on_material_selected(material_name)
+            
+            self.statusBar().showMessage(f"✓ Property added to {material_name}", 5000)
+        except Exception as e:
+            print(f"ERROR in on_property_added: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def on_model_added(self, material_id: int):
+        """Handle model addition - refresh current material view."""
+        try:
+            print(f"DEBUG: Model added to material ID: {material_id}")
+            
+            # Reload current material if it's the one that was modified
+            if self.current_material:
+                # Get material name from ID
+                conn = self.db.connect()
+                if conn:
+                    cursor = conn.cursor()
+                    cursor.execute("SELECT name FROM materials WHERE material_id = %s", (material_id,))
+                    row = cursor.fetchone()
+                    if row:
+                        material_name = row[0]
+                        if isinstance(self.current_material, str) and self.current_material == material_name:
+                            self.on_material_selected(material_name)
+            
+            self.statusBar.showMessage(f"✓ Model added to material (ID: {material_id})", 5000)
+        except Exception as e:
+            print(f"ERROR in on_model_added: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def on_reference_added(self, reference_id: int):
+        """Handle reference addition - show confirmation."""
+        try:
+            print(f"DEBUG: Reference added - ID: {reference_id}")
+            
+            self.statusBar().showMessage(f"✓ Reference {reference_id} added successfully", 5000)
+            
+            # Refresh reference browser if it's open
+            # (References are loaded dynamically, so no action needed for dropdowns)
+        except Exception as e:
+            print(f"ERROR in on_reference_added: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    # ========== End Data Addition Handlers ==========
     
     def closeEvent(self, event):
         """Handle window close event."""

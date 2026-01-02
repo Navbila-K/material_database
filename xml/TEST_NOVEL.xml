@@ -1,0 +1,127 @@
+<!-- 
+TEST MATERIAL: Novel structure with NEW property categories and model types
+to prove the dynamic parser can handle ANY schema
+-->
+<Material>
+  <Metadata>
+    <Id>TEST_NOVEL</Id>
+    <Name>Novel Test Material</Name>
+    <Author>Dynamic Parser Test</Author>
+    <Date>2025-12-27</Date>
+    <Version meaning="schema_version">1.0.0-TEST</Version>
+  </Metadata>
+  
+  <Category>
+    <Property>
+      <!-- Standard categories that exist -->
+      <Phase>
+        <State>solid</State>
+      </Phase>
+      
+      <!-- NEW CATEGORY 1: Optical properties (never seen before) -->
+      <Optical>
+        <RefractiveIndex unit="dimensionless">
+          <Entry ref="1">1.52</Entry>
+        </RefractiveIndex>
+        <Transparency unit="percent">
+          <Entry ref="1">85</Entry>
+        </Transparency>
+        <AbsorptionCoefficient unit="1/cm">
+          <Entry ref="1">0.001</Entry>
+        </AbsorptionCoefficient>
+      </Optical>
+      
+      <!-- NEW CATEGORY 2: Nuclear properties (never seen before) -->
+      <Nuclear>
+        <CrossSection unit="barns">
+          <Entry ref="2">2.5</Entry>
+        </CrossSection>
+        <HalfLife unit="years">
+          <Entry ref="2">1000</Entry>
+        </HalfLife>
+        <Radioactivity unit="Bq">
+          <Entry ref="2">1e6</Entry>
+        </Radioactivity>
+      </Nuclear>
+      
+      <!-- NEW CATEGORY 3: Electrical properties (never seen before) -->
+      <Electrical>
+        <Resistivity unit="ohm*m">
+          <Entry ref="3">1.68e-8</Entry>
+        </Resistivity>
+        <DielectricConstant unit="dimensionless">
+          <Entry ref="3">3.9</Entry>
+        </DielectricConstant>
+        <Conductivity unit="S/m">
+          <Entry ref="3">5.96e7</Entry>
+        </Conductivity>
+      </Electrical>
+      
+      <!-- Standard Mechanical for comparison -->
+      <Mechanical>
+        <Density unit="kg/m^3">
+          <Entry ref="1">8900</Entry>
+        </Density>
+      </Mechanical>
+    </Property>
+    
+    <Model>
+      <!-- NEW MODEL TYPE 1: Optical Model (never seen before) -->
+      <OpticalModel>
+        <Dispersion>
+          <CauchyA>
+            <Entry unit="dimensionless" ref="1">1.5</Entry>
+          </CauchyA>
+          <CauchyB>
+            <Entry unit="um^2" ref="1">0.01</Entry>
+          </CauchyB>
+        </Dispersion>
+        <ScatteringCoefficient>
+          <Entry unit="1/cm" ref="1">0.05</Entry>
+        </ScatteringCoefficient>
+      </OpticalModel>
+      
+      <!-- NEW MODEL TYPE 2: Electromagnetic Model (never seen before) -->
+      <ElectromagneticModel>
+        <Permittivity>
+          <Real>
+            <Entry unit="F/m" ref="3">3.54e-11</Entry>
+          </Real>
+          <Imaginary>
+            <Entry unit="F/m" ref="3">1e-12</Entry>
+          </Imaginary>
+        </Permittivity>
+        <Permeability>
+          <Entry unit="H/m" ref="3">1.26e-6</Entry>
+        </Permeability>
+      </ElectromagneticModel>
+      
+      <!-- NEW MODEL TYPE 3: Quantum Model (never seen before) -->
+      <QuantumModel>
+        <BandGap>
+          <Entry unit="eV" ref="4">1.12</Entry>
+        </BandGap>
+        <EffectiveMass>
+          <Electron>
+            <Entry unit="kg" ref="4">0.067</Entry>
+          </Electron>
+          <Hole>
+            <Entry unit="kg" ref="4">0.45</Entry>
+          </Hole>
+        </EffectiveMass>
+        <FermiLevel>
+          <Entry unit="eV" ref="4">5.5</Entry>
+        </FermiLevel>
+      </QuantumModel>
+      
+      <!-- Standard ElasticModel for comparison -->
+      <ElasticModel>
+        <ThermoMechanical>
+          <Density>
+            <Entry unit="kg/m3" ref="1">8900</Entry>
+          </Density>
+        </ThermoMechanical>
+      </ElasticModel>
+    </Model>
+  </Category>
+</Material>

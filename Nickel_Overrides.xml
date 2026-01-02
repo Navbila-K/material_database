@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<overrides material="Nickel" count="2">
+  <override>
+    <property>models.ElastoPlastic.YieldStrength</property>
+    <original_value></original_value>
+    <new_value></new_value>
+    <timestamp></timestamp>
+  </override>
+  <override>
+    <property>properties.Thermal.Cv</property>
+    <original_value></original_value>
+    <new_value></new_value>
+    <timestamp></timestamp>
+  </override>
+</overrides>

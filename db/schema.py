@@ -10,9 +10,10 @@ SCHEMA_SQL = """
 -- REFERENCES TABLE
 -- Stores bibliographic references from References.xml
 -- These are cited by materials via ref="ID" attributes
+-- NOTE: Auto-increment starts from 1001 to avoid conflicts with XML imports (IDs 1-1000)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS "references" (
-    reference_id INTEGER PRIMARY KEY,     -- The ID from XML (1-124)
+    reference_id SERIAL PRIMARY KEY,      -- Auto-incrementing ID starting from 1001 (GUI-created)
     ref_type VARCHAR(50),                 -- article, book, report, conference, chapter, misc
     author TEXT,                          -- Author name(s)
     title TEXT,                           -- Publication title
@@ -20,6 +21,9 @@ CREATE TABLE IF NOT EXISTS "references" (
     year VARCHAR(10),                     -- Publication year (stored as string due to "--" values)
     volume VARCHAR(50),                   -- Volume number (can be "--")
     pages VARCHAR(50),                    -- Page range (can be "--" or "49--" format)
+    doi TEXT,                             -- Digital Object Identifier
+    url TEXT,                             -- URL to online version
+    notes TEXT,                           -- Additional notes or abstract
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT valid_ref_type CHECK (ref_type IN ('article', 'book', 'report', 'conference', 'chapter', 'misc'))
 );

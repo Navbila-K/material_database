@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<Material>
+  <Metadata>
+    <Id>ALUMINUM-001</Id>
+    <Name>Aluminum</Name>
+    <Author/>
+    <Date/>
+    <Version meaning="schema_version">0.0.0-33C90239</Version>
+  </Metadata>
+  <Category name="Physical_Properties">
+    <Property name="State" value="solid"/>
+  </Category>
+  <Category name="Thermal_Properties">
+    <Property name="Cp" value="904" unit="J/kg/K" ref="121"/>
+    <Property name="Cv" unit="J/kg/K"/>
+  </Category>
+  <Category name="Mechanical_Properties">
+    <Property name="Density" value="2730" unit="kg/m^3" ref="112"/>
+    <Property name="Density" value="2700" unit="kg/m^3" ref="121"/>
+    <Property name="Viscosity" unit="Pa*s"/>
+  </Category>
+</Material>

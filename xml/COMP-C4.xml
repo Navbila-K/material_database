@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+=========================================================
+                MATERIAL DESCRIPTION FILE
+=========================================================
+Composition C-4 plastic explosive - 91% RDX
+Generated from LASL Explosive Property Data
+=========================================================
+-->
+<Material>
+  <Metadata>
+    <Id>COMP_C4</Id>
+    <Name>COMP-C4</Name>
+    <Author></Author>
+    <Date></Date>
+    <Version meaning="schema_version">0.0.0-CAE773D0</Version>
+  </Metadata>
+
+  <Category>
+    <Property>
+
+      <!-- Phase information -->
+      <Phase>
+        <State>solid</State>
+      </Phase>
+
+      <!-- Mechanical properties -->
+      <Mechanical>
+        <!-- Density -->
+        <Density unit="kg/m^3">
+          <Entry ref="1">1601</Entry>
+        </Density>
+      </Mechanical>
+
+    </Property>
+
+    <!-- ======================= MODEL SECTION ======================= -->
+    <Model>
+      <ElasticModel>
+        <ThermoMechanical>
+          <!-- Density -->
+          <Density>
+            <Entry unit="kg/m3" ref="1">1601</Entry>
+          </Density>
+        </ThermoMechanical>
+      </ElasticModel>
+
+      <EOSModel>
+        <JWL>
+          <!-- JWL EOS Parameters for Composition C-4 -->
+          <A>
+            <Entry unit="GPa" ref="1">609.8</Entry>
+          </A>
+
+          <B>
+            <Entry unit="GPa" ref="1">12.95</Entry>
+          </B>
+
+          <R1>
+            <Entry unit="1" ref="1">4.5</Entry>
+          </R1>
+
+          <R2>
+            <Entry unit="1" ref="1">1.4</Entry>
+          </R2>
+
+          <omega>
+            <Entry unit="1" ref="1">0.25</Entry>
+          </omega>
+        </JWL>
+
+        <Detonation>
+          <!-- Detonation velocity -->
+          <DetonationVelocity>
+            <Entry unit="m/s" ref="1">8193</Entry>
+          </DetonationVelocity>
+
+          <!-- Detonation pressure -->
+          <DetonationPressure>
+            <Entry unit="GPa" ref="1">28.0</Entry>
+          </DetonationPressure>
+        </Detonation>
+      </EOSModel>
+    </Model>
+  </Category>
+</Material>
