@@ -1,0 +1,1763 @@
+"""
+Visualization Tab - Offline Material Data Visualization
+
+Creates interactive charts and dashboards for material property comparison.
+Fully offline using matplotlib embedded in PyQt6.
+"""
+
+# CRITICAL: Set matplotlib backend BEFORE any other matplotlib imports
+import matplotlib
+matplotlib.use('QtAgg', force=True)  # Force QtAgg backend for PyQt6 compatibility
+
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+# DO NOT import pyplot - we use Figure directly for better control
+import numpy as np
+
+from PyQt6.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
+    QPushButton, QLabel, QListWidget, QComboBox,
+    QGroupBox, QSplitter, QFrame, QFileDialog,
+    QAbstractItemView
+)
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QFont, QIcon, QPixmap, QPainter, QColor
+
+# Import analytics selector helper (Meeting-8 Task 1)
+from gui.analytics_selector import AnalyticsSelector, AnalyticsType
+
+# Import US-UP database reader for shock physics analysis
+from analysis.us_up_db_reader import USUpDatabaseReader
+
+# Import data source selector (GUI Enhancement - Sprint 1)
+from gui.widgets.data_source_selector import DataSourceSelector, DataSourceType
+
+
+class VisualizationTab(QWidget):
+    """
+    Visualization tab for material property comparison.
+    
+    Layout:
+    - Left: Control panel (material/property selection, chart type)
+    - Center: Matplotlib plot area
+    - Right: Dashboard with statistics
+    """
+    
+    def __init__(self, db_manager, querier):
+        super().__init__()
+        
+        print("[VizTab] Initializing Visualization Tab...")
+        
+        self.db_manager = db_manager
+        self.querier = querier
+        
+        # Initialize US-UP database reader for shock physics
+        print("[VizTab] Initializing US-UP database reader...")
+        try:
+            self.usup_reader = USUpDatabaseReader(db_manager)
+            print(f"[VizTab] US-UP reader loaded: {len(self.usup_reader.materials_data)} materials with Hugoniot data")
+        except Exception as e:
+            print(f"[VizTab] Warning: US-UP reader initialization failed: {e}")
+            self.usup_reader = None
+        
+        # Data storage
+        self.materials_data = {}  # {material_name: property_data_dict}
+        self.selected_materials = []
+        self.selected_properties = []
+        
+        # Analytics selector (Meeting-8 Task 1)
+        self.analytics_selector = None
+        self.current_analytics_type = AnalyticsType.STANDARD_PROPERTIES
+        
+        # Data source tracking (GUI Enhancement - Sprint 1)
+        self.data_source_selector = None
+        self.current_data_source = DataSourceType.EXPERIMENTAL  # Default to experimental
+        
+        # Color palette for US-UP plots (research-grade colors matching original widget)
+        self.usup_colors = [
+            '#1f77b4',  # Blue
+            '#ff7f0e',  # Orange
+            '#2ca02c',  # Green
+            '#d62728',  # Red
+            '#9467bd',  # Purple
+            '#8c564b',  # Brown
+            '#e377c2',  # Pink
+            '#7f7f7f',  # Gray
+            '#bcbd22',  # Yellow-green
+            '#17becf'   # Cyan
+        ]
+        
+        # Matplotlib setup
+        self.figure = None
+        self.canvas = None
+        self.ax = None
+        self.toolbar = None  # Store toolbar reference for theme updates
+        
+        print("[VizTab] Setting up UI...")
+        self.setup_ui()
+        print("[VizTab] Loading materials...")
+        self.load_available_materials()
+        print("[VizTab] Initialization complete!")
+        
+    def setup_ui(self):
+        """Initialize the user interface."""
+        print("[VizTab] setup_ui() called")
+        main_layout = QHBoxLayout(self)
+        main_layout.setSpacing(10)
+        main_layout.setContentsMargins(10, 10, 10, 10)
+        
+        # Create three panels
+        control_panel = self.create_control_panel()
+        plot_panel = self.create_plot_panel()
+        dashboard_panel = self.create_dashboard_panel()
+        
+        # Add panels with proportions: 25% control, 50% plot, 25% dashboard
+        main_layout.addWidget(control_panel, stretch=2)
+        main_layout.addWidget(plot_panel, stretch=4)
+        main_layout.addWidget(dashboard_panel, stretch=2)
+        
+    def create_control_panel(self):
+        """Create left control panel with material/property selection."""
+        panel = QFrame()
+        panel.setFrameShape(QFrame.Shape.StyledPanel)
+        layout = QVBoxLayout(panel)
+        
+        # Title
+        title = QLabel("Control Panel")
+        title.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(title)
+        
+        # Info label about linkage
+        self.info_label = QLabel("💡 Linked with Material Browser\nSelect a material there to auto-populate here")
+        self.info_label.setProperty("class", "info-label")
+        self.info_label.setWordWrap(True)
+        layout.addWidget(self.info_label)
+        
+        # === GUI ENHANCEMENT - SPRINT 1: Data Source Selector ===
+        self.data_source_selector = DataSourceSelector()
+        self.data_source_selector.source_changed.connect(self.on_data_source_changed)
+        layout.addWidget(self.data_source_selector)
+        
+        layout.addSpacing(10)
+        # === END GUI ENHANCEMENT ===
+        
+        # === MEETING-8 TASK 1: Analytics Type Selector ===
+        analytics_group = QGroupBox("Analytics Type")
+        analytics_layout = QVBoxLayout(analytics_group)
+        
+        self.analytics_selector = AnalyticsSelector()
+        self.analytics_selector.register_callback(self.on_analytics_type_changed)
+        analytics_layout.addWidget(self.analytics_selector.get_widget())
+        
+        # Data source indicator
+        self.data_source_label = QLabel("📊 Data Source: XML → Database → GUI")
+        self.data_source_label.setProperty("class", "detail-text")
+        self.data_source_label.setStyleSheet("color: green; font-size: 8pt;")
+        self.data_source_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        analytics_layout.addWidget(self.data_source_label)
+        
+        layout.addWidget(analytics_group)
+        # === END MEETING-8 ADDITION ===
+        
+        # Material selection
+        mat_group = QGroupBox("Select Materials")
+        mat_layout = QVBoxLayout(mat_group)
+        
+        self.material_list = QListWidget()
+        self.material_list.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
+        mat_layout.addWidget(self.material_list)
+        
+        layout.addWidget(mat_group)
+        
+        # Property selection
+        prop_group = QGroupBox("Select Properties")
+        prop_layout = QVBoxLayout(prop_group)
+        
+        self.property_list = QListWidget()
+        self.property_list.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
+        
+        # Common properties (normalized names matching database)
+        common_properties = [
+            "density",
+            "cp",  # Specific heat (constant pressure)
+            "cv",  # Specific heat (constant volume)
+            "viscosity",
+            "thermal_conductivity",
+            "thermal_expansion",
+            "youngs_modulus",
+            "shear_modulus",
+            "bulk_modulus",
+            "poissons_ratio",
+            "yield_strength",
+            "electrical_conductivity"
+        ]
+        
+        for prop in common_properties:
+            self.property_list.addItem(prop)
+            self.property_list.addItem(prop)
+        
+        prop_layout.addWidget(self.property_list)
+        layout.addWidget(prop_group)
+        
+        # Data view mode selection
+        view_group = QGroupBox("Data View Mode")
+        view_layout = QVBoxLayout(view_group)
+        
+        self.view_mode_combo = QComboBox()
+        self.view_mode_combo.addItems(["Active View (with Overrides)", "Original Data (no Overrides)"])
+        self.view_mode_combo.setToolTip("Match the data view from Material Browser tabs")
+        view_layout.addWidget(self.view_mode_combo)
+        
+        layout.addWidget(view_group)
+        
+        # Chart type selection
+        chart_group = QGroupBox("Chart Type")
+        chart_layout = QVBoxLayout(chart_group)
+        
+        self.chart_type_combo = QComboBox()
+        self.chart_type_combo.addItems([
+            "Line", 
+            "Bar", 
+            "Scatter", 
+            "Area", 
+            "Pie",
+            "Histogram",
+            "US/UP (Hugoniot)"  # NEW: Shock Hugoniot relationship
+        ])
+        chart_layout.addWidget(self.chart_type_combo)
+        
+        layout.addWidget(chart_group)
+        
+        # Action buttons
+        self.generate_btn = QPushButton("Generate Plot")
+        self.generate_btn.clicked.connect(self.generate_plot)
+        print("[VizTab] Generate Plot button created and connected")
+        layout.addWidget(self.generate_btn)
+        
+        self.export_btn = QPushButton("Export Plot (PNG/PDF)")
+        self.export_btn.clicked.connect(self.export_plot)
+        layout.addWidget(self.export_btn)
+        
+        layout.addStretch()
+        
+        return panel
+        
+    def create_plot_panel(self):
+        """Create center panel with matplotlib canvas."""
+        panel = QFrame()
+        panel.setFrameShape(QFrame.Shape.StyledPanel)
+        layout = QVBoxLayout(panel)
+        layout.setContentsMargins(5, 5, 5, 5)
+        
+        # Title
+        title = QLabel("Plot Area")
+        title.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(title)
+        
+        # Matplotlib figure and canvas
+        print("[VizTab] Creating matplotlib Figure...")
+        try:
+            self.figure = Figure(figsize=(8, 6), dpi=100)
+            print("[VizTab] Figure created successfully")
+            
+            print("[VizTab] Creating FigureCanvas...")
+            self.canvas = FigureCanvas(self.figure)
+            print("[VizTab] FigureCanvas created successfully")
+            
+            print("[VizTab] Adding subplot...")
+            self.ax = self.figure.add_subplot(111)
+            print("[VizTab] Subplot added successfully")
+            
+            # Initial empty plot
+            self.ax.text(0.5, 0.5, 'Select materials and properties,\nthen click "Generate Plot"',
+                        ha='center', va='center', fontsize=12, color='gray')
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+            
+            # Navigation toolbar
+            print("[VizTab] Creating NavigationToolbar...")
+            self.toolbar = NavigationToolbar(self.canvas, panel)
+            print("[VizTab] NavigationToolbar created successfully")
+            
+            layout.addWidget(self.toolbar)
+            layout.addWidget(self.canvas)
+            print("[VizTab] Plot panel created successfully!")
+            
+        except Exception as e:
+            print(f"[VizTab] ERROR creating plot panel: {e}")
+            import traceback
+            traceback.print_exc()
+        
+        return panel
+        
+    def create_dashboard_panel(self):
+        """Create right panel with statistics cards."""
+        panel = QFrame()
+        panel.setFrameShape(QFrame.Shape.StyledPanel)
+        layout = QVBoxLayout(panel)
+        
+        # Title
+        title = QLabel("Dashboard")
+        title.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(title)
+        
+        # Statistics cards
+        self.stats_layout = QGridLayout()
+        
+        # Card: Selected Materials
+        self.mat_count_label = self.create_stat_card("Materials\nSelected", "0", "#2196F3")
+        self.stats_layout.addWidget(self.mat_count_label, 0, 0)
+        
+        # Card: Selected Properties
+        self.prop_count_label = self.create_stat_card("Properties\nSelected", "0", "#4CAF50")
+        self.stats_layout.addWidget(self.prop_count_label, 0, 1)
+        
+        # Card: Data Points
+        self.data_points_label = self.create_stat_card("Data\nPoints", "0", "#FF9800")
+        self.stats_layout.addWidget(self.data_points_label, 1, 0)
+        
+        # Card: Missing Values
+        self.missing_label = self.create_stat_card("Missing\nValues", "0", "#F44336")
+        self.stats_layout.addWidget(self.missing_label, 1, 1)
+        
+        layout.addLayout(self.stats_layout)
+        
+        # Detail text area
+        detail_group = QGroupBox("Details")
+        detail_layout = QVBoxLayout(detail_group)
+        
+        self.detail_text = QLabel("No data loaded")
+        self.detail_text.setProperty("class", "detail-text")
+        self.detail_text.setWordWrap(True)
+        self.detail_text.setAlignment(Qt.AlignmentFlag.AlignTop)
+        detail_layout.addWidget(self.detail_text)
+        
+        layout.addWidget(detail_group)
+        layout.addStretch()
+        
+        return panel
+        
+    def create_stat_card(self, title, value, color):
+        """Create a colored statistics card."""
+        card = QFrame()
+        card.setFrameShape(QFrame.Shape.Box)
+        card.setStyleSheet(f"""
+            QFrame {{
+                background-color: {color};
+                border-radius: 5px;
+                padding: 10px;
+            }}
+        """)
+        
+        card_layout = QVBoxLayout(card)
+        
+        title_label = QLabel(title)
+        title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        title_label.setProperty("class", "stat-card-title")
+        
+        value_label = QLabel(value)
+        value_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        value_label.setProperty("class", "stat-card-value")
+        value_label.setObjectName(f"{title.replace(chr(10), '_')}_value")
+        
+        card_layout.addWidget(title_label)
+        card_layout.addWidget(value_label)
+        
+        return card
+        
+    def load_available_materials(self):
+        """Load materials from database."""
+        try:
+            cursor = self.db_manager.connect().cursor()
+            cursor.execute("SELECT name FROM materials ORDER BY name")
+            materials = cursor.fetchall()
+            cursor.close()
+            
+            self.material_list.clear()
+            for (name,) in materials:
+                self.material_list.addItem(name)
+                
+        except Exception as e:
+            print(f"Error loading materials: {e}")
+    
+    def on_data_source_changed(self, source: DataSourceType):
+        """
+        Handle data source selection change (GUI Enhancement - Sprint 1).
+        
+        Args:
+            source: New data source type (MODEL, EXPERIMENTAL, COMBINED)
+        """
+        print(f"[VizTab] Data source changed to: {source.name}")
+        
+        # Store current selection
+        self.current_data_source = source
+        
+        # Reload materials with data availability info
+        self.load_available_materials_enhanced(source)
+        
+        # Clear current plot
+        if self.ax:
+            self.ax.clear()
+            self.ax.text(0.5, 0.5, 
+                        f'📊 Data Source: {source.value.upper()}\n\nSelect materials and click "Generate Visualization"',
+                        ha='center', va='center', fontsize=11,
+                        bbox=dict(boxstyle='round', facecolor='lightblue', alpha=0.8))
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+            self.canvas.draw()
+    
+    def load_available_materials_enhanced(self, source: DataSourceType):
+        """
+        Load materials with data availability indicators (GUI Enhancement - Sprint 1).
+        
+        Args:
+            source: Current data source type
+        """
+        try:
+            cursor = self.db_manager.get_cursor()
+            
+            # Query materials with data availability
+            cursor.execute("""
+                SELECT 
+                    m.material_id,
+                    m.name,
+                    m.xml_id,
+                    EXISTS(
+                        SELECT 1 FROM eos_models 
+                        WHERE material_id = m.material_id AND row_number = 3
+                    ) as has_model_data,
+                    EXISTS(
+                        SELECT 1 FROM experimental_datasets 
+                        WHERE material_id = m.material_id
+                    ) as has_experimental_data,
+                    COALESCE((
+                        SELECT COUNT(*) FROM experimental_points p
+                        JOIN experimental_datasets d ON p.dataset_id = d.dataset_id
+                        WHERE d.material_id = m.material_id
+                    ), 0) as experimental_point_count
+                FROM materials m
+                ORDER BY m.name
+            """)
+            
+            materials = cursor.fetchall()
+            cursor.close()
+            
+            # Clear and repopulate list
+            self.material_list.clear()
+            
+            available_count = 0
+            unavailable_count = 0
+            
+            for mat_id, name, xml_id, has_model, has_exp, exp_count in materials:
+                # Build display text with badges
+                badges = []
+                if has_model:
+                    badges.append("[M]")
+                if has_exp:
+                    badges.append(f"[E:{exp_count}]")
+                
+                badge_text = " ".join(badges) if badges else "[No Data]"
+                display_text = f"{name}  {badge_text}"
+                
+                # Check if material has data for current source
+                has_data_for_source = False
+                if source == DataSourceType.MODEL and has_model:
+                    has_data_for_source = True
+                elif source == DataSourceType.EXPERIMENTAL and has_exp:
+                    has_data_for_source = True
+                elif source == DataSourceType.COMBINED and (has_model or has_exp):
+                    has_data_for_source = True
+                
+                # Add item
+                item_widget = self.material_list.addItem(display_text)
+                
+                # Track counts
+                if has_data_for_source:
+                    available_count += 1
+                else:
+                    unavailable_count += 1
+            
+            print(f"[VizTab] Loaded {len(materials)} materials for source: {source.name}")
+            print(f"[VizTab] Available: {available_count}, Unavailable: {unavailable_count}")
+            
+            # Update info label
+            if source == DataSourceType.EXPERIMENTAL:
+                self.data_source_label.setText(f"📊 Experimental: {available_count} materials with measured data")
+            elif source == DataSourceType.MODEL:
+                self.data_source_label.setText(f"📊 Model: {available_count} materials with theoretical curves")
+            else:
+                self.data_source_label.setText(f"📊 Combined: {available_count} materials with any data")
+            
+        except Exception as e:
+            print(f"[VizTab] Error loading materials: {e}")
+            import traceback
+            traceback.print_exc()
+            
+    def select_material(self, material_name):
+        """
+        Programmatically select a material in the list.
+        Called when material is selected in Material Browser.
+        """
+        print(f"[VizTab] Selecting material: {material_name}")
+        
+        # Find and select the material in the list
+        for i in range(self.material_list.count()):
+            item = self.material_list.item(i)
+            if item.text() == material_name:
+                item.setSelected(True)
+                self.material_list.scrollToItem(item)
+                print(f"[VizTab] Material '{material_name}' selected in visualization tab")
+                return
+        
+        print(f"[VizTab] Material '{material_name}' not found in list")
+    
+    def plot_usup_hugoniot(self):
+        """
+        Plot US-UP (shock velocity vs particle velocity) Hugoniot relationship.
+        
+        NOW WITH DATA SOURCE AWARENESS (GUI Enhancement - Sprint 1)!
+        - MODEL: Only theoretical curves
+        - EXPERIMENTAL: Only measured points
+        - COMBINED: Both overlaid
+        
+        US = C₀ + s × UP
+        
+        Where:
+            US = Shock velocity (km/s)
+            UP = Particle velocity (km/s)  
+            C₀ = Bulk sound speed (km/s)
+            s = Hugoniot slope (dimensionless)
+        """
+        if not self.usup_reader:
+            self._show_usup_error("US-UP Database Reader Not Available")
+            return
+        
+        # Route to appropriate plotting method based on data source
+        if self.current_data_source == DataSourceType.MODEL:
+            self._plot_usup_models_only()
+        elif self.current_data_source == DataSourceType.EXPERIMENTAL:
+            self._plot_usup_experimental_only()
+        elif self.current_data_source == DataSourceType.COMBINED:
+            self._plot_usup_combined()
+        else:
+            self._show_usup_error(f"Unknown data source: {self.current_data_source}")
+    
+    def _plot_usup_models_only(self):
+        """Plot only model curves (no experimental points)."""
+        plot_data = self.usup_reader.get_plot_data(
+            self.selected_materials,
+            up_range=(0.0, 10.0),
+            num_points=100
+        )
+        
+        if not plot_data:
+            self._show_usup_error("No model data available for selected materials")
+            return
+        
+        self.ax.clear()
+        
+        for idx, (material, data) in enumerate(plot_data.items()):
+            color = self.usup_colors[idx % len(self.usup_colors)]
+            
+            self.ax.plot(
+                data['up'],
+                data['us'],
+                color=color,
+                linewidth=2.5,
+                label=f"{material} (Model)",
+                alpha=0.8,
+                zorder=2
+            )
+        
+        self._finalize_usup_plot("US-Up Hugoniot: Model Data")
+    
+    def _plot_usup_experimental_only(self):
+        """Plot only experimental points (no model curves)."""
+        self.ax.clear()
+        
+        experimental_data_found = False
+        
+        for idx, material in enumerate(self.selected_materials):
+            exp_data = self.get_experimental_usup_data(material)
+            if exp_data and len(exp_data) > 0:
+                experimental_data_found = True
+                up_exp, us_exp = zip(*exp_data)
+                
+                color = self.usup_colors[idx % len(self.usup_colors)]
+                
+                self.ax.scatter(
+                    up_exp, us_exp,
+                    color=color,
+                    s=80,
+                    marker='o',
+                    edgecolors='black',
+                    linewidth=1.5,
+                    label=f"{material} ({len(exp_data)} pts)",
+                    alpha=0.9,
+                    zorder=5
+                )
+                print(f"[US-UP] Plotted {len(exp_data)} experimental points for {material}")
+        
+        if not experimental_data_found:
+            self._show_usup_error("No experimental data available for selected materials")
+            return
+        
+        self._finalize_usup_plot("US-Up Hugoniot: Experimental Data")
+    
+    def _plot_usup_combined(self):
+        """Plot both models and experimental (combined view)."""
+        plot_data = self.usup_reader.get_plot_data(
+            self.selected_materials,
+            up_range=(0.0, 10.0),
+            num_points=100
+        )
+        
+        # Check for experimental data
+        has_experimental_data = False
+        for material in self.selected_materials:
+            exp_data = self.get_experimental_usup_data(material)
+            if exp_data and len(exp_data) > 0:
+                has_experimental_data = True
+                break
+        
+        # If neither model nor experimental exists, show error
+        if not plot_data and not has_experimental_data:
+            self._show_usup_error("No data available for selected materials")
+            return
+        
+        # If no model but have experimental, switch to experimental-only
+        if not plot_data:
+            print("[US-UP] No model data found, showing experimental data only")
+            plot_data = {}
+        
+        self.ax.clear()
+        experimental_data_found = False
+        
+        # Plot model curves
+        for idx, (material, data) in enumerate(plot_data.items()):
+            color = self.usup_colors[idx % len(self.usup_colors)]
+            
+            self.ax.plot(
+                data['up'],
+                data['us'],
+                color=color,
+                linewidth=2.5,
+                label=f"{material} (Model)",
+                alpha=0.8,
+                zorder=2
+            )
+            
+            # Add experimental data if available
+            exp_data = self.get_experimental_usup_data(material)
+            if exp_data and len(exp_data) > 0:
+                experimental_data_found = True
+                up_exp, us_exp = zip(*exp_data)
+                
+                self.ax.scatter(
+                    up_exp, us_exp,
+                    color=color,
+                    s=80,
+                    marker='o',
+                    edgecolors='black',
+                    linewidth=1.5,
+                    label=f"{material} (Exp: {len(exp_data)} pts)",
+                    alpha=0.9,
+                    zorder=5
+                )
+                print(f"[US-UP] Plotted {len(exp_data)} experimental points for {material}")
+        
+        # Plot experimental-only materials (no model)
+        for material in self.selected_materials:
+            if material not in plot_data:
+                exp_data = self.get_experimental_usup_data(material)
+                if exp_data and len(exp_data) > 0:
+                    experimental_data_found = True
+                    up_exp, us_exp = zip(*exp_data)
+                    
+                    color_idx = len(plot_data) + list(self.selected_materials).index(material)
+                    color = self.usup_colors[color_idx % len(self.usup_colors)]
+                    
+                    self.ax.scatter(
+                        up_exp, us_exp,
+                        color=color,
+                        s=80,
+                        marker='o',
+                        edgecolors='black',
+                        linewidth=1.5,
+                        label=f"{material} (Exp: {len(exp_data)} pts)",
+                        alpha=0.9,
+                        zorder=5
+                    )
+                    print(f"[US-UP] Plotted {len(exp_data)} experimental-only points for {material}")
+        
+        # Set title based on what was plotted
+        if plot_data and experimental_data_found:
+            title = "US-Up Hugoniot: Model + Experimental Data"
+        elif plot_data:
+            title = "US-Up Hugoniot: Model Data"
+        else:
+            title = "US-Up Hugoniot: Experimental Data"
+        
+        self._finalize_usup_plot(title)
+        
+        # Add annotation if experimental data is shown
+        if experimental_data_found:
+            self.ax.text(0.02, 0.98, '⚫ = Experimental\n━ = Model',
+                       transform=self.ax.transAxes,
+                       fontsize=9, verticalalignment='top',
+                       bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.7))
+    
+    def _finalize_usup_plot(self, title: str):
+        """Common plot finalization for US-UP plots."""
+        self.ax.set_xlabel('Particle Velocity, Up (km/s)', fontsize=12, fontweight='bold')
+        self.ax.set_ylabel('Shock Velocity, US (km/s)', fontsize=12, fontweight='bold')
+        self.ax.set_title(title, fontsize=14, fontweight='bold')
+        self.ax.legend(loc='upper left', fontsize=10, framealpha=0.9)
+        self.ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
+        self.ax.set_xlim(0, 10)
+        self.figure.tight_layout()
+        self.canvas.draw()
+    
+    def _show_usup_error(self, message: str):
+        """Show error message for US-UP plotting."""
+        self.ax.clear()
+        
+        available = list(self.usup_reader.materials_data.keys()) if self.usup_reader else []
+        
+        error_msg = f'❌ {message}'
+        error_msg += f'\n\nSelected: {", ".join(self.selected_materials)}'
+        
+        if available:
+            error_msg += f'\n\n✅ Materials with model data ({len(available)} total):'
+            error_msg += f'\n{", ".join(available[:10])}'
+            if len(available) > 10:
+                error_msg += f'\n... and {len(available) - 10} more'
+        
+        error_msg += '\n\n💡 Try selecting different materials'
+        error_msg += f'\n� Current data source: {self.current_data_source.value.upper()}'
+        
+        self.ax.text(0.5, 0.5, error_msg,
+                    ha='center', va='center', fontsize=9, color='orange',
+                    bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8),
+                    family='monospace')
+        self.ax.set_xticks([])
+        self.ax.set_yticks([])
+        self.figure.tight_layout()
+        self.canvas.draw()
+                    
+                    self.ax.text(0.5, 0.5, error_msg,
+                                ha='center', va='center', fontsize=9, color='orange',
+                                bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8),
+                                family='monospace')
+                    self.ax.set_xticks([])
+                    self.ax.set_yticks([])
+                    self.figure.tight_layout()
+                    self.canvas.draw()
+                    return
+                
+                # If we have experimental data but no model, initialize empty plot_data
+                print("[US-UP] Plotting experimental data only (no model curves)")
+                plot_data = {}  # Empty dict, but continue plotting
+                self.ax.clear()
+            
+            # Clear and setup plot
+            self.ax.clear()
+            
+            # Track if any experimental data exists
+            experimental_data_found = False
+            
+            # Plot each material with model data (exact same style as original US-UP tab)
+            for idx, (material, data) in enumerate(plot_data.items()):
+                color = self.usup_colors[idx % len(self.usup_colors)]
+                
+                # Plot model curve
+                self.ax.plot(
+                    data['up'],
+                    data['us'],
+                    color=color,
+                    linewidth=2.5,
+                    label=f"{material} (Model)",
+                    alpha=0.8,
+                    zorder=2
+                )
+                
+                # ✨ NEW: Plot experimental data if available ✨
+                exp_data = self.get_experimental_usup_data(material)
+                if exp_data and len(exp_data) > 0:
+                    experimental_data_found = True
+                    up_exp, us_exp = zip(*exp_data)
+                    
+                    self.ax.scatter(
+                        up_exp,
+                        us_exp,
+                        color=color,
+                        s=80,
+                        marker='o',
+                        edgecolors='black',
+                        linewidth=1.5,
+                        label=f"{material} (Exp: {len(exp_data)} pts)",
+                        alpha=0.9,
+                        zorder=5
+                    )
+                    print(f"[US-UP] Plotted {len(exp_data)} experimental points for {material}")
+            
+            # ✨ NEW: Plot experimental-only data for materials without models ✨
+            # This handles materials like Adiprene, Teflon, etc. that have experimental data
+            # but aren't in the usup_reader's materials_data
+            for material in self.selected_materials:
+                if material not in plot_data:  # Material has no model data
+                    exp_data = self.get_experimental_usup_data(material)
+                    if exp_data and len(exp_data) > 0:
+                        experimental_data_found = True
+                        up_exp, us_exp = zip(*exp_data)
+                        
+                        # Use a different color for experimental-only materials
+                        color_idx = len(plot_data) + list(self.selected_materials).index(material)
+                        color = self.usup_colors[color_idx % len(self.usup_colors)]
+                        
+                        self.ax.scatter(
+                            up_exp,
+                            us_exp,
+                            color=color,
+                            s=80,
+                            marker='o',
+                            edgecolors='black',
+                            linewidth=1.5,
+                            label=f"{material} (Exp: {len(exp_data)} pts)",
+                            alpha=0.9,
+                            zorder=5
+                        )
+                        print(f"[US-UP] Plotted {len(exp_data)} experimental-only points for {material}")
+            
+            
+            # Styling (exact same as original US-UP tab)
+            self.ax.set_xlabel('Particle Velocity, Up (km/s)', fontsize=12, fontweight='bold')
+            self.ax.set_ylabel('Shock Velocity, US (km/s)', fontsize=12, fontweight='bold')
+            
+            # Title reflects whether experimental data is shown
+            if experimental_data_found:
+                self.ax.set_title('US-Up Hugoniot: Model + Experimental Data', 
+                                fontsize=14, fontweight='bold')
+            else:
+                self.ax.set_title('US-Up Hugoniot Relationships', 
+                                fontsize=14, fontweight='bold')
+            
+            self.ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.8)
+            self.ax.legend(loc='best', fontsize=10, framealpha=0.9)
+            
+            # Set axis limits
+            self.ax.set_xlim(0, 10)
+            
+            # Add experimental data annotation if found
+            if experimental_data_found:
+                self.ax.text(0.02, 0.98, '⚫ = Experimental Data\n━ = Model',
+                           transform=self.ax.transAxes,
+                           fontsize=9, verticalalignment='top',
+                           bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.7))
+            
+            # Tight layout
+            self.figure.tight_layout()
+            
+            # Refresh canvas
+            self.canvas.draw()
+            
+            print(f"[US-UP] Plotted {len(plot_data)} materials successfully")
+            if experimental_data_found:
+                print(f"[US-UP] ✨ Experimental data displayed!")
+            
+        except Exception as e:
+            self.ax.clear()
+            error_msg = f'❌ US-UP Plot Error\n\n{str(e)}'
+            self.ax.text(0.5, 0.5, error_msg,
+                        ha='center', va='center', fontsize=11, color='red',
+                        bbox=dict(boxstyle='round', facecolor='#ffe6e6', alpha=0.9))
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+            self.figure.tight_layout()
+            self.canvas.draw()
+            print(f"[US-UP] Plot error: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def get_experimental_usup_data(self, material_name: str):
+        """
+        Retrieve experimental US-UP data for a material from database.
+        
+        Args:
+            material_name: Name of the material
+            
+        Returns:
+            List of (Up, Us) tuples in km/s, or empty list if no data
+        """
+        try:
+            # Query experimental data from database - USE PROPER DB MANAGER API
+            cursor = self.db_manager.get_cursor()
+            
+            cursor.execute("""
+                SELECT p.up_value, p.us_value
+                FROM experimental_datasets d
+                JOIN experimental_points p ON d.dataset_id = p.dataset_id
+                JOIN materials m ON d.material_id = m.material_id
+                WHERE m.name = %s
+                  AND d.experiment_type = 'USUP'
+                ORDER BY p.point_order
+            """, (material_name,))
+            
+            results = cursor.fetchall()
+            cursor.close()
+            
+            if results:
+                print(f"[Experimental] Found {len(results)} data points for {material_name}")
+                return results
+            else:
+                return []
+                
+        except Exception as e:
+            print(f"[Experimental] Error fetching data for {material_name}: {e}")
+            return []
+    
+    def get_usup_parameters(self, material_name):
+        """
+        Extract US/UP Hugoniot parameters from database.
+        
+        Looks for:
+            - Density (ρ₀) from properties or models
+            - SoundSpeed (C₀) from ElasticModel → ThermoMechanical → SoundSpeed
+            - HugoniotSlope (s) from ElasticModel → ThermoMechanical → HugoniotSlope
+        
+        Returns:
+            dict with keys: density, sound_speed, hugoniot_slope
+            or None if material not found
+        """
+        try:
+            # Fetch material data (same as fetch_material_data but with models)
+            material_data = self.querier.get_material_by_name(material_name, apply_overrides=False)
+            
+            if not material_data:
+                print(f"[US/UP] Material '{material_name}' not found in database")
+                return None
+            
+            params = {
+                'density': None,
+                'sound_speed': None,
+                'hugoniot_slope': None
+            }
+            
+            # Try to get density from properties (Mechanical → Density)
+            properties = material_data.get('properties', {})
+            
+            # Check Mechanical category for density
+            mechanical = properties.get('Mechanical', {})
+            if 'Density' in mechanical:
+                density_data = mechanical['Density']
+                entries = density_data.get('entries', [])
+                if entries and entries[0].get('value'):
+                    try:
+                        params['density'] = float(entries[0]['value'])
+                    except ValueError:
+                        pass
+            
+            # Try to get SoundSpeed and HugoniotSlope from ElasticModel
+            models = material_data.get('models', {})
+            elastic_model = models.get('ElasticModel', {})
+            
+            if elastic_model:
+                # Try ThermoMechanical first (correct location)
+                thermo_mech = elastic_model.get('ThermoMechanical', {})
+                
+                # Get density from model if not found in properties
+                if params['density'] is None:
+                    # Try ThermoMechanical
+                    if 'Density' in thermo_mech:
+                        density_entries = thermo_mech['Density']
+                        if isinstance(density_entries, list) and density_entries:
+                            try:
+                                params['density'] = float(density_entries[0]['value'])
+                            except (ValueError, KeyError, IndexError):
+                                pass
+                    # Try direct ElasticModel level (parser bug workaround)
+                    if params['density'] is None and 'Density' in elastic_model:
+                        density_data = elastic_model['Density']
+                        if isinstance(density_data, dict) and 'entries' in density_data:
+                            entries = density_data.get('entries', [])
+                            if entries:
+                                try:
+                                    params['density'] = float(entries[0]['value'])
+                                except (ValueError, KeyError, IndexError):
+                                    pass
+                
+                # Get SoundSpeed (C₀)  - Try both locations
+                sound_speed_entries = None
+                if 'SoundSpeed' in thermo_mech:
+                    sound_speed_entries = thermo_mech['SoundSpeed']
+                elif 'SoundSpeed' in elastic_model:  # Parser bug workaround
+                    sound_speed_data = elastic_model['SoundSpeed']
+                    if isinstance(sound_speed_data, dict) and 'entries' in sound_speed_data:
+                        sound_speed_entries = sound_speed_data.get('entries', [])
+                
+                if isinstance(sound_speed_entries, list) and sound_speed_entries:
+                    try:
+                        params['sound_speed'] = float(sound_speed_entries[0]['value'])
+                    except (ValueError, KeyError, IndexError):
+                        pass
+                
+                # Get HugoniotSlope (s) - Try both locations
+                slope_entries = None
+                if 'HugoniotSlope' in thermo_mech:
+                    slope_entries = thermo_mech['HugoniotSlope']
+                elif 'HugoniotSlope' in elastic_model:  # Parser bug workaround
+                    slope_data = elastic_model['HugoniotSlope']
+                    if isinstance(slope_data, dict) and 'entries' in slope_data:
+                        slope_entries = slope_data.get('entries', [])
+                
+                if isinstance(slope_entries, list) and slope_entries:
+                    try:
+                        params['hugoniot_slope'] = float(slope_entries[0]['value'])
+                    except (ValueError, KeyError, IndexError):
+                        pass
+            
+            print(f"[US/UP] {material_name}: ρ₀={params['density']}, C₀={params['sound_speed']}, s={params['hugoniot_slope']}")
+            
+            # Return params if we have at least C0 and s
+            if params['sound_speed'] is not None and params['hugoniot_slope'] is not None:
+                return params
+            else:
+                return None
+                
+        except Exception as e:
+            print(f"[US/UP] Error fetching parameters for {material_name}: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
+    
+    def update_theme(self, is_dark_mode):
+        """
+        Update matplotlib toolbar colors based on theme.
+        Called by main window when theme changes.
+        """
+        if self.toolbar:
+            if is_dark_mode:
+                # Dark mode: light icons on dark background
+                self.toolbar.setStyleSheet("""
+                    QToolBar {
+                        background-color: #3c3c3c;
+                        border: none;
+                        spacing: 5px;
+                        padding: 5px;
+                    }
+                    QToolButton {
+                        background-color: transparent;
+                        color: #ffffff;
+                        border: none;
+                        padding: 5px;
+                        border-radius: 3px;
+                    }
+                    QToolButton:hover {
+                        background-color: #555555;
+                    }
+                    QToolButton:pressed {
+                        background-color: #0078d4;
+                    }
+                """)
+                # Restore original icons for dark mode
+                self._restore_toolbar_icons()
+            else:
+                # Light mode: dark icons on light background
+                self.toolbar.setStyleSheet("""
+                    QToolBar {
+                        background-color: #ffffff;
+                        border: none;
+                        border-bottom: 1px solid #d0d0d0;
+                        spacing: 5px;
+                        padding: 5px;
+                    }
+                    QToolButton {
+                        background-color: #f5f5f5;
+                        color: #000000;
+                        border: 1px solid #d0d0d0;
+                        padding: 5px;
+                        border-radius: 3px;
+                    }
+                    QToolButton:hover {
+                        background-color: #e0e0e0;
+                        border: 1px solid #0078d4;
+                    }
+                    QToolButton:pressed {
+                        background-color: #0078d4;
+                        color: #ffffff;
+                        border: 1px solid #0078d4;
+                    }
+                """)
+                # Invert toolbar icons for light mode
+                self._invert_toolbar_icons()
+            print(f"[VizTab] Toolbar theme updated to {'dark' if is_dark_mode else 'light'} mode")
+        
+        # Also update matplotlib plot background colors
+        if self.figure and self.ax:
+            if is_dark_mode:
+                self.figure.patch.set_facecolor('#2b2b2b')
+                self.ax.set_facecolor('#252525')
+                self.ax.tick_params(colors='white', which='both')
+                self.ax.spines['bottom'].set_color('white')
+                self.ax.spines['top'].set_color('white')
+                self.ax.spines['left'].set_color('white')
+                self.ax.spines['right'].set_color('white')
+                self.ax.xaxis.label.set_color('white')
+                self.ax.yaxis.label.set_color('white')
+                self.ax.title.set_color('white')
+            else:
+                self.figure.patch.set_facecolor('#ffffff')
+                self.ax.set_facecolor('#ffffff')
+                self.ax.tick_params(colors='black', which='both')
+                self.ax.spines['bottom'].set_color('black')
+                self.ax.spines['top'].set_color('black')
+                self.ax.spines['left'].set_color('black')
+                self.ax.spines['right'].set_color('black')
+                self.ax.xaxis.label.set_color('black')
+                self.ax.yaxis.label.set_color('black')
+                self.ax.title.set_color('black')
+            
+            self.canvas.draw()
+            print(f"[VizTab] Plot colors updated to {'dark' if is_dark_mode else 'light'} mode")
+    
+    def _invert_toolbar_icons(self):
+        """Invert toolbar icon colors for light mode visibility."""
+        if not self.toolbar:
+            return
+        
+        # Store original icons if not already stored
+        if not hasattr(self, '_original_icons'):
+            self._original_icons = {}
+        
+        # Iterate through all actions in the toolbar
+        for action in self.toolbar.actions():
+            if action.icon() and not action.icon().isNull():
+                # Store original icon if not already stored
+                action_name = action.text() or action.objectName()
+                if action_name not in self._original_icons:
+                    self._original_icons[action_name] = action.icon()
+                
+                # Get the icon and invert its colors
+                original_icon = self._original_icons[action_name]
+                inverted_icon = self._create_inverted_icon(original_icon)
+                action.setIcon(inverted_icon)
+        
+        print("[VizTab] Toolbar icons inverted for light mode")
+    
+    def _restore_toolbar_icons(self):
+        """Restore original toolbar icons for dark mode."""
+        if not self.toolbar or not hasattr(self, '_original_icons'):
+            return
+        
+        # Restore original icons
+        for action in self.toolbar.actions():
+            action_name = action.text() or action.objectName()
+            if action_name in self._original_icons:
+                action.setIcon(self._original_icons[action_name])
+        
+        print("[VizTab] Toolbar icons restored for dark mode")
+    
+    def _create_inverted_icon(self, icon):
+        """Create an inverted version of an icon."""
+        # Get the pixmap from the icon
+        pixmap = icon.pixmap(24, 24)  # Standard toolbar icon size
+        
+        # Create a new image to draw the inverted version
+        inverted_pixmap = QPixmap(pixmap.size())
+        inverted_pixmap.fill(Qt.GlobalColor.transparent)
+        
+        # Create painter
+        painter = QPainter(inverted_pixmap)
+        
+        # Draw the original pixmap
+        painter.drawPixmap(0, 0, pixmap)
+        
+        # Apply composition mode to invert colors
+        painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Difference)
+        painter.fillRect(inverted_pixmap.rect(), QColor(255, 255, 255))
+        
+        painter.end()
+        
+        return QIcon(inverted_pixmap)
+        
+    def auto_select_common_properties(self):
+        """Auto-select common properties for quick visualization."""
+        common_props = ['density', 'specific_heat_capacity', 'thermal_conductivity']
+        
+        for i in range(self.property_list.count()):
+            item = self.property_list.item(i)
+            if item.text() in common_props:
+                item.setSelected(True)
+                
+    def fetch_material_data(self, material_name):
+        """
+        Fetch material property data from database.
+        
+        Returns dict: {property_name: [{value, unit, ref}]}
+        """
+        try:
+            # Determine whether to apply overrides based on view mode
+            view_mode = self.view_mode_combo.currentText()
+            apply_overrides = "Active View" in view_mode
+            
+            print(f"[VizTab] Fetching {material_name} with overrides={apply_overrides}")
+            
+            # Get material data
+            material_data = self.querier.get_material_by_name(material_name, apply_overrides=apply_overrides)
+            
+            if not material_data:
+                print(f"[VizTab] No material_data returned for {material_name}")
+                return {}
+            
+            # Extract properties - NEW STRUCTURE
+            property_dict = {}
+            
+            # The actual structure is: material_data['properties'][Category][PropertyName]
+            properties_section = material_data.get('properties', {})
+            
+            print(f"[VizTab] Properties section has categories: {list(properties_section.keys())}")
+            
+            # Iterate through categories (Thermal, Mechanical, etc.)
+            for category_name, category_data in properties_section.items():
+                if not isinstance(category_data, dict):
+                    continue
+                
+                print(f"[VizTab]   Category '{category_name}' has {len(category_data)} properties")
+                
+                # Iterate through properties in this category
+                for prop_name, prop_data in category_data.items():
+                    # Skip non-dict values (like Phase.State = "solid")
+                    if not isinstance(prop_data, dict):
+                        continue
+                    
+                    # Get unit and entries
+                    unit = prop_data.get('unit', '')
+                    entries = prop_data.get('entries', [])
+                    
+                    if not entries:
+                        continue
+                    
+                    # Normalize property name to lowercase with underscores
+                    normalized_name = prop_name.lower().replace(' ', '_')
+                    
+                    if normalized_name not in property_dict:
+                        property_dict[normalized_name] = []
+                    
+                    # Extract values from entries
+                    for entry in entries:
+                        value_str = entry.get('value')
+                        if value_str and value_str.lower() != 'null':
+                            try:
+                                value_float = float(value_str)
+                                property_dict[normalized_name].append({
+                                    'value': value_float,
+                                    'unit': unit,
+                                    'ref': entry.get('ref', '')
+                                })
+                            except (ValueError, TypeError):
+                                pass
+            
+            print(f"[VizTab] Extracted properties: {list(property_dict.keys())}")
+            for prop_name, values in property_dict.items():
+                print(f"[VizTab]   {prop_name}: {len(values)} values")
+                        
+            return property_dict
+            
+        except Exception as e:
+            print(f"[VizTab] Error fetching data for {material_name}: {e}")
+            import traceback
+            traceback.print_exc()
+            return {}
+    
+    # === MEETING-8 TASK 1: Analytics Type Callback ===
+    def on_analytics_type_changed(self, analytics_type: AnalyticsType):
+        """
+        Handle analytics type change.
+        
+        Args:
+            analytics_type: Selected AnalyticsType enum value
+        """
+        print(f"[VizTab] Analytics type changed to: {analytics_type.value}")
+        self.current_analytics_type = analytics_type
+        
+        # Update UI hints and controls based on selected type
+        if analytics_type == AnalyticsType.STANDARD_PROPERTIES:
+            self.data_source_label.setText("📊 Data Source: XML → Database → GUI")
+            self.data_source_label.setStyleSheet("color: green; font-size: 8pt;")
+            
+            # Enable property selection for standard analysis
+            self.property_list.setEnabled(True)
+            self.chart_type_combo.setEnabled(True)
+            
+            # Update info label
+            if hasattr(self, 'info_label'):
+                self.info_label.setText("💡 Linked with Material Browser\nSelect materials and properties to visualize")
+        
+        elif analytics_type == AnalyticsType.US_UP_ANALYSIS:
+            self.data_source_label.setText("⚡ US-UP: Hugoniot shock data from database (Properties not needed)")
+            self.data_source_label.setStyleSheet("color: blue; font-size: 8pt;")
+            
+            # Disable property selection for US-UP (only materials needed)
+            self.property_list.setEnabled(False)
+            self.property_list.clearSelection()
+            
+            # Limit chart types to relevant ones for US-UP
+            self.chart_type_combo.setEnabled(False)
+            
+            # Update info label
+            if hasattr(self, 'info_label'):
+                self.info_label.setText("⚡ US-UP Analysis Mode\nSelect materials to plot Hugoniot curves\n(Property selection disabled)")
+        
+        else:
+            # Future features
+            self.data_source_label.setText("🔮 Future feature - coming soon")
+            self.data_source_label.setStyleSheet("color: gray; font-size: 8pt; font-style: italic;")
+            
+            # Disable controls for future features
+            self.property_list.setEnabled(False)
+            self.chart_type_combo.setEnabled(False)
+    # === END MEETING-8 ADDITION ===
+            
+    def generate_plot(self):
+        """Generate plot based on selections and analytics type."""
+        print("\n=== GENERATE PLOT CALLED ===")
+        
+        # Get selected materials
+        self.selected_materials = [item.text() for item in self.material_list.selectedItems()]
+        print(f"Selected materials: {self.selected_materials}")
+        
+        # Get selected properties
+        self.selected_properties = [item.text() for item in self.property_list.selectedItems()]
+        print(f"Selected properties: {self.selected_properties}")
+        
+        # Check analytics type first
+        if self.current_analytics_type == AnalyticsType.US_UP_ANALYSIS:
+            print("Analytics Mode: US-UP Analysis")
+            # For US-UP, we only need materials selected (properties not required)
+            if not self.selected_materials:
+                self.ax.clear()
+                self.ax.text(0.5, 0.5, 'US-UP Analysis: Please select at least one material',
+                            ha='center', va='center', fontsize=12, color='red')
+                self.ax.set_xticks([])
+                self.ax.set_yticks([])
+                self.canvas.draw()
+                print("ERROR: No materials selected for US-UP")
+                return
+            # Skip property check for US-UP mode
+            self.plot_usup_hugoniot()
+            self.update_dashboard()
+            print("=== US-UP PLOT GENERATION COMPLETE ===\n")
+            return
+        
+        # Standard property analysis - need both materials and properties
+        if not self.selected_materials:
+            self.ax.clear()
+            self.ax.text(0.5, 0.5, 'Please select at least one material',
+                        ha='center', va='center', fontsize=12, color='red')
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+            self.canvas.draw()
+            print("ERROR: No materials selected")
+            return
+            
+        if not self.selected_properties:
+            self.ax.clear()
+            self.ax.text(0.5, 0.5, 'Please select at least one property',
+                        ha='center', va='center', fontsize=12, color='red')
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+            self.canvas.draw()
+            print("ERROR: No properties selected")
+            return
+        
+        # Fetch data for all selected materials
+        self.materials_data = {}
+        for material in self.selected_materials:
+            print(f"\nFetching data for: {material}")
+            mat_data = self.fetch_material_data(material)
+            print(f"  Properties found: {list(mat_data.keys())}")
+            for prop in self.selected_properties:
+                if prop in mat_data:
+                    print(f"    {prop}: {len(mat_data[prop])} data points - Values: {[v['value'] for v in mat_data[prop][:3]]}")
+                else:
+                    print(f"    {prop}: NOT FOUND in material data")
+            self.materials_data[material] = mat_data
+        
+        # Plot based on chart type
+        chart_type = self.chart_type_combo.currentText()
+        print(f"\nGenerating {chart_type} chart...")
+        
+        try:
+            if chart_type == "Line":
+                self.plot_line_chart()
+            elif chart_type == "Bar":
+                self.plot_bar_chart()
+            elif chart_type == "Scatter":
+                self.plot_scatter_chart()
+            elif chart_type == "Area":
+                self.plot_area_chart()
+            elif chart_type == "Pie":
+                self.plot_pie_chart()
+            elif chart_type == "Histogram":
+                self.plot_histogram_chart()
+            elif chart_type == "US/UP (Hugoniot)":
+                self.plot_usup_hugoniot()  # NEW: US-UP Hugoniot plot
+            print("Plot generated successfully!")
+        except Exception as e:
+            print(f"ERROR in plotting: {e}")
+            import traceback
+            traceback.print_exc()
+            
+            # Show error on plot
+            self.ax.clear()
+            self.ax.text(0.5, 0.5, f'Error generating plot:\n{str(e)}',
+                        ha='center', va='center', fontsize=10, color='red', 
+                        bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+            self.canvas.draw()
+            
+        # Update dashboard
+        self.update_dashboard()
+        print("=== PLOT GENERATION COMPLETE ===\n")
+        
+    def plot_line_chart(self):
+        """Generate line chart."""
+        self.ax.clear()
+        
+        # Color palette
+        colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', 
+                 '#1abc9c', '#e67e22', '#34495e']
+        
+        plot_count = 0
+        
+        for mat_idx, material in enumerate(self.selected_materials):
+            mat_data = self.materials_data.get(material, {})
+            color = colors[mat_idx % len(colors)]
+            
+            for prop in self.selected_properties:
+                if prop in mat_data:
+                    values = mat_data[prop]
+                    
+                    if values:
+                        y_vals = [v['value'] for v in values]
+                        x_vals = list(range(len(y_vals)))
+                        
+                        label = f"{material} - {prop.replace('_', ' ').title()}"
+                        self.ax.plot(x_vals, y_vals, marker='o', label=label, 
+                                   color=color, linewidth=2, markersize=6)
+                        plot_count += 1
+        
+        if plot_count > 0:
+            self.ax.set_xlabel('Data Point Index', fontsize=11)
+            self.ax.set_ylabel('Property Value', fontsize=11)
+            self.ax.set_title('Material Property Comparison', fontsize=13, fontweight='bold')
+            self.ax.legend(loc='best', fontsize=9)
+            self.ax.grid(True, alpha=0.3, linestyle='--')
+        else:
+            self.ax.text(0.5, 0.5, 'No data available for selected properties',
+                        ha='center', va='center', fontsize=12, color='orange')
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+        
+        self.canvas.draw()
+        
+    def plot_bar_chart(self):
+        """Generate bar chart."""
+        self.ax.clear()
+        
+        import numpy as np
+        
+        # Color palette
+        colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6']
+        
+        # Prepare data: average values per property per material
+        bar_data = {}  # {material: {property: avg_value}}
+        
+        for material in self.selected_materials:
+            mat_data = self.materials_data.get(material, {})
+            bar_data[material] = {}
+            
+            for prop in self.selected_properties:
+                if prop in mat_data and mat_data[prop]:
+                    values = [v['value'] for v in mat_data[prop]]
+                    bar_data[material][prop] = np.mean(values)
+                else:
+                    bar_data[material][prop] = 0
+        
+        # Plot grouped bars
+        x = np.arange(len(self.selected_properties))
+        width = 0.8 / len(self.selected_materials) if self.selected_materials else 0.8
+        
+        for idx, material in enumerate(self.selected_materials):
+            values = [bar_data[material].get(prop, 0) for prop in self.selected_properties]
+            offset = (idx - len(self.selected_materials)/2 + 0.5) * width
+            
+            self.ax.bar(x + offset, values, width, label=material, 
+                       color=colors[idx % len(colors)], alpha=0.8)
+        
+        self.ax.set_xlabel('Properties', fontsize=11)
+        self.ax.set_ylabel('Average Value', fontsize=11)
+        self.ax.set_title('Material Property Comparison', fontsize=13, fontweight='bold')
+        self.ax.set_xticks(x)
+        self.ax.set_xticklabels([p.replace('_', ' ').title() for p in self.selected_properties], 
+                                rotation=45, ha='right')
+        self.ax.legend(loc='best', fontsize=9)
+        self.ax.grid(True, axis='y', alpha=0.3, linestyle='--')
+        
+        self.figure.tight_layout()
+        self.canvas.draw()
+    
+    def plot_scatter_chart(self):
+        """Generate scatter plot."""
+        self.ax.clear()
+        
+        # Color palette
+        colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', 
+                 '#1abc9c', '#e67e22', '#34495e']
+        
+        plot_count = 0
+        
+        for mat_idx, material in enumerate(self.selected_materials):
+            mat_data = self.materials_data.get(material, {})
+            color = colors[mat_idx % len(colors)]
+            
+            for prop_idx, prop in enumerate(self.selected_properties):
+                if prop in mat_data and mat_data[prop]:
+                    values = mat_data[prop]
+                    y_vals = [v['value'] for v in values]
+                    x_vals = list(range(len(y_vals)))
+                    
+                    label = f"{material} - {prop.replace('_', ' ').title()}"
+                    self.ax.scatter(x_vals, y_vals, s=100, alpha=0.7, 
+                                  c=color, edgecolors='white', linewidth=1.5,
+                                  label=label, marker='o')
+                    plot_count += 1
+        
+        if plot_count > 0:
+            self.ax.set_xlabel('Data Point Index', fontsize=11)
+            self.ax.set_ylabel('Property Value', fontsize=11)
+            self.ax.set_title('Material Property Scatter Plot', fontsize=13, fontweight='bold')
+            self.ax.legend(loc='best', fontsize=9)
+            self.ax.grid(True, alpha=0.3, linestyle='--')
+        else:
+            self.ax.text(0.5, 0.5, 'No data available for scatter plot',
+                        ha='center', va='center', fontsize=12, color='orange')
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+        
+        self.canvas.draw()
+    
+    def plot_area_chart(self):
+        """Generate area/filled chart."""
+        self.ax.clear()
+        
+        import numpy as np
+        
+        # Color palette
+        colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', 
+                 '#1abc9c', '#e67e22', '#34495e']
+        
+        plot_count = 0
+        
+        for mat_idx, material in enumerate(self.selected_materials):
+            mat_data = self.materials_data.get(material, {})
+            color = colors[mat_idx % len(colors)]
+            
+            for prop in self.selected_properties:
+                if prop in mat_data and mat_data[prop]:
+                    values = mat_data[prop]
+                    y_vals = [v['value'] for v in values]
+                    x_vals = list(range(len(y_vals)))
+                    
+                    label = f"{material} - {prop.replace('_', ' ').title()}"
+                    self.ax.fill_between(x_vals, y_vals, alpha=0.4, color=color, label=label)
+                    self.ax.plot(x_vals, y_vals, color=color, linewidth=2, alpha=0.8)
+                    plot_count += 1
+        
+        if plot_count > 0:
+            self.ax.set_xlabel('Data Point Index', fontsize=11)
+            self.ax.set_ylabel('Property Value', fontsize=11)
+            self.ax.set_title('Material Property Area Chart', fontsize=13, fontweight='bold')
+            self.ax.legend(loc='best', fontsize=9)
+            self.ax.grid(True, alpha=0.3, linestyle='--')
+        else:
+            self.ax.text(0.5, 0.5, 'No data available for area chart',
+                        ha='center', va='center', fontsize=12, color='orange')
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+        
+        self.canvas.draw()
+    
+    def plot_pie_chart(self):
+        """Generate pie chart for property comparison."""
+        self.ax.clear()
+        
+        import numpy as np
+        
+        # For pie chart, show average property values for first selected material
+        if not self.selected_materials:
+            self.ax.text(0.5, 0.5, 'No material selected',
+                        ha='center', va='center', fontsize=12, color='red')
+            self.canvas.draw()
+            return
+        
+        material = self.selected_materials[0]
+        mat_data = self.materials_data.get(material, {})
+        
+        # Collect average values for each property
+        labels = []
+        values = []
+        
+        for prop in self.selected_properties:
+            if prop in mat_data and mat_data[prop]:
+                prop_values = [v['value'] for v in mat_data[prop]]
+                avg_value = np.mean(prop_values)
+                labels.append(prop.replace('_', ' ').title())
+                values.append(abs(avg_value))  # Use absolute values for pie chart
+        
+        if values:
+            # Color palette
+            colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', 
+                     '#1abc9c', '#e67e22', '#34495e']
+            
+            # Create pie chart
+            wedges, texts, autotexts = self.ax.pie(
+                values, 
+                labels=labels, 
+                colors=colors[:len(values)],
+                autopct='%1.1f%%',
+                startangle=90,
+                textprops={'fontsize': 9}
+            )
+            
+            # Make percentage text bold and white
+            for autotext in autotexts:
+                autotext.set_color('white')
+                autotext.set_fontweight('bold')
+            
+            self.ax.set_title(f'{material} - Property Distribution', 
+                            fontsize=13, fontweight='bold', pad=20)
+            
+            # Equal aspect ratio ensures circular pie
+            self.ax.axis('equal')
+        else:
+            self.ax.text(0.5, 0.5, f'No data for {material}',
+                        ha='center', va='center', fontsize=12, color='orange')
+        
+        self.canvas.draw()
+    
+    def plot_histogram_chart(self):
+        """Generate histogram for value distribution."""
+        self.ax.clear()
+        
+        import numpy as np
+        
+        # Color palette
+        colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6']
+        
+        plot_count = 0
+        all_data = []
+        
+        for mat_idx, material in enumerate(self.selected_materials):
+            mat_data = self.materials_data.get(material, {})
+            
+            for prop in self.selected_properties:
+                if prop in mat_data and mat_data[prop]:
+                    values = [v['value'] for v in mat_data[prop]]
+                    all_data.extend(values)
+                    
+                    label = f"{material} - {prop.replace('_', ' ').title()}"
+                    self.ax.hist(values, bins=10, alpha=0.6, 
+                               color=colors[mat_idx % len(colors)],
+                               label=label, edgecolor='black')
+                    plot_count += 1
+        
+        if plot_count > 0:
+            self.ax.set_xlabel('Property Value', fontsize=11)
+            self.ax.set_ylabel('Frequency', fontsize=11)
+            self.ax.set_title('Property Value Distribution', fontsize=13, fontweight='bold')
+            self.ax.legend(loc='best', fontsize=9)
+            self.ax.grid(True, axis='y', alpha=0.3, linestyle='--')
+        else:
+            self.ax.text(0.5, 0.5, 'No data available for histogram',
+                        ha='center', va='center', fontsize=12, color='orange')
+            self.ax.set_xticks([])
+            self.ax.set_yticks([])
+        
+        self.canvas.draw()
+        
+    def update_dashboard(self):
+        """Update dashboard statistics."""
+        # Count selected materials and properties
+        mat_count = len(self.selected_materials)
+        prop_count = len(self.selected_properties)
+        
+        # Count total data points, missing values, and references
+        total_points = 0
+        missing_count = 0
+        references_set = set()
+        
+        for material in self.selected_materials:
+            mat_data = self.materials_data.get(material, {})
+            for prop in self.selected_properties:
+                if prop in mat_data and mat_data[prop]:
+                    total_points += len(mat_data[prop])
+                    # Collect unique reference IDs
+                    for data_point in mat_data[prop]:
+                        ref = data_point.get('ref', '')
+                        if ref:
+                            references_set.add(ref)
+                else:
+                    missing_count += 1
+        
+        # Update stat cards
+        self.update_stat_card("Materials_Selected_value", str(mat_count))
+        self.update_stat_card("Properties_Selected_value", str(prop_count))
+        self.update_stat_card("Data_Points_value", str(total_points))
+        self.update_stat_card("Missing_Values_value", str(missing_count))
+        
+        # Update detail text with references
+        detail_text = f"Materials: {', '.join(self.selected_materials)}\n\n"
+        detail_text += f"Properties: {', '.join([p.replace('_', ' ').title() for p in self.selected_properties])}\n\n"
+        detail_text += f"Data View: {self.view_mode_combo.currentText()}\n\n"
+        detail_text += f"Total data points: {total_points}\n"
+        detail_text += f"Missing values: {missing_count}\n"
+        detail_text += f"Unique references: {len(references_set)}\n"
+        if references_set:
+            detail_text += f"Ref IDs: {', '.join(sorted(references_set))}"
+        
+        self.detail_text.setText(detail_text)
+        
+    def update_stat_card(self, object_name, value):
+        """Update a statistic card value."""
+        for i in range(self.stats_layout.count()):
+            widget = self.stats_layout.itemAt(i).widget()
+            if widget:
+                value_label = widget.findChild(QLabel, object_name)
+                if value_label:
+                    value_label.setText(value)
+                    return
+                    
+    def export_plot(self):
+        """Export current plot to file."""
+        if not hasattr(self, 'figure') or self.figure is None:
+            return
+        
+        file_path, selected_filter = QFileDialog.getSaveFileName(
+            self,
+            "Export Plot",
+            "material_plot.png",
+            "PNG Image (*.png);;PDF Document (*.pdf)"
+        )
+        
+        if file_path:
+            try:
+                self.figure.savefig(file_path, dpi=300, bbox_inches='tight')
+                print(f"Plot exported to: {file_path}")
+            except Exception as e:
+                print(f"Export failed: {e}")
